@@ -31,23 +31,29 @@ import hotciv.framework.*;
 
 public class GameImpl implements Game {
   public Tile getTileAt( Position p ) {
-    return new Tile() {
-      @Override
-      public String getTypeString() {
-        return null;
-      }
-    };
+    return null;
   }
   public Unit getUnitAt( Position p ) { return null; }
+
   public City getCityAt( Position p ) { return null; }
-  public Player getPlayerInTurn() { return Player.RED; }
+
+  private Player playerInTurn = Player.RED;
+  public Player getPlayerInTurn() { return playerInTurn;}
+  public void endOfTurn() {}
+
   public Player getWinner() { return null; }
+
   public int getAge() { return 0; }
+
   public boolean moveUnit( Position from, Position to ) {
     return false;
   }
-  public void endOfTurn() {}
+
+
+
   public void changeWorkForceFocusInCityAt( Position p, String balance ) {}
+
   public void changeProductionInCityAt( Position p, String unitType ) {}
+
   public void performUnitActionAt( Position p ) {}
 }

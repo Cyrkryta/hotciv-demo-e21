@@ -57,16 +57,4 @@ public class TestAlphaCiv {
     assertThat(game.getPlayerInTurn(), is(Player.RED));
   }
 
-  /************ TESTS FOR WORLD LAYOUT ************/
-  // Testing that a tile returns a tile.
-  @Test
-  public void shouldGetTileReturnTile() {
-    assertThat(game.getTileAt(new Position(0,2)), is(notNullValue()));
-  }
-
-  // Testing that ocean tile is at position (0,1).
-  @Test
-  public void shouldBeOceanAt0Point1() {
-
-  }
 }
