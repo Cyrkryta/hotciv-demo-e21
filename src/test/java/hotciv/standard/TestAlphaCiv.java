@@ -74,7 +74,7 @@ public class TestAlphaCiv {
 
 
   @Test
-  public void citiesShouldHaveOwners() {
+  public void shouldHaveOwnerInCity() {
     assertThat(redCity.getOwner(), is (Player.RED));
   }
 
