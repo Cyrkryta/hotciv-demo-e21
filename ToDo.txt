@@ -41,7 +41,7 @@ Cities:
 Red’s city is at (1,1)
 Blue’s city is at (4,1)
 Cities produce 6 ‘production’ after a round has ended.
-Cities population size is always 1.
+Cities population size is always 1. [OK]
 Player chooses to produce either archers, legions or settlers.
 
 Unit Production:
@@ -54,8 +54,8 @@ from the tile just north of the city and moving clockwise.
 If there is no room to place a unit ???
 
 Aging:
-The game starts at age 4000 BC
-Each round advances the game age 100 years.
+The game starts at age 4000 BC [OK]
+Each round advances the game age 100 years. [OK]
 
 winning:
 Red wins in year 3000 BC.

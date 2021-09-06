@@ -45,6 +45,7 @@ public class GameImpl implements Game {
       playerInTurn = Player.BLUE;
     } else {
       playerInTurn = Player.RED;
+      endOfRound();
     }
   }
 
@@ -63,4 +64,8 @@ public class GameImpl implements Game {
   public void changeProductionInCityAt( Position p, String unitType ) {}
 
   public void performUnitActionAt( Position p ) {}
+
+  private void endOfRound() {
+    currAge -= 100;
+  }
 }

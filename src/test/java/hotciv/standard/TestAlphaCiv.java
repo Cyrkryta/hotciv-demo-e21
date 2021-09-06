@@ -78,4 +78,20 @@ public class TestAlphaCiv {
   public void shouldAlwaysStartIn4000BC(){
     assertThat(game.getAge(), is(4000));
   }
+
+  // Testing that the time is incremented with 100 years after every round.
+  @Test
+  public void shouldIncrementTimeWith100AfterEveryRound() {
+    // Checking for start at year 4000 BC.
+    assertThat(game.getAge(), is(4000));
+    // Changing to Player blue.
+    game.endOfTurn();
+    // Checking that the time stays at year 4000 BC.
+    assertThat(game.getAge(), is(4000));
+    // Changing to player Red.
+    game.endOfTurn();
+    // Checking if the time has been incremented.
+    assertThat(game.getAge(),is(3900));
+  }
+
 }
