@@ -40,11 +40,13 @@ import java.util.*;
 */
 public class TestAlphaCiv {
   private Game game;
+  private City city;
 
   /** Fixture for alphaciv testing. */
   @BeforeEach
   public void setUp() {
     game = new GameImpl();
+    city = new CityImpl();
   }
 
   // FRS p. 455 states that 'Red is the first player to take a turn'.
@@ -63,4 +65,10 @@ public class TestAlphaCiv {
     assertThat(game.getPlayerInTurn(), is(Player.BLUE));
   }
 
+  /************ TESTS FOR CITIES ************/
+  // Testing that the population of the city is always 1.
+  @Test
+  public void shouldAlwaysContainPopulationOf_1_InCities() {
+    assertThat(city.getSize(), is(1));
+  }
 }

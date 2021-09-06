@@ -1,7 +1,7 @@
 Players:
 Red cannot move blue’s units.
-Red is the first player in turn. (Done)
-After Red it is Blue that is in turn.
+Red is the first player in turn. [OK]
+After Red it is Blue that is in turn. [OK]
 Red can move red’s units.
 There is exactly two players.
 
