@@ -1,62 +1,62 @@
 Players:
-Red cannot move blue’s units.
-Red is the first player in turn. [OK]
-After Red it is Blue that is in turn. [OK]
-Red can move red’s units.
-There is exactly two players.
+[] Red cannot move blue’s units.
+[OK] Red is the first player in turn.
+[OK] After Red it is Blue that is in turn.
+[] Red can move red’s units.
+[] There is exactly two players.
 
 World Layout:
-There is ocean at (1,0).
-There is mountains at (2,2).
-There is Hills at (0,1).
-All other tiles are plains.
-World should be 16 x 16 grid.
+[] There is ocean at (1,0).
+[] There is mountains at (2,2).
+[] There is Hills at (0,1).
+[] All other tiles are plains.
+[] World should be 16 x 16 grid.
 
 Units & Unit actions:
 Can units move ???
-Units cannot move over mountain.
-Only one unit is allowed on a tile at any time.
-Units cannot move over ocean
-Units can only move to legal tiles
-Units refresh move counter to 1 at start of turn
-Red starts with a Settler on (4,3)
-Red starts with an Archer on (2,0)
-Blues starts with a Legion on (3,2)
+[] Units cannot move over mountain.
+[] Only one unit is allowed on a tile at any time.
+[] Units cannot move over ocean
+[] Units can only move to legal tiles
+[] Units refresh move counter to 1 at start of turn
+[] Red starts with a Settler on (4,3)
+[] Red starts with an Archer on (2,0)
+[] Blues starts with a Legion on (3,2)
 Settler
-Settlers cost 30
-Settlers can move distance 1
+    [] Settlers cost 30
+    [] Settlers can move distance 1
 Legion
-Legion cost 15
-Legion can move distance 1
+    [] Legion cost 15
+    [] Legion can move distance 1
 Archer
-Archers cost 30
-Archers can move distance 1
+    [] Archers cost 30
+    [] Archers can move distance 1
 
 Attacks:
-Red’s unit attack and destroy Blue’s unit.
-Blue’s unit attack and destroy Red’s unit.
-Attacking unit always wins no matter what.  (Regarding defensive or attacking strengths of either units. )
+[] Red’s unit attack and destroy Blue’s unit.
+[] Blue’s unit attack and destroy Red’s unit.
+[] Attacking unit always wins no matter what.  (Regarding defensive or attacking strengths of either units. )
 
 Cities:
-Cities have owners [OK]
-Red’s city is at (1,1)
-Blue’s city is at (4,1)
-Cities produce 6 ‘production’ after a round has ended.
-Cities population size is always 1. [OK]
-Player chooses to produce either archers, legions or settlers.
+[OK] Cities have owners
+[] Red’s city is at (1,1)
+[] Blue’s city is at (4,1)
+[] Cities produce 6 ‘production’ after a round has ended.
+[OK] Cities population size is always 1.
+[] Player chooses to produce either archers, legions or settlers.
 
 Unit Production:
-City has enough production.
-City produces the unit selected for production.
-Unit cost deducted from the city treasury of production.
-The unit is placed on the city tile if no other unit is present
-Otherwise placed on the first non-occupied adjacent tile, starting
-from the tile just north of the city and moving clockwise.
-If there is no room to place a unit ???
+[] City has enough production.
+[] City produces the unit selected for production.
+[] Unit cost deducted from the city treasury of production.
+[] The unit is placed on the city tile if no other unit is present
+[] Otherwise placed on the first non-occupied adjacent tile, starting
+[] from the tile just north of the city and moving clockwise.
+[] If there is no room to place a unit ???
 
 Aging:
-The game starts at age 4000 BC [OK]
-Each round advances the game age 100 years. [OK]
+[] The game starts at age 4000 BC [OK]
+[OK] Each round advances the game age 100 years.
 
 winning:
-Red wins in year 3000 BC.
+[] Red wins in year 3000 BC.
