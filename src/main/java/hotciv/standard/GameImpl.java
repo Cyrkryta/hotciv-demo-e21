@@ -50,7 +50,9 @@ public class GameImpl implements Game {
 
   public Player getWinner() { return null; }
 
-  public int getAge() { return 0; }
+  //Game always starts in 4000 BC
+  private int currAge = 4000;
+  public int getAge() { return currAge; }
 
   public boolean moveUnit( Position from, Position to ) {
     return false;

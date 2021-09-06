@@ -71,4 +71,11 @@ public class TestAlphaCiv {
   public void shouldAlwaysContainPopulationOf_1_InCities() {
     assertThat(city.getSize(), is(1));
   }
+
+  /************ TESTS TIME ************/
+  // Testing that game starts in year 4000 BC
+  @Test
+  public void shouldAlwaysStartIn4000BC(){
+    assertThat(game.getAge(), is(4000));
+  }
 }
