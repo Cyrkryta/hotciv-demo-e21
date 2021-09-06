@@ -39,7 +39,14 @@ public class GameImpl implements Game {
 
   private Player playerInTurn = Player.RED;
   public Player getPlayerInTurn() { return playerInTurn;}
-  public void endOfTurn() {}
+
+  public void endOfTurn() {
+    if(playerInTurn == Player.RED){
+      playerInTurn = Player.BLUE;
+    } else {
+      playerInTurn = Player.RED;
+    }
+  }
 
   public Player getWinner() { return null; }
 
@@ -48,8 +55,6 @@ public class GameImpl implements Game {
   public boolean moveUnit( Position from, Position to ) {
     return false;
   }
-
-
 
   public void changeWorkForceFocusInCityAt( Position p, String balance ) {}
 
