@@ -55,7 +55,7 @@ Unit Production:
 [] If there is no room to place a unit ???
 
 Aging:
-[] The game starts at age 4000 BC [OK]
+[OK] The game starts at age 4000 BC
 [OK] Each round advances the game age 100 years.
 
 winning:
