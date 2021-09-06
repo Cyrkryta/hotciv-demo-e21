@@ -40,13 +40,13 @@ import java.util.*;
 */
 public class TestAlphaCiv {
   private Game game;
-  private City city;
+  private City redCity;
 
   /** Fixture for alphaciv testing. */
   @BeforeEach
   public void setUp() {
     game = new GameImpl();
-    city = new CityImpl();
+    redCity = new CityImpl(Player.RED); //Create test city
   }
 
   // FRS p. 455 states that 'Red is the first player to take a turn'.
@@ -69,7 +69,13 @@ public class TestAlphaCiv {
   // Testing that the population of the city is always 1.
   @Test
   public void shouldAlwaysContainPopulationOf_1_InCities() {
-    assertThat(city.getSize(), is(1));
+    assertThat(redCity.getSize(), is(1));
+  }
+
+
+  @Test
+  public void citiesShouldHaveOwners() {
+    assertThat(redCity.getOwner(), is (Player.RED));
   }
 
   /************ TESTS TIME ************/

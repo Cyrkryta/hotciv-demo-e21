@@ -2,6 +2,9 @@ package hotciv.standard;
 
 import hotciv.framework.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /** Skeleton implementation of HotCiv.
  
    This source code is from the book 
@@ -26,7 +29,6 @@ import hotciv.framework.*;
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
-
 */
 
 public class GameImpl implements Game {
@@ -35,7 +37,8 @@ public class GameImpl implements Game {
   }
   public Unit getUnitAt( Position p ) { return null; }
 
-  public City getCityAt( Position p ) { return null; }
+  Map<Position, City> cityMap = new HashMap<>();
+  public City getCityAt( Position p ) { return cityMap.get(p); }
 
   private Player playerInTurn = Player.RED;
   public Player getPlayerInTurn() { return playerInTurn;}
