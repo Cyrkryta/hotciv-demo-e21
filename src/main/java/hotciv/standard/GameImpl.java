@@ -37,9 +37,11 @@ public class GameImpl implements Game {
   }
   public Unit getUnitAt( Position p ) { return null; }
 
+  // Creating map for the cities.
   Map<Position, City> cityMap = new HashMap<>();
   public City getCityAt( Position p ) { return cityMap.get(p); }
 
+  // Defining the players in turn.
   private Player playerInTurn = Player.RED;
   public Player getPlayerInTurn() { return playerInTurn;}
 
@@ -52,7 +54,12 @@ public class GameImpl implements Game {
     }
   }
 
-  public Player getWinner() { return null; }
+  public Player getWinner() {
+    if(currAge == 3000) {
+      return Player.RED;
+    }
+    return null;
+  }
 
   //Game always starts in 4000 BC
   private int currAge = 4000;
@@ -70,5 +77,6 @@ public class GameImpl implements Game {
 
   private void endOfRound() {
     currAge -= 100;
+    System.out.print(getAge());
   }
 }
