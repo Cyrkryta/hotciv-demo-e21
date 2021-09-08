@@ -102,6 +102,13 @@ public class TestAlphaCiv {
     assertThat(redCity.getTreasury(), is(6));
   }
 
+  @Test
+  public void shouldBeAbleToChooseProductionInCity(){
+    City redCity = game.getCityAt(GameImpl.Red_City_Pos);
+    game.changeProductionInCityAt(GameImpl.Red_City_Pos,GameConstants.ARCHER);
+    assertThat(redCity.getProduction(),is(GameConstants.ARCHER));
+  }
+
   /************ TESTS FOR TIME ************/
   // Testing that game starts in year 4000 BC
   @Test

@@ -4,6 +4,7 @@ import hotciv.framework.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /** Skeleton implementation of HotCiv.
  
@@ -116,7 +117,14 @@ public class GameImpl implements Game {
 
   public void changeWorkForceFocusInCityAt( Position p, String balance ) {}
 
-  public void changeProductionInCityAt( Position p, String unitType ) {}
+  public void changeProductionInCityAt( Position p, String unitType ) {
+    CityImpl C = (CityImpl) getCityAt(p);
+    if (C != null){
+      if (Objects.equals(unitType, GameConstants.ARCHER) || Objects.equals(unitType, GameConstants.SETTLER) || Objects.equals(unitType, GameConstants.LEGION)){
+        C.changeProd(unitType);
+      }
+    }
+  }
 
   public void performUnitActionAt( Position p ) {}
 
