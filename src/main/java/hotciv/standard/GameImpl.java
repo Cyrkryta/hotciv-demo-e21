@@ -110,5 +110,8 @@ public class GameImpl implements Game {
   private void endOfRound() {
     currAge -= 100;
     System.out.print(getAge());
+
+    CityImpl redCity = (CityImpl) cityMap.get(Red_City_Pos);
+    redCity.addTreasury(6);
   }
 }

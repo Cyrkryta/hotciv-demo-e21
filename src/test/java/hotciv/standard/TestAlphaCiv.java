@@ -93,6 +93,14 @@ public class TestAlphaCiv {
     assertThat(blueCity.getOwner(), is(Player.BLUE));
   }
 
+  @Test
+  public void shouldProduce6ProductionAtEndOfRound(){
+    City redCity = game.getCityAt(GameImpl.Red_City_Pos);
+    assertThat(redCity.getTreasury(), is(0));
+    game.endOfTurn();
+    game.endOfTurn();
+    assertThat(redCity.getTreasury(), is(6));
+  }
 
   /************ TESTS FOR TIME ************/
   // Testing that game starts in year 4000 BC
