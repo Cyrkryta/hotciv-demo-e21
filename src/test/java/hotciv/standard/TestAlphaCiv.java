@@ -83,7 +83,13 @@ public class TestAlphaCiv {
     City redCity = game.getCityAt(GameImpl.Red_City_Pos);
     assertThat(redCity, is(notNullValue()));
     assertThat(redCity.getOwner(), is(Player.RED));
+  }
 
+  @Test
+  public void shouldHaveBlueCityAt4_1(){
+    City blueCity = game.getCityAt(GameImpl.Blue_City_Pos);
+    assertThat(blueCity, is(notNullValue()));
+    assertThat(blueCity.getOwner(), is(Player.BLUE));
   }
 
   /************ TESTS TIME ************/

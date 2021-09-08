@@ -32,7 +32,8 @@ import java.util.Map;
 */
 
 public class GameImpl implements Game {
-  static Position Red_City_Pos = new Position(1,1);
+  public static Position Blue_City_Pos = new Position(4,1);
+  public static Position Red_City_Pos = new Position(1,1);
 
 
   //Constructor for GameImpl
@@ -42,10 +43,11 @@ public class GameImpl implements Game {
 
   // Creating map for the cities.
   Map<Position, City> cityMap = new HashMap<>();
-
   private void citySetup(){
     City redCity = new CityImpl(Player.RED);
+    City blueCity = new CityImpl(Player.BLUE);
     cityMap.put(Red_City_Pos,redCity);
+    cityMap.put(Blue_City_Pos,blueCity);
   }
   public Tile getTileAt(Position p ) {
     return null;
