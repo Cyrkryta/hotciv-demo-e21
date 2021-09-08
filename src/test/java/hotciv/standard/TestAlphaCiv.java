@@ -179,4 +179,16 @@ public class TestAlphaCiv {
     // Assertion.
     assertThat(GameConstants.HILLS, is(game.getTileAt(p).getTypeString()));
   }
+
+  /************ TESTS FOR UNITS ************/
+  // Testing that Red starts with an archer on 4,3.
+  @Test
+  public void shouldBeSettlerOn4_3OwnedByRed() {
+    // Creating the position.
+    Position p = new Position(4,3);
+    // Checking that the Settler is at position.
+    assertThat(GameConstants.SETTLER, is(game.getUnitAt(p).getTypeString()));
+    // Checking that the Settler is owned by Red.
+    assertThat(Player.RED, is(game.getUnitAt(p).getOwner()));
+  }
 }

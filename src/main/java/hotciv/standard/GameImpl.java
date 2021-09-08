@@ -39,12 +39,19 @@ public class GameImpl implements Game {
 
   // Creating HashMap for the world.
   HashMap<Position,Tile> worldMap = new HashMap<>();
+  // Creating Hashmap for the units.
+  HashMap<Position,Unit> unitMap = new HashMap<>();
   //Retrieving TileImpl.
   TileImpl tileImpl;
 
   public GameImpl() {
     createWorld();
+    createUnitMap();
     citySetup();
+  }
+
+  private void createUnitMap() {
+    unitMap.put(new Position(4,3), new UnitImpl(GameConstants.SETTLER, Player.RED));
   }
 
   // Method for handling the creation of the tiles.
@@ -73,7 +80,7 @@ public class GameImpl implements Game {
   public Tile getTileAt( Position p ) {
     return worldMap.get(p);
   }
-  public Unit getUnitAt( Position p ) { return null; }
+  public Unit getUnitAt( Position p ) { return unitMap.get(p); }
 
   // Creating map for the cities.
   Map<Position, City> cityMap = new HashMap<>();
