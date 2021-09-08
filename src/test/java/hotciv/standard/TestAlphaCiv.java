@@ -181,7 +181,7 @@ public class TestAlphaCiv {
   }
 
   /************ TESTS FOR UNITS ************/
-  // Testing that Red starts with an archer on 4,3.
+  // Testing that Red starts with settler on 4,3.
   @Test
   public void shouldBeSettlerOn4_3OwnedByRed() {
     // Creating the position.
@@ -189,6 +189,17 @@ public class TestAlphaCiv {
     // Checking that the Settler is at position.
     assertThat(GameConstants.SETTLER, is(game.getUnitAt(p).getTypeString()));
     // Checking that the Settler is owned by Red.
+    assertThat(Player.RED, is(game.getUnitAt(p).getOwner()));
+  }
+
+  // Testing that Red starts with archer on 2,0
+  @Test
+  public void shouldBeArcherOn2_0OwnedByRed() {
+    // Creating the position.
+    Position p = new Position(2,0);
+    // Checking that the archer is at position.
+    assertThat(GameConstants.ARCHER, is(game.getUnitAt(p).getTypeString()));
+    // Checking that the archer is owned by Red.
     assertThat(Player.RED, is(game.getUnitAt(p).getOwner()));
   }
 }
