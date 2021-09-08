@@ -1,4 +1,4 @@
-% done: 5/43 =
+% done: 7/43 = 16.2
 
 Players:
 [] Red cannot move blue’s units.
@@ -11,8 +11,7 @@ World Layout:
 [] There is ocean at (1,0).
 [] There is mountains at (2,2).
 [] There is Hills at (0,1).
-[] All other tiles are plains.
-[] World should be 16 x 16 grid.
+[OK] The world should mostly be plains.
 
 Units & Unit actions:
 Can units move ???
@@ -61,4 +60,4 @@ Aging:
 [OK] Each round advances the game age 100 years.
 
 winning:
-[] Red wins in year 3000 BC.
+[OK] Red wins in year 3000 BC.
