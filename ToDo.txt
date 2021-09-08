@@ -1,4 +1,4 @@
-% done: 7/43 = 16.2
+% done: 10/43 = 23.5
 
 Players:
 [] Red cannot move blue’s units.

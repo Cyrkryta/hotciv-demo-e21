@@ -78,7 +78,7 @@ public class TestAlphaCiv {
     assertThat(redCity.getOwner(), is (Player.RED));
   }
 
-  /************ TESTS TIME ************/
+  /************ TESTS FOR TIME ************/
   // Testing that game starts in year 4000 BC
   @Test
   public void shouldAlwaysStartIn4000BC(){
@@ -100,33 +100,16 @@ public class TestAlphaCiv {
     assertThat(game.getAge(),is(3900));
   }
 
-  /************ TESTS WINNER ************/
+  /************ TESTS FOR WINNER ************/
   @Test
   public void shouldRedWinInYear3000BC() {
     // Checking for start at year 4000 BC and no winner.
     assertThat(game.getAge(), is(4000));
     assertThat(game.getWinner(), is(nullValue()));
     // Incrementing world age to year 3000.
-    game.endOfTurn();
-    game.endOfTurn();
-    game.endOfTurn();
-    game.endOfTurn();
-    game.endOfTurn();
-    game.endOfTurn();
-    game.endOfTurn();
-    game.endOfTurn();
-    game.endOfTurn();
-    game.endOfTurn();
-    game.endOfTurn();
-    game.endOfTurn();
-    game.endOfTurn();
-    game.endOfTurn();
-    game.endOfTurn();
-    game.endOfTurn();
-    game.endOfTurn();
-    game.endOfTurn();
-    game.endOfTurn();
-    game.endOfTurn();
+    while(game.getAge() > 3000) {
+      game.endOfTurn();
+    }
     // Checking that the winner is RED.
     assertThat(game.getWinner(), is(Player.RED));
   }
