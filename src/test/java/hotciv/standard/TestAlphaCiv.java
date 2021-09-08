@@ -170,4 +170,13 @@ public class TestAlphaCiv {
     // Assertion.
     assertThat(GameConstants.MOUNTAINS, is(game.getTileAt(p).getTypeString()));
   }
+
+  // Testing that there are hills at 0,1
+  @Test
+  public void shouldBeMountainAtPosition0_1() {
+    // Creating Position
+    Position p = new Position(0,1);
+    // Assertion.
+    assertThat(GameConstants.HILLS, is(game.getTileAt(p).getTypeString()));
+  }
 }
