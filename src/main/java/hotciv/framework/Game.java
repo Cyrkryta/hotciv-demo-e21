@@ -134,5 +134,4 @@ public interface Game {
    * Nothing happens in case the unit has no associated action.
    */
   void performUnitActionAt( Position p );
-
 }

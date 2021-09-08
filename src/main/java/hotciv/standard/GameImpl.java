@@ -32,13 +32,29 @@ import java.util.Map;
 */
 
 public class GameImpl implements Game {
-  public Tile getTileAt( Position p ) {
-    return null;
+  static Position Red_City_Pos = new Position(1,1);
+
+
+  //Constructor for GameImpl
+  public GameImpl(){
+    citySetup();
   }
-  public Unit getUnitAt( Position p ) { return null; }
 
   // Creating map for the cities.
   Map<Position, City> cityMap = new HashMap<>();
+
+  private void citySetup(){
+    City redCity = new CityImpl(Player.RED);
+    cityMap.put(Red_City_Pos,redCity);
+  }
+  public Tile getTileAt(Position p ) {
+    return null;
+  }
+
+  public Unit getUnitAt( Position p ) { return null; }
+
+
+
   public City getCityAt( Position p ) { return cityMap.get(p); }
 
   // Defining the players in turn.
@@ -65,6 +81,11 @@ public class GameImpl implements Game {
   private int currAge = 4000;
   public int getAge() { return currAge; }
 
+  private void endOfRound() {
+    currAge -= 100;
+    System.out.print(getAge());
+  }
+
   public boolean moveUnit( Position from, Position to ) {
     return false;
   }
@@ -74,9 +95,4 @@ public class GameImpl implements Game {
   public void changeProductionInCityAt( Position p, String unitType ) {}
 
   public void performUnitActionAt( Position p ) {}
-
-  private void endOfRound() {
-    currAge -= 100;
-    System.out.print(getAge());
-  }
 }

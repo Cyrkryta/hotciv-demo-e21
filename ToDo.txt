@@ -41,7 +41,7 @@ Attacks:
 
 Cities:
 [OK] Cities have owners
-[] Red’s city is at (1,1)
+[OK] Red’s city is at (1,1)
 [] Blue’s city is at (4,1)
 [] Cities produce 6 ‘production’ after a round has ended.
 [OK] Cities population size is always 1.

@@ -74,8 +74,16 @@ public class TestAlphaCiv {
 
   // Testing that the city always has a owner.
   @Test
-  public void shouldHaveOwnerInCity() {
+  public void shouldHaveOwnerOfCity() {
     assertThat(redCity.getOwner(), is (Player.RED));
+  }
+
+  @Test
+  public void shouldHaveRedCityAt1_1(){
+    City redCity = game.getCityAt(GameImpl.Red_City_Pos);
+    assertThat(redCity, is(notNullValue()));
+    assertThat(redCity.getOwner(), is(Player.RED));
+
   }
 
   /************ TESTS TIME ************/
@@ -130,5 +138,4 @@ public class TestAlphaCiv {
     // Checking that the winner is RED.
     assertThat(game.getWinner(), is(Player.RED));
   }
-
 }
