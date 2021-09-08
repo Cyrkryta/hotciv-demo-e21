@@ -138,6 +138,8 @@ public class TestAlphaCiv {
     assertThat(game.getWinner(), is(Player.RED));
   }
 
+  /************ TESTS FOR WORLD ************/
+  // Testing that most of the world is plains.
   @Test
   public void shouldMostlyBePlainsInTheWorld() {
     Position p = new Position(0,0);
@@ -151,4 +153,21 @@ public class TestAlphaCiv {
     assertThat(GameConstants.PLAINS, is(game.getTileAt(p).getTypeString()));
   }
 
+  // Testing that there are ocean at 1,0.
+  @Test
+  public void shouldBeOceanAtPosition1_0() {
+    // Creating position.
+    Position p = new Position(1,0);
+    // Assertion.
+    assertThat(GameConstants.OCEANS, is(game.getTileAt(p).getTypeString()));
+  }
+
+  // Testing that there are mountain at 2,2
+  @Test
+  public void shouldBeMountainAtPosition2_2() {
+    // Creating Position
+    Position p = new Position(2,2);
+    // Assertion.
+    assertThat(GameConstants.MOUNTAINS, is(game.getTileAt(p).getTypeString()));
+  }
 }

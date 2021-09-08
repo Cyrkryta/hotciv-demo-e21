@@ -54,6 +54,10 @@ public class GameImpl implements Game {
         worldMap.put(new Position(i,j),new TileImpl(GameConstants.PLAINS));
       }
     }
+    // Creation of tile with ocean.
+    worldMap.put(new Position(1,0), new TileImpl(GameConstants.OCEANS));
+    // Creation of tile with mountain.
+    worldMap.put(new Position(2,2), new TileImpl(GameConstants.MOUNTAINS));
   }
 
   private void citySetup(){
