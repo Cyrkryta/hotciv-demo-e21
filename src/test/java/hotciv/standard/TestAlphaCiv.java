@@ -78,7 +78,7 @@ public class TestAlphaCiv {
     assertThat(redCity.getOwner(), is (Player.RED));
   }
 
-  /************ TESTS FOR TIME ************/
+  /************ TESTS TIME ************/
   // Testing that game starts in year 4000 BC
   @Test
   public void shouldAlwaysStartIn4000BC(){
@@ -100,33 +100,35 @@ public class TestAlphaCiv {
     assertThat(game.getAge(),is(3900));
   }
 
-  /************ TESTS FOR WINNER ************/
+  /************ TESTS WINNER ************/
   @Test
   public void shouldRedWinInYear3000BC() {
     // Checking for start at year 4000 BC and no winner.
     assertThat(game.getAge(), is(4000));
     assertThat(game.getWinner(), is(nullValue()));
     // Incrementing world age to year 3000.
-    while(game.getAge() > 3000) {
-      game.endOfTurn();
-    }
+    game.endOfTurn();
+    game.endOfTurn();
+    game.endOfTurn();
+    game.endOfTurn();
+    game.endOfTurn();
+    game.endOfTurn();
+    game.endOfTurn();
+    game.endOfTurn();
+    game.endOfTurn();
+    game.endOfTurn();
+    game.endOfTurn();
+    game.endOfTurn();
+    game.endOfTurn();
+    game.endOfTurn();
+    game.endOfTurn();
+    game.endOfTurn();
+    game.endOfTurn();
+    game.endOfTurn();
+    game.endOfTurn();
+    game.endOfTurn();
     // Checking that the winner is RED.
     assertThat(game.getWinner(), is(Player.RED));
-  }
-
-  /************ TESTS FOR WORLD IMPLEMENTATION ************/
-
-  @Test
-  public void shouldMostlyBePlainsInTheWorld() {
-    Position p = new Position(0,0);
-    // Iteration 1.
-    assertThat(GameConstants.PLAINS, is(game.getTileAt(p).getTypeString()));
-    // Iteration 2.
-    p = new Position(7,12);
-    assertThat(GameConstants.PLAINS, is(game.getTileAt(p).getTypeString()));
-    // Reliability.
-    p = new Position(GameConstants.WORLDSIZE-1, GameConstants.WORLDSIZE-1);
-    assertThat(GameConstants.PLAINS, is(game.getTileAt(p).getTypeString()));
   }
 
 }

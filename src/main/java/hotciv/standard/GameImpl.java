@@ -32,41 +32,19 @@ import java.util.Map;
 */
 
 public class GameImpl implements Game {
-  // Creating HashMap for the world.
-  HashMap<Position,Tile> worldMap = new HashMap<>();
-  //Retreiving TileImpl.
-  TileImpl tileImpl;
-
-  public GameImpl() {
-    createWorld();
-  }
-
-  // Method for handling the creation of the tiles.
-  private void createWorld() {
-    for (int i=0; i<=GameConstants.WORLDSIZE-1; i++) {
-      for (int j=0; j<=GameConstants.WORLDSIZE-1; j++){
-        worldMap.put(new Position(i,j),new TileImpl(GameConstants.PLAINS));
-      }
-    }
-  }
-
   public Tile getTileAt( Position p ) {
-    return this.worldMap.get(p);
+    return null;
   }
-  
   public Unit getUnitAt( Position p ) { return null; }
-  
+
   // Creating map for the cities.
   Map<Position, City> cityMap = new HashMap<>();
   public City getCityAt( Position p ) { return cityMap.get(p); }
-
-  // Creating map for the tiles.
 
   // Defining the players in turn.
   private Player playerInTurn = Player.RED;
   public Player getPlayerInTurn() { return playerInTurn;}
 
-  // Changing player for every move.
   public void endOfTurn() {
     if(playerInTurn == Player.RED){
       playerInTurn = Player.BLUE;
@@ -76,7 +54,6 @@ public class GameImpl implements Game {
     }
   }
 
-  // Checking whether or not there is a winner.
   public Player getWinner() {
     if(currAge == 3000) {
       return Player.RED;
