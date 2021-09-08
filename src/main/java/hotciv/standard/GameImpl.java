@@ -32,13 +32,19 @@ import java.util.Map;
 */
 
 public class GameImpl implements Game {
+  //Static coordinates for players starting cities
+  public static Position Blue_City_Pos = new Position(4,1);
+  public static Position Red_City_Pos = new Position(1,1);
+
+
   // Creating HashMap for the world.
   HashMap<Position,Tile> worldMap = new HashMap<>();
-  //Retreiving TileImpl.
+  //Retrieving TileImpl.
   TileImpl tileImpl;
 
   public GameImpl() {
     createWorld();
+    citySetup();
   }
 
   // Method for handling the creation of the tiles.
@@ -49,6 +55,14 @@ public class GameImpl implements Game {
       }
     }
   }
+
+  private void citySetup(){
+    City redCity = new CityImpl(Player.RED);
+    City blueCity = new CityImpl(Player.BLUE);
+    cityMap.put(Red_City_Pos,redCity);
+    cityMap.put(Blue_City_Pos,blueCity);
+  }
+
 
   public Tile getTileAt( Position p ) {
     return worldMap.get(p);

@@ -78,6 +78,22 @@ public class TestAlphaCiv {
     assertThat(redCity.getOwner(), is (Player.RED));
   }
 
+  @Test
+  public void shouldHaveRedCityAt1_1(){
+    City redCity = game.getCityAt(GameImpl.Red_City_Pos);
+    assertThat(redCity, is(notNullValue()));
+    assertThat(redCity.getOwner(), is(Player.RED));
+
+  }
+
+  @Test
+  public void shouldHaveBlueCityAt4_1(){
+    City blueCity = game.getCityAt(GameImpl.Blue_City_Pos);
+    assertThat(blueCity, is(notNullValue()));
+    assertThat(blueCity.getOwner(), is(Player.BLUE));
+  }
+
+
   /************ TESTS FOR TIME ************/
   // Testing that game starts in year 4000 BC
   @Test
