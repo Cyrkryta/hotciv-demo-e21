@@ -209,4 +209,15 @@ public class TestAlphaCiv {
     // Checking that the archer is owned by Red.
     assertThat(Player.RED, is(game.getUnitAt(p).getOwner()));
   }
+
+  // Testing that Blue starts with legion 3,2.
+  @Test
+  public void shouldBeLegionOn3_2OwnedByBlue() {
+    // Creating the position.
+    Position p = new Position(3,2);
+    // Checking that the legion is at the position.
+    assertThat(GameConstants.LEGION, is(game.getUnitAt(p).getTypeString()));
+    // Checking that the legion is owned by Blue.
+    assertThat(Player.BLUE, is(game.getUnitAt(p).getOwner()));
+  }
 }
