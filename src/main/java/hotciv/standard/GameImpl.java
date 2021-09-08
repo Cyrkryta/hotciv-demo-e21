@@ -53,6 +53,7 @@ public class GameImpl implements Game {
 
   private void createUnitMap() {
     unitMap.put(new Position(4,3), new UnitImpl(GameConstants.SETTLER, Player.RED));
+    unitMap.put(new Position(2,0), new UnitImpl(GameConstants.ARCHER, Player.RED));
   }
 
   // Method for handling the creation of the tiles.
