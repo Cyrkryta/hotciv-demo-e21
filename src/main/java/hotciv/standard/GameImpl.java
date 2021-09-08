@@ -32,8 +32,26 @@ import java.util.Map;
 */
 
 public class GameImpl implements Game {
+  // Creating HashMap for the world.
+  HashMap<Position,Tile> worldMap = new HashMap<>();
+  //Retreiving TileImpl.
+  TileImpl tileImpl;
+
+  public GameImpl() {
+    createWorld();
+  }
+
+  // Method for handling the creation of the tiles.
+  private void createWorld() {
+    for (int i=0; i<=GameConstants.WORLDSIZE-1; i++) {
+      for (int j=0; j<=GameConstants.WORLDSIZE-1; j++){
+        worldMap.put(new Position(i,j),new TileImpl(GameConstants.PLAINS));
+      }
+    }
+  }
+
   public Tile getTileAt( Position p ) {
-    return null;
+    return worldMap.get(p);
   }
   public Unit getUnitAt( Position p ) { return null; }
 

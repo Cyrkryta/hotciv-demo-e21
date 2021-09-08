@@ -114,4 +114,17 @@ public class TestAlphaCiv {
     assertThat(game.getWinner(), is(Player.RED));
   }
 
+  @Test
+  public void shouldMostlyBePlainsInTheWorld() {
+    Position p = new Position(0,0);
+    // Iteration 1.
+    assertThat(GameConstants.PLAINS, is(game.getTileAt(p).getTypeString()));
+    // Iteration 2.
+    p = new Position(7,12);
+    assertThat(GameConstants.PLAINS, is(game.getTileAt(p).getTypeString()));
+    // Reliability.
+    p = new Position(GameConstants.WORLDSIZE-1, GameConstants.WORLDSIZE-1);
+    assertThat(GameConstants.PLAINS, is(game.getTileAt(p).getTypeString()));
+  }
+
 }
