@@ -41,6 +41,8 @@ public class GameImpl implements Game {
   HashMap<Position, Tile> worldMap = new HashMap<>();
   // Creating Hashmap for the units.
   HashMap<Position, Unit> unitMap = new HashMap<>();
+  // Defining the players in turn.
+  private Player playerInTurn = Player.RED;
 
   public GameImpl() {
     createWorld();
@@ -92,9 +94,6 @@ public class GameImpl implements Game {
     return cityMap.get(p);
   }
 
-  // Defining the players in turn.
-  private Player playerInTurn = Player.RED;
-
   public Player getPlayerInTurn() {
     return playerInTurn;
   }
@@ -131,11 +130,14 @@ public class GameImpl implements Game {
   }
 
   public boolean moveUnit(Position from, Position to) {
-    if(getUnitAt(from) != null && getUnitAt(to) == null) {
-      UnitImpl unitType = (UnitImpl) unitMap.remove(from);
-      unitType.reduceMoveCount();
-      unitMap.put(to, unitType);
-      return true;
+    UnitImpl unit = (UnitImpl) getUnitAt(from);
+    if(unit != null && getUnitAt(to) == null) {
+      if (unit.getOwner() == playerInTurn) {
+        UnitImpl unitType = (UnitImpl) unitMap.remove(from);
+        unitType.reduceMoveCount();
+        unitMap.put(to, unitType);
+        return true;
+      }
     }
     return false;
   }

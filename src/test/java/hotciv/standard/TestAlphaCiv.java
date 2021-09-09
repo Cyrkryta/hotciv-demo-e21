@@ -269,6 +269,15 @@ public class TestAlphaCiv {
     assertThat(game.getUnitAt(to).getMoveCount(), is(1));
   }
 
+  //Testing that Red cannot move blue units
+  @Test
+  public void redShouldNOTMoveBlueUnits() {
+    Position from = new Position(3,2);
+    Position to = new Position(3,3);
+    assertThat(game.moveUnit(from, to), is(false));
+    assertThat(game.getUnitAt(to), is(nullValue()));
+  }
+
   /************ TESTS FOR PRODUCING UNITS ************/
   @Test
   public void shouldSpawnUnitAtEnoughProduction (){
