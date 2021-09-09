@@ -244,6 +244,7 @@ public class TestAlphaCiv {
     assertThat(game.getUnitAt(from), is(nullValue()));
   }
 
+  // Testing that the move count is reduced by one after move.
   @Test
   public void shouldReduceMoveCountBy1AfterMove(){
     Position from = new Position(4,3);
@@ -253,6 +254,20 @@ public class TestAlphaCiv {
     assertThat(game.getUnitAt(to).getMoveCount(), is(0));
   }
 
+  // Testing that the move count is reset after turn / round.
+  @Test
+  public void shouldResetUnitMoveCounterAfterTurns() {
+    // Moving and reducing unit count.
+    Position from = new Position(4,3);
+    Position to = new Position(4,4);
+    game.moveUnit(from, to);
+    assertThat(game.getUnitAt(to).getMoveCount(), is(0));
+    // Going through a round.
+    game.endOfTurn();
+    game.endOfTurn();
+    // checking that the unit count has been reset.
+    assertThat(game.getUnitAt(to).getMoveCount(), is(1));
+  }
 
   /************ TESTS FOR PRODUCING UNITS ************/
   @Test

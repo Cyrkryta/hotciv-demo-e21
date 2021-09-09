@@ -40,4 +40,8 @@ public class UnitImpl implements Unit {
     public void reduceMoveCount() {
         moveCount -= 1;
     }
+
+    public void resetMoveCount() {
+        moveCount = 1;
+    };
 }

@@ -3,6 +3,7 @@ package hotciv.standard;
 import hotciv.framework.*;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 
@@ -104,6 +105,14 @@ public class GameImpl implements Game {
     } else {
       playerInTurn = Player.RED;
       endOfRound();
+      resetUnitsMoveCount();
+    }
+  }
+
+  private void resetUnitsMoveCount() {
+    for (Unit u : unitMap.values()) {
+      UnitImpl unitImpl = (UnitImpl) u;
+      ((UnitImpl) u).resetMoveCount();
     }
   }
 
