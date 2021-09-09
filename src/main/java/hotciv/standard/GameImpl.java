@@ -36,14 +36,10 @@ public class GameImpl implements Game {
   //Static coordinates for players starting cities
   public static Position Blue_City_Pos = new Position(4,1);
   public static Position Red_City_Pos = new Position(1,1);
-
-
   // Creating HashMap for the world.
   HashMap<Position,Tile> worldMap = new HashMap<>();
   // Creating Hashmap for the units.
   HashMap<Position,Unit> unitMap = new HashMap<>();
-  //Retrieving TileImpl.
-  TileImpl tileImpl;
 
   public GameImpl() {
     createWorld();

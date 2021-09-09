@@ -18,13 +18,12 @@ public class UnitImpl implements Unit {
 
     @Override
     public Player getOwner() {
-
         return playerOwner;
     }
 
     @Override
     public int getMoveCount() {
-        return 0;
+        return 1;
     }
 
     @Override

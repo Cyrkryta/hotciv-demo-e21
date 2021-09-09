@@ -220,4 +220,14 @@ public class TestAlphaCiv {
     // Checking that the legion is owned by Blue.
     assertThat(Player.BLUE, is(game.getUnitAt(p).getOwner()));
   }
+
+  // Testing move count at start of turn.
+  @Test
+  public void shouldRefreshMoveCounterAtStartOfTurn() {
+    // Creating position
+    Position p = new Position(4,3);
+    // Checking ownership if the move count is 1
+    assertThat(game.getUnitAt(p).getOwner(), is(Player.RED));
+    assertThat(game.getUnitAt(p).getMoveCount(), is(1));
+  }
 }
