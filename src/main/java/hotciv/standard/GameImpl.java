@@ -122,6 +122,11 @@ public class GameImpl implements Game {
   }
 
   public boolean moveUnit(Position from, Position to) {
+    if(getUnitAt(from) != null && getUnitAt(to) == null) {
+      Unit unitType = unitMap.remove(from);
+      unitMap.put(to, unitType);
+      return true;
+    }
     return false;
   }
 

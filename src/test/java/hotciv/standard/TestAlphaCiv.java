@@ -230,4 +230,17 @@ public class TestAlphaCiv {
     assertThat(game.getUnitAt(p).getOwner(), is(Player.RED));
     assertThat(game.getUnitAt(p).getMoveCount(), is(1));
   }
+
+  // Testing if the unit is moving.
+  @Test
+  public void shouldMoveFromOnePositionToAnother() {
+    // Creating positions.
+    Position from = new Position(4,3);
+    Position to = new Position(4,4);
+    // Moving unit
+    game.moveUnit(from, to);
+    // Testing if position has changed.
+    assertThat(game.getUnitAt(to).getTypeString(), is(GameConstants.SETTLER));
+    assertThat(game.getUnitAt(from), is(nullValue()));
+  }
 }
