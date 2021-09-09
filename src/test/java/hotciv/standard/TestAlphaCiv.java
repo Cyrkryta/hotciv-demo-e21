@@ -329,7 +329,8 @@ public class TestAlphaCiv {
   }
 
   /************ TESTS FOR ATTACKING ************/
-  // Test for checking that the attacking unit always wins
+  // Checking that the attacking unit always wins
+  // Red attacks blue.
   @Test
   public void shouldWinOverBlueIfRedIsAttacking() {
     // Creating positions.
@@ -341,5 +342,21 @@ public class TestAlphaCiv {
     game.moveUnit(from, to);
     // Checking that the unit is now owned by red.
     assertThat(game.getUnitAt(to).getOwner(), is(Player.RED));
+  }
+
+  // Blue attacks red.
+  @Test
+  public void shouldWinOverRedIfBlueIsAttacking() {
+    // Creating Positions.
+    Position from = new Position(3,2);
+    Position to = new Position(4,3);
+    // Changing player.
+    game.endOfTurn();
+    // Checking if unit on 4,3 is owned by blue.
+    assertThat(game.getUnitAt(to).getOwner(), is(Player.RED));
+    // Moving Reds unit.
+    game.moveUnit(from,to);
+    // Checking that the unit is now owned by blue.
+    assertThat(game.getUnitAt(to).getOwner(), is(Player.BLUE));
   }
 }
