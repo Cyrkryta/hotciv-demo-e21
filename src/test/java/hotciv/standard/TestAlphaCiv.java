@@ -72,7 +72,7 @@ public class TestAlphaCiv {
     assertThat(redCity.getSize(), is(1));
   }
 
-  // Testing that the city always has a owner.
+  // Testing that a city always has a owner.
   @Test
   public void shouldHaveOwnerInCity() {
     assertThat(redCity.getOwner(), is (Player.RED));
@@ -80,7 +80,7 @@ public class TestAlphaCiv {
 
   @Test
   public void shouldHaveRedCityAt1_1(){
-    City redCity = game.getCityAt(GameImpl.Red_City_Pos);
+    City redCity = game.getCityAt(GameConstants.Red_City_Pos);
     assertThat(redCity, is(notNullValue()));
     assertThat(redCity.getOwner(), is(Player.RED));
 
@@ -88,14 +88,14 @@ public class TestAlphaCiv {
 
   @Test
   public void shouldHaveBlueCityAt4_1(){
-    City blueCity = game.getCityAt(GameImpl.Blue_City_Pos);
+    City blueCity = game.getCityAt(GameConstants.Blue_City_Pos);
     assertThat(blueCity, is(notNullValue()));
     assertThat(blueCity.getOwner(), is(Player.BLUE));
   }
 
   @Test
   public void shouldProduce6ProductionAtEndOfRound(){
-    City redCity = game.getCityAt(GameImpl.Red_City_Pos);
+    City redCity = game.getCityAt(GameConstants.Red_City_Pos);
     assertThat(redCity.getTreasury(), is(0));
     game.endOfTurn();
     game.endOfTurn();
@@ -104,8 +104,8 @@ public class TestAlphaCiv {
 
   @Test
   public void shouldBeAbleToChooseProductionInCity(){
-    City redCity = game.getCityAt(GameImpl.Red_City_Pos);
-    game.changeProductionInCityAt(GameImpl.Red_City_Pos,GameConstants.ARCHER);
+    City redCity = game.getCityAt(GameConstants.Red_City_Pos);
+    game.changeProductionInCityAt(GameConstants.Red_City_Pos,GameConstants.ARCHER);
     assertThat(redCity.getProduction(),is(GameConstants.ARCHER));
   }
 
@@ -219,5 +219,16 @@ public class TestAlphaCiv {
     assertThat(GameConstants.LEGION, is(game.getUnitAt(p).getTypeString()));
     // Checking that the legion is owned by Blue.
     assertThat(Player.BLUE, is(game.getUnitAt(p).getOwner()));
+  }
+
+  /************ TESTS FOR CREATING UNITS ************/
+  @Test
+  public void shouldSpawnUnitAtEnoughProduction (){
+    City redCity = game.getCityAt(GameConstants.Red_City_Pos);
+    game.changeProductionInCityAt(GameConstants.Red_City_Pos, GameConstants.ARCHER);
+    assertThat(redCity.getProduction(),is(GameConstants.ARCHER));
+    while(game.getAge() > 3800) game.endOfTurn();
+    assertThat(game.getUnitAt(GameConstants.Red_City_Pos).getTypeString(),is(GameConstants.ARCHER));
+    assertThat(redCity.getTreasury(),is(2));
   }
 }

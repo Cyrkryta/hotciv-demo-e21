@@ -33,11 +33,9 @@ import java.util.Objects;
 */
 
 public class GameImpl implements Game {
-  //Static coordinates for players starting cities
-  public static Position Blue_City_Pos = new Position(4,1);
-  public static Position Red_City_Pos = new Position(1,1);
 
-
+  // Creating map for the cities.
+  Map<Position, City> cityMap = new HashMap<>();
   // Creating HashMap for the world.
   HashMap<Position,Tile> worldMap = new HashMap<>();
   // Creating Hashmap for the units.
@@ -75,8 +73,8 @@ public class GameImpl implements Game {
   private void citySetup(){
     City redCity = new CityImpl(Player.RED);
     City blueCity = new CityImpl(Player.BLUE);
-    cityMap.put(Red_City_Pos,redCity);
-    cityMap.put(Blue_City_Pos,blueCity);
+    cityMap.put(GameConstants.Red_City_Pos,redCity);
+    cityMap.put(GameConstants.Blue_City_Pos,blueCity);
   }
 
 
@@ -85,8 +83,6 @@ public class GameImpl implements Game {
   }
   public Unit getUnitAt( Position p ) { return unitMap.get(p); }
 
-  // Creating map for the cities.
-  Map<Position, City> cityMap = new HashMap<>();
   public City getCityAt( Position p ) { return cityMap.get(p); }
 
   // Defining the players in turn.
@@ -134,7 +130,26 @@ public class GameImpl implements Game {
     currAge -= 100;
     System.out.print(getAge());
 
-    CityImpl redCity = (CityImpl) cityMap.get(Red_City_Pos);
+    //Allocates production to cities
+    CityImpl redCity = (CityImpl) cityMap.get(GameConstants.Red_City_Pos);
     redCity.addTreasury(6);
+
+    produceUnit();
+  }
+
+  private void produceUnit(){
+    for (Map.Entry<Position,City> entry : cityMap.entrySet()){
+      Position pos = entry.getKey();
+      Player owner = entry.getValue().getOwner();
+      CityImpl city = (CityImpl) entry.getValue();
+      int cityTreasury = entry.getValue().getTreasury();
+      String cityProduction = entry.getValue().getProduction();
+
+      if(cityProduction == GameConstants.ARCHER && cityTreasury >= 10){
+        unitMap.put(pos, new UnitImpl(GameConstants.ARCHER,owner));
+        city.addTreasury(-10);
+      }
+
+    }
   }
 }
