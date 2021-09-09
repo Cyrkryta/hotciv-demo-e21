@@ -3,7 +3,6 @@ package hotciv.standard;
 import hotciv.framework.*;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 
@@ -111,7 +110,7 @@ public class GameImpl implements Game {
   private void resetUnitsMoveCount() {
     for (Unit u : unitMap.values()) {
       UnitImpl unitImpl = (UnitImpl) u;
-      ((UnitImpl) u).resetMoveCount();
+      unitImpl.resetMoveCount();
     }
   }
 
@@ -132,7 +131,7 @@ public class GameImpl implements Game {
   public boolean moveUnit(Position from, Position to) {
     UnitImpl unit = (UnitImpl) getUnitAt(from);
     if(unit.getOwner() == playerInTurn) {
-      if (unit != null && getUnitAt(to) == null) {
+      if (getUnitAt(to) == null) {
           // Handling illegal moves.
           if (getTileAt(to).getTypeString().equals(GameConstants.HILLS) || getTileAt(to).getTypeString().equals(GameConstants.PLAINS)){
             UnitImpl unitType = (UnitImpl) unitMap.remove(from);
@@ -140,7 +139,7 @@ public class GameImpl implements Game {
             unitMap.put(to, unitType);
             return true;
           }
-      } else if (getUnitAt(to).getOwner() != playerInTurn){
+      } else if (getUnitAt(to).getOwner() != playerInTurn) {
         handleAttack(from, to);
         return true;
       }
@@ -149,7 +148,7 @@ public class GameImpl implements Game {
   }
 
   private void handleAttack(Position from, Position to) {
-    UnitImpl attackingUnitType = (UnitImpl) unitMap.remove(from);
+    Unit attackingUnitType = unitMap.remove(from);
     unitMap.remove(to);
     unitMap.put(to, attackingUnitType);
   }
