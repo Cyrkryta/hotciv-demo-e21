@@ -223,11 +223,26 @@ public class TestAlphaCiv {
 
   // Testing move count at start of turn.
   @Test
-  public void shouldRefreshMoveCounterAtStartOfTurn() {
+  public void shouldBe1MoveCountAtStartOfTurn() {
     // Creating position
-    Position p = new Position(4,3);
-    // Checking ownership if the move count is 1
+    Position p = new Position(4, 3);
+    // Checking ownership and if the move count is 1
     assertThat(game.getUnitAt(p).getOwner(), is(Player.RED));
     assertThat(game.getUnitAt(p).getMoveCount(), is(1));
+  }
+
+  // Testing move count at end of turn.
+  @Test
+  public void shouldBe0MoveCountAtEndOfTurn() {
+    // Creating position
+    Position from = new Position(4,3);
+    Position to = new Position(4,4);
+    // Moving the unit
+    game.moveUnit(from, to);
+    // Using red turn
+    game.endOfTurn();
+    // Checking ownership and if the move count is 0
+    assertThat(game.getUnitAt(to).getOwner(), is(Player.RED));
+    assertThat(game.getUnitAt(to).getMoveCount(), is(0));
   }
 }
