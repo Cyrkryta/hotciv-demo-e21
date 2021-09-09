@@ -163,7 +163,7 @@ public class GameImpl implements Game {
       int cityTreasury = entry.getValue().getTreasury();
       String cityProduction = entry.getValue().getProduction();
 
-      if (cityProduction.equals(GameConstants.ARCHER) && cityTreasury >= 10) {
+      if (cityProduction == (GameConstants.ARCHER) && cityTreasury >= 10) {
         unitMap.put(pos, new UnitImpl(GameConstants.ARCHER, owner));
         city.addTreasury(-10);
       }

@@ -243,4 +243,16 @@ public class TestAlphaCiv {
     assertThat(game.getUnitAt(to).getTypeString(), is(GameConstants.SETTLER));
     assertThat(game.getUnitAt(from), is(nullValue()));
   }
+
+
+  /************ TESTS FOR PRODUCING UNITS ************/
+  @Test
+  public void shouldSpawnUnitAtEnoughProduction (){
+    City redCity = game.getCityAt(GameConstants.Red_City_Pos);
+    game.changeProductionInCityAt(GameConstants.Red_City_Pos, GameConstants.ARCHER);
+    assertThat(redCity.getProduction(),is(GameConstants.ARCHER));
+    while(game.getAge() > 3800) game.endOfTurn();
+    assertThat(game.getUnitAt(GameConstants.Red_City_Pos).getTypeString(),is(GameConstants.ARCHER));
+    assertThat(redCity.getTreasury(),is(2));
+  }
 }
