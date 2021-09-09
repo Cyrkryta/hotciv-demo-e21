@@ -36,4 +36,8 @@ public class UnitImpl implements Unit {
     public int getAttackingStrength() {
         return 0;
     }
+
+    public void reduceMoveCount() {
+        moveCount -= 1;
+    }
 }

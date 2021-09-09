@@ -123,7 +123,8 @@ public class GameImpl implements Game {
 
   public boolean moveUnit(Position from, Position to) {
     if(getUnitAt(from) != null && getUnitAt(to) == null) {
-      Unit unitType = unitMap.remove(from);
+      UnitImpl unitType = (UnitImpl) unitMap.remove(from);
+      unitType.reduceMoveCount();
       unitMap.put(to, unitType);
       return true;
     }

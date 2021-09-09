@@ -244,6 +244,15 @@ public class TestAlphaCiv {
     assertThat(game.getUnitAt(from), is(nullValue()));
   }
 
+  @Test
+  public void shouldReduceMoveCountBy1AfterMove(){
+    Position from = new Position(4,3);
+    Position to = new Position(4,4);
+    assertThat(game.getUnitAt(from).getMoveCount(), is(1));
+    game.moveUnit(from, to);
+    assertThat(game.getUnitAt(to).getMoveCount(), is(0));
+  }
+
 
   /************ TESTS FOR PRODUCING UNITS ************/
   @Test
