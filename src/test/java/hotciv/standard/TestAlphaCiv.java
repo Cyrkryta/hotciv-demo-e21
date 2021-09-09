@@ -327,4 +327,19 @@ public class TestAlphaCiv {
     assertThat(game.getUnitAt(GameConstants.Red_City_Pos).getTypeString(),is(GameConstants.ARCHER));
     assertThat(redCity.getTreasury(),is(2));
   }
+
+  /************ TESTS FOR ATTACKING ************/
+  // Test for checking that the attacking unit always wins
+  @Test
+  public void shouldWinOverBlueIfRedIsAttacking() {
+    // Creating positions.
+    Position from = new Position(4,3);
+    Position to = new Position(3,2);
+    // Checking if unit on 3,2 is owned by blue.
+    assertThat(game.getUnitAt(to).getOwner(), is(Player.BLUE));
+    // Moving Reds unit.
+    game.moveUnit(from, to);
+    // Checking that the unit is now owned by red.
+    assertThat(game.getUnitAt(to).getOwner(), is(Player.RED));
+  }
 }

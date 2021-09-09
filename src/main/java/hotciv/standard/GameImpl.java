@@ -131,17 +131,27 @@ public class GameImpl implements Game {
 
   public boolean moveUnit(Position from, Position to) {
     UnitImpl unit = (UnitImpl) getUnitAt(from);
-    if(unit != null && getUnitAt(to) == null) {
-      if (unit.getOwner() == playerInTurn) {
-        if (getTileAt(to).getTypeString().equals(GameConstants.HILLS) || getTileAt(to).getTypeString().equals(GameConstants.PLAINS)){
-          UnitImpl unitType = (UnitImpl) unitMap.remove(from);
-          unitType.reduceMoveCount();
-          unitMap.put(to, unitType);
-          return true;
-        }
+    if(unit.getOwner() == playerInTurn) {
+      if (unit != null && getUnitAt(to) == null) {
+          // Handling illegal moves.
+          if (getTileAt(to).getTypeString().equals(GameConstants.HILLS) || getTileAt(to).getTypeString().equals(GameConstants.PLAINS)){
+            UnitImpl unitType = (UnitImpl) unitMap.remove(from);
+            unitType.reduceMoveCount();
+            unitMap.put(to, unitType);
+            return true;
+          }
+      } else if (getUnitAt(to).getOwner() != playerInTurn){
+        handleAttack(from, to);
+        return true;
       }
     }
     return false;
+  }
+
+  private void handleAttack(Position from, Position to) {
+    UnitImpl attackingUnitType = (UnitImpl) unitMap.remove(from);
+    unitMap.remove(to);
+    unitMap.put(to, attackingUnitType);
   }
 
   public void changeWorkForceFocusInCityAt(Position p, String balance) {
