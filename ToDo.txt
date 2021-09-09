@@ -52,7 +52,7 @@ Unit Production:
 [] Unit cost deducted from the city treasury of production.
 [] The unit is placed on the city tile if no other unit is present
 [] Otherwise placed on the first non-occupied adjacent tile, starting
-[] from the tile just north of the city and moving clockwise.
+from the tile just north of the city and moving clockwise.
 [] If there is no room to place a unit ???
 
 Aging:

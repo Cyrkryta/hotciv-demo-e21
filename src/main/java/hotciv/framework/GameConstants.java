@@ -45,4 +45,8 @@ public class GameConstants {
   // Valid production balance types
   public static final String productionFocus = "hammer";
   public static final String foodFocus = "apple";
+
+  //ALPHA CIV ONLY!!! Start positions of red and blue City
+  public static final Position Blue_City_Pos = new Position(4,1);
+  public static final Position Red_City_Pos = new Position(1,1);
 }
