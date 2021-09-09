@@ -281,10 +281,40 @@ public class TestAlphaCiv {
   //Testing that red can move red units
   @Test
   public void redCanMoveRedUnits(){
+    //Moving red settler on (4,3)
     Position from = new Position(4,3);
     Position to = new Position(4,4);
     assertThat(game.moveUnit(from, to), is(true));
     assertThat(game.getUnitAt(to), is(notNullValue()));
+  }
+
+  //Testing units cannot move over Ocean
+  @Test
+  public void shouldNotBeAbleToMoveUnitsOnOcean(){
+    {
+      //Moving red archer on (2,0)
+      Position from = new Position(2,0);
+      //To ocean tile at (1,0)
+      Position to = new Position(1,0);
+      assertThat(game.moveUnit(from, to), is(false));
+      assertThat(game.getUnitAt(to), is(nullValue()));
+    }
+  }
+
+  //Testing units cannot move over Mountain
+  @Test
+  public void shouldNotBeAbleToMoveUnitsOnMountain(){
+    {
+      //Switch turn to blue
+      game.endOfTurn();
+      assertThat(game.getPlayerInTurn(), is(Player.BLUE));
+      //Moving blue legion on (3,2)
+      Position from = new Position(3,2);
+      //To mountain tile at (2,2)
+      Position to = new Position(2,2);
+      assertThat(game.moveUnit(from, to), is(false));
+      assertThat(game.getUnitAt(to), is(nullValue()));
+    }
   }
 
   /************ TESTS FOR PRODUCING UNITS ************/

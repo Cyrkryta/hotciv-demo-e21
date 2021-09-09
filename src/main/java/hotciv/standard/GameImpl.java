@@ -133,10 +133,12 @@ public class GameImpl implements Game {
     UnitImpl unit = (UnitImpl) getUnitAt(from);
     if(unit != null && getUnitAt(to) == null) {
       if (unit.getOwner() == playerInTurn) {
-        UnitImpl unitType = (UnitImpl) unitMap.remove(from);
-        unitType.reduceMoveCount();
-        unitMap.put(to, unitType);
-        return true;
+        if (getTileAt(to).getTypeString().equals(GameConstants.HILLS) || getTileAt(to).getTypeString().equals(GameConstants.PLAINS)){
+          UnitImpl unitType = (UnitImpl) unitMap.remove(from);
+          unitType.reduceMoveCount();
+          unitMap.put(to, unitType);
+          return true;
+        }
       }
     }
     return false;
