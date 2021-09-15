@@ -80,7 +80,7 @@ public class TestAlphaCiv {
 
   @Test
   public void shouldHaveRedCityAt1_1(){
-    City redCity = game.getCityAt(GameImpl.Red_City_Pos);
+    City redCity = game.getCityAt(GameConstants.Red_City_Pos);
     assertThat(redCity, is(notNullValue()));
     assertThat(redCity.getOwner(), is(Player.RED));
 
@@ -88,14 +88,14 @@ public class TestAlphaCiv {
 
   @Test
   public void shouldHaveBlueCityAt4_1(){
-    City blueCity = game.getCityAt(GameImpl.Blue_City_Pos);
+    City blueCity = game.getCityAt(GameConstants.Blue_City_Pos);
     assertThat(blueCity, is(notNullValue()));
     assertThat(blueCity.getOwner(), is(Player.BLUE));
   }
 
   @Test
   public void shouldProduce6ProductionAtEndOfRound(){
-    City redCity = game.getCityAt(GameImpl.Red_City_Pos);
+    City redCity = game.getCityAt(GameConstants.Red_City_Pos);
     assertThat(redCity.getTreasury(), is(0));
     game.endOfTurn();
     game.endOfTurn();
@@ -104,8 +104,8 @@ public class TestAlphaCiv {
 
   @Test
   public void shouldBeAbleToChooseProductionInCity(){
-    City redCity = game.getCityAt(GameImpl.Red_City_Pos);
-    game.changeProductionInCityAt(GameImpl.Red_City_Pos,GameConstants.ARCHER);
+    City redCity = game.getCityAt(GameConstants.Red_City_Pos);
+    game.changeProductionInCityAt(GameConstants.Red_City_Pos,GameConstants.ARCHER);
     assertThat(redCity.getProduction(),is(GameConstants.ARCHER));
   }
 
@@ -113,32 +113,28 @@ public class TestAlphaCiv {
   // Testing that game starts in year 4000 BC
   @Test
   public void shouldAlwaysStartIn4000BC(){
-    assertThat(game.getAge(), is(4000));
+    assertThat(game.getAge(), is(-4000));
   }
 
   // Testing that the time is incremented with 100 years after every round.
   @Test
   public void shouldIncrementTimeWith100AfterEveryRound() {
-    // Checking for start at year 4000 BC.
-    assertThat(game.getAge(), is(4000));
     // Changing to Player blue.
     game.endOfTurn();
     // Checking that the time stays at year 4000 BC.
-    assertThat(game.getAge(), is(4000));
+    assertThat(game.getAge(), is(-4000));
     // Changing to player Red.
     game.endOfTurn();
     // Checking if the time has been incremented.
-    assertThat(game.getAge(),is(3900));
+    assertThat(game.getAge(),is(-3900));
   }
 
   /************ TESTS FOR WINNER ************/
   @Test
   public void shouldRedWinInYear3000BC() {
-    // Checking for start at year 4000 BC and no winner.
-    assertThat(game.getAge(), is(4000));
     assertThat(game.getWinner(), is(nullValue()));
     // Incrementing world age to year 3000.
-    while(game.getAge() > 3000) {
+    while(game.getAge() < -3000) {
       game.endOfTurn();
     }
     // Checking that the winner is RED.
@@ -323,7 +319,7 @@ public class TestAlphaCiv {
     City redCity = game.getCityAt(GameConstants.Red_City_Pos);
     game.changeProductionInCityAt(GameConstants.Red_City_Pos, GameConstants.ARCHER);
     assertThat(redCity.getProduction(),is(GameConstants.ARCHER));
-    while(game.getAge() > 3800) game.endOfTurn();
+    while(game.getAge() < -3800) game.endOfTurn();
     assertThat(game.getUnitAt(GameConstants.Red_City_Pos).getTypeString(),is(GameConstants.ARCHER));
     assertThat(redCity.getTreasury(),is(2));
   }
@@ -336,8 +332,6 @@ public class TestAlphaCiv {
     // Creating positions.
     Position from = new Position(4,3);
     Position to = new Position(3,2);
-    // Checking if unit on 3,2 is owned by blue.
-    assertThat(game.getUnitAt(to).getOwner(), is(Player.BLUE));
     // Move Reds unit.
     game.moveUnit(from,to);
     // Checking that the unit is now owned by red.
@@ -352,8 +346,6 @@ public class TestAlphaCiv {
     Position to = new Position(4,3);
     // Changing player.
     game.endOfTurn();
-    // Checking if unit 4,3 is owned by red.
-    assertThat(game.getUnitAt(to).getOwner(), is(Player.RED));
     // Move blues unit
     game.moveUnit(from, to);
     // Checking that the unit is now owned by red.

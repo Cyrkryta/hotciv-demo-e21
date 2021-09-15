@@ -33,15 +33,18 @@ import java.util.Objects;
 */
 
 public class GameImpl implements Game {
-  //Static coordinates for players starting cities
-  public static Position Blue_City_Pos = new Position(4, 1);
-  public static Position Red_City_Pos = new Position(1, 1);
+
   // Creating HashMap for the world.
   HashMap<Position, Tile> worldMap = new HashMap<>();
   // Creating Hashmap for the units.
   HashMap<Position, Unit> unitMap = new HashMap<>();
+  // Creating map for the cities.
+  Map<Position, City> cityMap = new HashMap<>();
+
   // Defining the players in turn.
   private Player playerInTurn = Player.RED;
+  //Game always starts in 4000 BC
+  private int currAge = -4000;
 
   public GameImpl() {
     createWorld();
@@ -50,9 +53,9 @@ public class GameImpl implements Game {
   }
 
   private void createUnitMap() {
-    unitMap.put(new Position(4, 3), new UnitImpl(GameConstants.SETTLER, Player.RED));
-    unitMap.put(new Position(2, 0), new UnitImpl(GameConstants.ARCHER, Player.RED));
-    unitMap.put(new Position(3, 2), new UnitImpl(GameConstants.LEGION, Player.BLUE));
+    unitMap.put(GameConstants.Settler_Start_Position, new UnitImpl(GameConstants.SETTLER, Player.RED));
+    unitMap.put(GameConstants.Archer_Start_Position, new UnitImpl(GameConstants.ARCHER, Player.RED));
+    unitMap.put(GameConstants.Legion_Start_Position, new UnitImpl(GameConstants.LEGION, Player.BLUE));
   }
 
   // Method for handling the creation of the tiles.
@@ -63,18 +66,18 @@ public class GameImpl implements Game {
       }
     }
     // Creation of tile with ocean.
-    worldMap.put(new Position(1, 0), new TileImpl(GameConstants.OCEANS));
+    worldMap.put(GameConstants.Ocean_Tile_Position, new TileImpl(GameConstants.OCEANS));
     // Creation of tile with mountain.
-    worldMap.put(new Position(2, 2), new TileImpl(GameConstants.MOUNTAINS));
+    worldMap.put(GameConstants.Mountain_Tile_Position, new TileImpl(GameConstants.MOUNTAINS));
     // Creation of tile with hills.
-    worldMap.put(new Position(0, 1), new TileImpl(GameConstants.HILLS));
+    worldMap.put(GameConstants.Hill_Tile_Position, new TileImpl(GameConstants.HILLS));
   }
 
   private void citySetup() {
     City redCity = new CityImpl(Player.RED);
     City blueCity = new CityImpl(Player.BLUE);
-    cityMap.put(Red_City_Pos, redCity);
-    cityMap.put(Blue_City_Pos, blueCity);
+    cityMap.put(GameConstants.Red_City_Pos, redCity);
+    cityMap.put(GameConstants.Blue_City_Pos, blueCity);
   }
 
 
@@ -86,8 +89,7 @@ public class GameImpl implements Game {
     return unitMap.get(p);
   }
 
-  // Creating map for the cities.
-  Map<Position, City> cityMap = new HashMap<>();
+
 
   public City getCityAt(Position p) {
     return cityMap.get(p);
@@ -108,21 +110,19 @@ public class GameImpl implements Game {
   }
 
   private void resetUnitsMoveCount() {
-    for (Unit u : unitMap.values()) {
-      UnitImpl unitImpl = (UnitImpl) u;
+    for (Unit currUnit : unitMap.values()) {
+      UnitImpl unitImpl = (UnitImpl) currUnit;
       unitImpl.resetMoveCount();
     }
   }
 
   public Player getWinner() {
-    if (currAge == 3000) {
+    if (currAge == -3000) {
       return Player.RED;
     }
     return null;
   }
 
-  //Game always starts in 4000 BC
-  private int currAge = 4000;
 
   public int getAge() {
     return currAge;
@@ -148,7 +148,8 @@ public class GameImpl implements Game {
   }
 
   private void handleAttack(Position from, Position to) {
-    Unit attackingUnitType = unitMap.remove(from);
+    UnitImpl attackingUnitType = (UnitImpl) unitMap.remove(from);
+    attackingUnitType.reduceMoveCount();
     unitMap.remove(to);
     unitMap.put(to, attackingUnitType);
   }
@@ -157,10 +158,10 @@ public class GameImpl implements Game {
   }
 
   public void changeProductionInCityAt(Position p, String unitType) {
-    CityImpl C = (CityImpl) getCityAt(p);
-    if (C != null) {
+    CityImpl chosenCity = (CityImpl) getCityAt(p);
+    if (chosenCity != null) {
       if (Objects.equals(unitType, GameConstants.ARCHER) || Objects.equals(unitType, GameConstants.SETTLER) || Objects.equals(unitType, GameConstants.LEGION)) {
-        C.changeProd(unitType);
+        chosenCity.changeProd(unitType);
       }
     }
   }
@@ -169,10 +170,10 @@ public class GameImpl implements Game {
   }
 
   private void endOfRound() {
-    currAge -= 100;
+    currAge += 100;
     System.out.print(getAge());
 
-    CityImpl redCity = (CityImpl) cityMap.get(Red_City_Pos);
+    CityImpl redCity = (CityImpl) cityMap.get(GameConstants.Red_City_Pos);
     redCity.addTreasury(6);
 
     produceUnits();

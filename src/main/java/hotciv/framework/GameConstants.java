@@ -49,4 +49,14 @@ public class GameConstants {
   //ALPHA CIV ONLY!!! Start positions of red and blue City
   public static final Position Blue_City_Pos = new Position(4,1);
   public static final Position Red_City_Pos = new Position(1,1);
+
+  //Map Tile position constants
+  public static final Position Ocean_Tile_Position = new Position(1,0);
+  public static final Position Mountain_Tile_Position = new Position(2,2);
+  public static final Position Hill_Tile_Position = new Position(0,1);
+
+  //Start Unit position constants
+  public static final Position Settler_Start_Position = new Position(4,3);
+  public static final Position Archer_Start_Position = new Position(2,0);
+  public static final Position Legion_Start_Position = new Position(3,2);
 }
