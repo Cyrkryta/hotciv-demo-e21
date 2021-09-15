@@ -42,7 +42,7 @@ public class TestAlphaCiv {
   private Game game;
   private City redCity;
 
-  /** Fixture for alphaciv testing. */
+ /************  FIXTURE FOR ALPHACIV TESTING ************/
   @BeforeEach
   public void setUp() {
     game = new GameImpl();
@@ -59,6 +59,7 @@ public class TestAlphaCiv {
     assertThat(game.getPlayerInTurn(), is(Player.RED));
   }
 
+  // Testing that the player is blue after end turn.
   @Test
   public void shouldBeBlueAfterRed (){
     game.endOfTurn();
@@ -78,6 +79,7 @@ public class TestAlphaCiv {
     assertThat(redCity.getOwner(), is (Player.RED));
   }
 
+  // Testing that there is a red city at 1,1
   @Test
   public void shouldHaveRedCityAt1_1(){
     City redCity = game.getCityAt(GameConstants.Red_City_Pos);
@@ -86,6 +88,7 @@ public class TestAlphaCiv {
 
   }
 
+  // Testing that there is a blue city at 4,2
   @Test
   public void shouldHaveBlueCityAt4_1(){
     City blueCity = game.getCityAt(GameConstants.Blue_City_Pos);
@@ -93,6 +96,7 @@ public class TestAlphaCiv {
     assertThat(blueCity.getOwner(), is(Player.BLUE));
   }
 
+  // Testing that 6 productions is produced after end of each round.
   @Test
   public void shouldProduce6ProductionAtEndOfRound(){
     City redCity = game.getCityAt(GameConstants.Red_City_Pos);
@@ -102,6 +106,7 @@ public class TestAlphaCiv {
     assertThat(redCity.getTreasury(), is(6));
   }
 
+  // Testing that you are able to choose production in city.
   @Test
   public void shouldBeAbleToChooseProductionInCity(){
     City redCity = game.getCityAt(GameConstants.Red_City_Pos);
@@ -130,6 +135,7 @@ public class TestAlphaCiv {
   }
 
   /************ TESTS FOR WINNER ************/
+  // Testing that red is winning in year 3000.
   @Test
   public void shouldRedWinInYear3000BC() {
     assertThat(game.getWinner(), is(nullValue()));
@@ -314,6 +320,7 @@ public class TestAlphaCiv {
   }
 
   /************ TESTS FOR PRODUCING UNITS ************/
+  // Testing that units are being spawned after enough production.
   @Test
   public void shouldSpawnUnitAtEnoughProduction (){
     City redCity = game.getCityAt(GameConstants.Red_City_Pos);
@@ -323,6 +330,9 @@ public class TestAlphaCiv {
     assertThat(game.getUnitAt(GameConstants.Red_City_Pos).getTypeString(),is(GameConstants.ARCHER));
     assertThat(redCity.getTreasury(),is(2));
   }
+
+  /************ TESTS FOR PLACING UNITS AROUND CITY ************/
+  // Checking the first tile
 
   /************ TESTS FOR ATTACKS ************/
   // Testing that the attacking player destroys the defending players units.
