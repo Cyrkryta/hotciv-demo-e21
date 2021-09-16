@@ -52,9 +52,9 @@ public class GameImpl implements Game {
   }
 
   private void createUnitMap() {
-    unitMap.put(GameConstants.Settler_Start_Position, new UnitImpl(GameConstants.SETTLER, Player.RED));
-    unitMap.put(GameConstants.Archer_Start_Position, new UnitImpl(GameConstants.ARCHER, Player.RED));
-    unitMap.put(GameConstants.Legion_Start_Position, new UnitImpl(GameConstants.LEGION, Player.BLUE));
+    unitMap.put(GameConstants.RedSettler_Start_Position, new UnitImpl(GameConstants.SETTLER, Player.RED));
+    unitMap.put(GameConstants.RedArcher_Start_Position, new UnitImpl(GameConstants.ARCHER, Player.RED));
+    unitMap.put(GameConstants.BlueLegion_Start_Position, new UnitImpl(GameConstants.LEGION, Player.BLUE));
   }
 
   // Method for handling the creation of the tiles.
@@ -129,25 +129,31 @@ public class GameImpl implements Game {
       if (getUnitAt(to) == null) {
           // Handling illegal moves.
           if (getTileAt(to).getTypeString().equals(GameConstants.HILLS) || getTileAt(to).getTypeString().equals(GameConstants.PLAINS)){
+            if(getCityAt(to) != null && getCityAt(to).getOwner() != unit.getOwner()){
+              CityImpl attackedCity = (CityImpl) getCityAt(to);
+              attackedCity.changeOwner(playerInTurn);
+            }
             UnitImpl unitType = (UnitImpl) unitMap.remove(from);
             unitType.reduceMoveCount();
             unitMap.put(to, unitType);
             return true;
           }
       } else if (getUnitAt(to).getOwner() != playerInTurn) {
-        handleAttack(from, to);
+        handleAttack(from, to, unit);
         return true;
       }
     }
     return false;
   }
 
-  private void handleAttack(Position from, Position to) {
+  private void handleAttack(Position from, Position to, UnitImpl unit) {
     UnitImpl attackingUnitType = (UnitImpl) unitMap.remove(from);
     attackingUnitType.reduceMoveCount();
     unitMap.remove(to);
     unitMap.put(to, attackingUnitType);
+
   }
+
 
   public void changeWorkForceFocusInCityAt(Position p, String balance) {
   }
@@ -162,6 +168,8 @@ public class GameImpl implements Game {
   }
 
   public void performUnitActionAt(Position p) {
+    //Placeholder replace with actual functionality later
+    int x = 0;
   }
 
   private void endOfRound() {

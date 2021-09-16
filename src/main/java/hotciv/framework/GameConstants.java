@@ -60,7 +60,7 @@ public class GameConstants {
   public static final Position Hill_Tile_Position = new Position(0,1);
 
   //Start Unit position constants
-  public static final Position Settler_Start_Position = new Position(4,3);
-  public static final Position Archer_Start_Position = new Position(2,0);
-  public static final Position Legion_Start_Position = new Position(3,2);
+  public static final Position RedSettler_Start_Position = new Position(4,3);
+  public static final Position RedArcher_Start_Position = new Position(2,0);
+  public static final Position BlueLegion_Start_Position = new Position(3,2);
 }

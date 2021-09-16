@@ -500,21 +500,20 @@ public class TestAlphaCiv {
   @Test
   public void shouldWinOverBlueIfRedIsAttacking() {
     // Creating positions.
-    Position from = new Position(4,3);
-    Position to = new Position(3,2);
+    Position from = GameConstants.RedSettler_Start_Position;
+    Position to = GameConstants.BlueLegion_Start_Position;
     // Move Reds unit.
     game.moveUnit(from,to);
     // Checking that the unit is now owned by red.
     assertThat(game.getUnitAt(to).getOwner(), is(Player.RED));
   }
 
-
   // Blue attacking red.
   @Test
   public void shouldWinOverRedIfBlueIsAttacking() {
     // Creating positions
-    Position from = new Position(3,2);
-    Position to = new Position(4,3);
+    Position from = GameConstants.RedSettler_Start_Position;
+    Position to = GameConstants.BlueLegion_Start_Position;
     // Changing player.
     game.endOfTurn();
     // Move blues unit
@@ -523,6 +522,31 @@ public class TestAlphaCiv {
     assertThat(game.getUnitAt(to).getOwner(), is(Player.BLUE));
   }
 
+  //Testing
+  @Test
+  public void shouldBeAbleToChangeCityOwner(){
+      CityImpl redCity = (CityImpl) game.getCityAt(GameConstants.Red_City_Pos);
+      redCity.changeOwner(Player.BLUE);
+      assertThat(game.getCityAt(GameConstants.Red_City_Pos).getOwner(), is(Player.BLUE));
+  }
+
+
+  //Testing that cities change owners if an opposing unit moves on to its tile
+  @Test
+  public void shouldChangeCityOwnerIfOpponentUnitEnters(){
+      Position from = GameConstants.BlueLegion_Start_Position;
+      Position to = GameConstants.Red_City_Pos;
+      // Changing player.
+      game.endOfTurn();
+      // Move blues unit
+      game.moveUnit(from, to);
+      //Checking that city changed owner
+      assertThat(game.getCityAt(GameConstants.Red_City_Pos).getOwner(), is(Player.BLUE));
+  }
+
+
+  /************ ASSISTING METHODS FOR TESTS ************/
+  //Helps increment turns by x amount
   private void endTurns(int x) {
     for (int i = 0; i < x; i++){
         game.endOfTurn();
