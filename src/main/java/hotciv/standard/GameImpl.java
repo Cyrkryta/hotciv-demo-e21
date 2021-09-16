@@ -186,9 +186,9 @@ public class GameImpl implements Game {
       if(getUnitAt(cityPos) != null) {
         Iterator<Position> listOfNeighbours = Utility.get8neighborhoodIterator(cityPos);
         for (Iterator<Position> it = listOfNeighbours; it.hasNext(); ) {
-          Position pos = it.next();
-          if (getUnitAt(pos) == null) {
-            placementPos = pos;
+          Position position = it.next();
+          if (getUnitAt(position) == null) {
+            placementPos = position;
             break;
           }
         }

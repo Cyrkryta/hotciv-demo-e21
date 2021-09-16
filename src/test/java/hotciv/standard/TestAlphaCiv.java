@@ -447,11 +447,34 @@ public class TestAlphaCiv {
       assertThat(game.getUnitAt(new Position(0,1)).getTypeString(), is(GameConstants.ARCHER));
   }
 
+  // Testing that unit will be placed right of north if the possible tiles
+  // before aren't accessible.
   @Test
-  public void shouldPlaceUnitOnSeconPossibleTileIfCityAndNorthIsOccupied() {
+  public void shouldPlaceUnitOnSecondPossibleTileIfCityAndNorthIsOccupied() {
       game.changeProductionInCityAt(GameConstants.Red_City_Pos, GameConstants.ARCHER);
       endTurns(12);
       assertThat(game.getUnitAt(new Position(0,2)).getTypeString(), is(GameConstants.ARCHER));
+  }
+
+  // Testing the remainder of the positions.
+  @Test
+  public void shouldPlaceOnRestOfAdjacentTilesIfNecessary() {
+      game.changeProductionInCityAt(GameConstants.Red_City_Pos, GameConstants.ARCHER);
+      endTurns(36);
+      assertThat(game.getUnitAt(new Position(0,0)).getTypeString(), is(GameConstants.ARCHER));
+      assertThat(game.getUnitAt(new Position(2,1)).getTypeString(), is(GameConstants.ARCHER));
+      assertThat(game.getUnitAt(new Position(1,2)).getTypeString(), is(GameConstants.ARCHER));
+  }
+
+  // Testing that adjacent tiles will only contain one unit at a time.
+  @Test
+  public void shouldNotContainMoreThanOneUnitOnAdjacentTiles() {
+      game.changeProductionInCityAt(GameConstants.Red_City_Pos, GameConstants.ARCHER);
+      endTurns(36);
+      game.changeProductionInCityAt(GameConstants.Red_City_Pos, GameConstants.LEGION);
+      endTurns(48);
+      assertThat(game.getUnitAt(new Position(0,0)).getTypeString(), is(GameConstants.ARCHER));
+      assertThat(game.getUnitAt(new Position(0,0)).getTypeString(), is(not(GameConstants.LEGION)));
   }
 
   /************ TESTS FOR ATTACKS ************/
