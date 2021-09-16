@@ -67,6 +67,13 @@ public class TestAlphaCiv {
     assertThat(game.getPlayerInTurn(), is(Player.BLUE));
   }
 
+  //Testing that the game has only 2 players
+  @Test
+  public void shouldOnlyHave2Players(){
+    endTurns(2);
+    assertThat(game.getPlayerInTurn(), is(Player.RED));
+  }
+
   /************ TESTS FOR CITIES ************/
   // Testing that the population of the city is always 1.
   @Test
@@ -102,17 +109,8 @@ public class TestAlphaCiv {
   public void shouldProduce6ProductionAtEndOfRound(){
     City redCity = game.getCityAt(GameConstants.Red_City_Pos);
     assertThat(redCity.getTreasury(), is(0));
-    game.endOfTurn();
-    game.endOfTurn();
+    endTurns(2);
     assertThat(redCity.getTreasury(), is(6));
-  }
-
-  // Testing that you are able to choose production in city.
-  @Test
-  public void shouldBeAbleToChooseProductionInCity(){
-    City redCity = game.getCityAt(GameConstants.Red_City_Pos);
-    game.changeProductionInCityAt(GameConstants.Red_City_Pos,GameConstants.ARCHER);
-    assertThat(redCity.getProduction(),is(GameConstants.ARCHER));
   }
 
   /************ TESTS FOR TIME ************/
@@ -141,9 +139,7 @@ public class TestAlphaCiv {
   public void shouldRedWinInYear3000BC() {
     assertThat(game.getWinner(), is(nullValue()));
     // Incrementing world age to year 3000.
-    while(game.getAge() < -3000) {
-      game.endOfTurn();
-    }
+    endTurns(20);
     // Checking that the winner is RED.
     assertThat(game.getWinner(), is(Player.RED));
   }
@@ -266,8 +262,7 @@ public class TestAlphaCiv {
     game.moveUnit(from, to);
     assertThat(game.getUnitAt(to).getMoveCount(), is(0));
     // Going through a round.
-    game.endOfTurn();
-    game.endOfTurn();
+    endTurns(2);
     // checking that the unit count has been reset.
     assertThat(game.getUnitAt(to).getMoveCount(), is(1));
   }
@@ -321,13 +316,21 @@ public class TestAlphaCiv {
   }
 
   /************ TESTS FOR PRODUCING UNITS ************/
+  // Testing that you are able to choose production in city.
+  @Test
+  public void shouldBeAbleToChooseProductionInCity(){
+    City redCity = game.getCityAt(GameConstants.Red_City_Pos);
+    game.changeProductionInCityAt(GameConstants.Red_City_Pos,GameConstants.ARCHER);
+    assertThat(redCity.getProduction(),is(GameConstants.ARCHER));
+  }
+
   // Testing that units are being spawned after enough production.
   @Test
   public void shouldSpawnUnitAtEnoughProduction (){
     City redCity = game.getCityAt(GameConstants.Red_City_Pos);
-    game.changeProductionInCityAt(GameConstants.Red_City_Pos, GameConstants.ARCHER);
-    assertThat(redCity.getProduction(),is(GameConstants.ARCHER));
-    while(game.getAge() < -3800) game.endOfTurn();
+    game.changeProductionInCityAt(GameConstants.Red_City_Pos,GameConstants.ARCHER);
+
+    endTurns(4);
     assertThat(game.getUnitAt(GameConstants.Red_City_Pos).getTypeString(),is(GameConstants.ARCHER));
     assertThat(redCity.getTreasury(),is(2));
   }
@@ -455,5 +458,10 @@ public class TestAlphaCiv {
     assertThat(game.getUnitAt(to).getOwner(), is(Player.BLUE));
   }
 
+  private void endTurns(int x) {
+    for (int i = 0; i < x; i++){
+        game.endOfTurn();
+    }
+  }
 
 }
