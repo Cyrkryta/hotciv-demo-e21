@@ -36,6 +36,20 @@ public class GameConstants {
   public static final String ARCHER    = "archer";
   public static final String LEGION    = "legion";
   public static final String SETTLER   = "settler";
+  //Unit cost
+  public static final int ARCHER_COST  = 10;
+  public static final int LEGION_COST  = 15;
+  public static final int SETTLER_COST = 30;
+  //Unit Attack strength
+  public static final int ARCHER_STR = 2;
+  public static final int LEGION_STR = 4;
+  public static final int SETTLER_STR= 0;
+  //Unit cost
+  public static final int ARCHER_DEF  = 3;
+  public static final int LEGION_DEF = 2;
+  public static final int SETTLER_DEF = 3;
+
+
   // Valid terrain types
   public static final String PLAINS    = "plains";
   public static final String OCEANS    = "ocean";
@@ -56,7 +70,7 @@ public class GameConstants {
   public static final Position Hill_Tile_Position = new Position(0,1);
 
   //Start Unit position constants
-  public static final Position Settler_Start_Position = new Position(4,3);
-  public static final Position Archer_Start_Position = new Position(2,0);
-  public static final Position Legion_Start_Position = new Position(3,2);
+  public static final Position RedSettler_Start_Position = new Position(4,3);
+  public static final Position RedArcher_Start_Position = new Position(2,0);
+  public static final Position BlueLegion_Start_Position = new Position(3,2);
 }

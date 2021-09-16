@@ -4,7 +4,7 @@ import hotciv.framework.City;
 import hotciv.framework.Player;
 
 public class CityImpl implements City {
-    private final Player owner;
+    private Player owner;
     private int treasury;
     private String production;
 
@@ -42,6 +42,10 @@ public class CityImpl implements City {
 
     public void changeProd(String unitType){
         production = unitType;
+    }
+
+    public void changeOwner(Player newOwner){
+        this.owner = newOwner;
     }
 
 }

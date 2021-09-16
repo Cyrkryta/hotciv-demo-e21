@@ -1,10 +1,9 @@
 package hotciv.standard;
 
+import hotciv.Utility.Utility;
 import hotciv.framework.*;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /** Skeleton implementation of HotCiv.
  
@@ -53,9 +52,9 @@ public class GameImpl implements Game {
   }
 
   private void createUnitMap() {
-    unitMap.put(GameConstants.Settler_Start_Position, new UnitImpl(GameConstants.SETTLER, Player.RED));
-    unitMap.put(GameConstants.Archer_Start_Position, new UnitImpl(GameConstants.ARCHER, Player.RED));
-    unitMap.put(GameConstants.Legion_Start_Position, new UnitImpl(GameConstants.LEGION, Player.BLUE));
+    unitMap.put(GameConstants.RedSettler_Start_Position, new UnitImpl(GameConstants.SETTLER, Player.RED));
+    unitMap.put(GameConstants.RedArcher_Start_Position, new UnitImpl(GameConstants.ARCHER, Player.RED));
+    unitMap.put(GameConstants.BlueLegion_Start_Position, new UnitImpl(GameConstants.LEGION, Player.BLUE));
   }
 
   // Method for handling the creation of the tiles.
@@ -80,7 +79,6 @@ public class GameImpl implements Game {
     cityMap.put(GameConstants.Blue_City_Pos, blueCity);
   }
 
-
   public Tile getTileAt(Position p) {
     return worldMap.get(p);
   }
@@ -88,8 +86,6 @@ public class GameImpl implements Game {
   public Unit getUnitAt(Position p) {
     return unitMap.get(p);
   }
-
-
 
   public City getCityAt(Position p) {
     return cityMap.get(p);
@@ -123,7 +119,6 @@ public class GameImpl implements Game {
     return null;
   }
 
-
   public int getAge() {
     return currAge;
   }
@@ -134,25 +129,31 @@ public class GameImpl implements Game {
       if (getUnitAt(to) == null) {
           // Handling illegal moves.
           if (getTileAt(to).getTypeString().equals(GameConstants.HILLS) || getTileAt(to).getTypeString().equals(GameConstants.PLAINS)){
+            if(getCityAt(to) != null && getCityAt(to).getOwner() != unit.getOwner()){
+              CityImpl attackedCity = (CityImpl) getCityAt(to);
+              attackedCity.changeOwner(playerInTurn);
+            }
             UnitImpl unitType = (UnitImpl) unitMap.remove(from);
             unitType.reduceMoveCount();
             unitMap.put(to, unitType);
             return true;
           }
       } else if (getUnitAt(to).getOwner() != playerInTurn) {
-        handleAttack(from, to);
+        handleAttack(from, to, unit);
         return true;
       }
     }
     return false;
   }
 
-  private void handleAttack(Position from, Position to) {
+  private void handleAttack(Position from, Position to, UnitImpl unit) {
     UnitImpl attackingUnitType = (UnitImpl) unitMap.remove(from);
     attackingUnitType.reduceMoveCount();
     unitMap.remove(to);
     unitMap.put(to, attackingUnitType);
+
   }
+
 
   public void changeWorkForceFocusInCityAt(Position p, String balance) {
   }
@@ -167,29 +168,53 @@ public class GameImpl implements Game {
   }
 
   public void performUnitActionAt(Position p) {
+    //Placeholder replace with actual functionality later
+    int x = 0;
   }
 
   private void endOfRound() {
+    //Increments game age by 100 years
     currAge += 100;
     System.out.print(getAge());
-
-    CityImpl redCity = (CityImpl) cityMap.get(GameConstants.Red_City_Pos);
-    redCity.addTreasury(6);
-
+    //Iterates through all cities on the map and allocates them 6 production at end of round
+    for (Map.Entry<Position, City> entry : cityMap.entrySet()) {
+      CityImpl currCity = (CityImpl) entry.getValue();
+      currCity.addTreasury(6);
+    }
     produceUnits();
   }
 
   private void produceUnits() {
     for (Map.Entry<Position, City> entry : cityMap.entrySet()) {
-      Position pos = entry.getKey();
-      Player owner = entry.getValue().getOwner();
+      Position cityPos = entry.getKey();
+      Player cityOwner = entry.getValue().getOwner();
       CityImpl city = (CityImpl) entry.getValue();
       int cityTreasury = entry.getValue().getTreasury();
       String cityProduction = entry.getValue().getProduction();
+      Position placementPos = cityPos;
 
-      if (cityProduction == (GameConstants.ARCHER) && cityTreasury >= 10) {
-        unitMap.put(pos, new UnitImpl(GameConstants.ARCHER, owner));
-        city.addTreasury(-10);
+      if(getUnitAt(cityPos) != null) {
+        Iterator<Position> listOfNeighbours = Utility.get8neighborhoodIterator(cityPos);
+        for (; listOfNeighbours.hasNext(); ) {
+          Position position = listOfNeighbours.next();
+          if (getUnitAt(position) == null) {
+            placementPos = position;
+            break;
+          }
+        }
+      }
+
+      if (Objects.equals(cityProduction, GameConstants.ARCHER) && cityTreasury >= GameConstants.ARCHER_COST) {
+        unitMap.put(placementPos, new UnitImpl(GameConstants.ARCHER, cityOwner));
+        city.addTreasury(-GameConstants.ARCHER_COST);
+      }
+      if (Objects.equals(cityProduction, GameConstants.LEGION) && cityTreasury >= GameConstants.LEGION_COST) {
+        unitMap.put(placementPos, new UnitImpl(GameConstants.LEGION, cityOwner));
+        city.addTreasury(-GameConstants.LEGION_COST);
+      }
+      if (Objects.equals(cityProduction, GameConstants.SETTLER) && cityTreasury >= GameConstants.SETTLER_COST) {
+        unitMap.put(placementPos, new UnitImpl(GameConstants.SETTLER, cityOwner));
+        city.addTreasury(-GameConstants.SETTLER_COST);
       }
     }
   }
