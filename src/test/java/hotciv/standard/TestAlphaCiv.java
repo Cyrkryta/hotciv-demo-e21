@@ -318,11 +318,18 @@ public class TestAlphaCiv {
   /************ TESTS FOR PRODUCING UNITS ************/
   // Testing that you are able to choose production in city.
   @Test
-  public void shouldBeAbleToChooseProductionInCity(){
+  public void shouldBeAbleToChooseProductionInRedCity(){
     City redCity = game.getCityAt(GameConstants.Red_City_Pos);
     game.changeProductionInCityAt(GameConstants.Red_City_Pos,GameConstants.ARCHER);
     assertThat(redCity.getProduction(),is(GameConstants.ARCHER));
   }
+
+  @Test
+  public void shouldBeAbleToChooseProductionInBlueCity(){
+      City redCity = game.getCityAt(GameConstants.Blue_City_Pos);
+      game.changeProductionInCityAt(GameConstants.Blue_City_Pos,GameConstants.ARCHER);
+      assertThat(redCity.getProduction(),is(GameConstants.ARCHER));
+    }
 
   // Testing that units are being spawned after enough production.
   @Test
@@ -334,6 +341,16 @@ public class TestAlphaCiv {
     assertThat(game.getUnitAt(GameConstants.Red_City_Pos).getTypeString(),is(GameConstants.ARCHER));
     assertThat(redCity.getTreasury(),is(2));
   }
+
+  @Test
+  public void shouldSpawnUnitAtEnoughProductionBlue (){
+      City blueCity = game.getCityAt(GameConstants.Blue_City_Pos);
+      game.changeProductionInCityAt(GameConstants.Blue_City_Pos,GameConstants.ARCHER);
+
+      endTurns(4);
+      assertThat(game.getUnitAt(GameConstants.Blue_City_Pos).getTypeString(),is(GameConstants.ARCHER));
+      assertThat(blueCity.getTreasury(),is(2));
+    }
 
   /************ TESTS FOR PRODUCTION PLACEMENT ************/
   // Testing first unit placement if red city.
@@ -431,12 +448,12 @@ public class TestAlphaCiv {
   // Testing that unit can't be placed on city tile if unit is already present.
   @Test
   public void shouldNotBeAbleToPlaceUniTInCityIfUnitIsPresent() {
-    game.changeProductionInCityAt(GameConstants.Red_City_Pos, GameConstants.ARCHER);
+    game.changeProductionInCityAt(GameConstants.Blue_City_Pos, GameConstants.ARCHER);
     endTurns(4);
-    assertThat(game.getUnitAt(GameConstants.Red_City_Pos).getTypeString(), is(GameConstants.ARCHER));
-    game.changeProductionInCityAt(GameConstants.Red_City_Pos, GameConstants.LEGION);
+    assertThat(game.getUnitAt(GameConstants.Blue_City_Pos).getTypeString(), is(GameConstants.ARCHER));
+    game.changeProductionInCityAt(GameConstants.Blue_City_Pos, GameConstants.LEGION);
     endTurns(6);
-    assertThat(game.getUnitAt(GameConstants.Red_City_Pos).getTypeString(), is(GameConstants.ARCHER));
+    assertThat(game.getUnitAt(GameConstants.Blue_City_Pos).getTypeString(), is(GameConstants.ARCHER));
   }
 
   //Testing that if a unit is already in a city, the following unit will be placed north of that city

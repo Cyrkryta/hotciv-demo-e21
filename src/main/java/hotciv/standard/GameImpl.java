@@ -168,8 +168,10 @@ public class GameImpl implements Game {
     currAge += 100;
     System.out.print(getAge());
 
-    CityImpl redCity = (CityImpl) cityMap.get(GameConstants.Red_City_Pos);
-    redCity.addTreasury(6);
+    for (Map.Entry<Position, City> entry : cityMap.entrySet()) {
+      CityImpl currCity = (CityImpl) entry.getValue();
+      currCity.addTreasury(6);
+    }
 
     produceUnits();
   }
