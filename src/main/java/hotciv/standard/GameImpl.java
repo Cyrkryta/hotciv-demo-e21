@@ -165,21 +165,21 @@ public class GameImpl implements Game {
   }
 
   private void endOfRound() {
+    //Increments game age by 100 years
     currAge += 100;
     System.out.print(getAge());
-
+    //Iterates through all cities on the map and allocates them 6 production at end of round
     for (Map.Entry<Position, City> entry : cityMap.entrySet()) {
       CityImpl currCity = (CityImpl) entry.getValue();
       currCity.addTreasury(6);
     }
-
     produceUnits();
   }
 
   private void produceUnits() {
     for (Map.Entry<Position, City> entry : cityMap.entrySet()) {
       Position cityPos = entry.getKey();
-      Player owner = entry.getValue().getOwner();
+      Player cityOwner = entry.getValue().getOwner();
       CityImpl city = (CityImpl) entry.getValue();
       int cityTreasury = entry.getValue().getTreasury();
       String cityProduction = entry.getValue().getProduction();
@@ -196,17 +196,17 @@ public class GameImpl implements Game {
         }
       }
 
-      if (cityProduction == (GameConstants.ARCHER) && cityTreasury >= 10) {
-        unitMap.put(placementPos, new UnitImpl(GameConstants.ARCHER, owner));
-        city.addTreasury(-10);
+      if (cityProduction == (GameConstants.ARCHER) && cityTreasury >= GameConstants.ARCHER_COST) {
+        unitMap.put(placementPos, new UnitImpl(GameConstants.ARCHER, cityOwner));
+        city.addTreasury(-GameConstants.ARCHER_COST);
       }
-      if (cityProduction == (GameConstants.LEGION) && cityTreasury >= 15) {
-        unitMap.put(placementPos, new UnitImpl(GameConstants.LEGION, owner));
-        city.addTreasury(-15);
+      if (cityProduction == (GameConstants.LEGION) && cityTreasury >= GameConstants.LEGION_COST) {
+        unitMap.put(placementPos, new UnitImpl(GameConstants.LEGION, cityOwner));
+        city.addTreasury(-GameConstants.LEGION_COST);
       }
-      if (cityProduction == (GameConstants.SETTLER) && cityTreasury >= 30) {
-        unitMap.put(placementPos, new UnitImpl(GameConstants.SETTLER, owner));
-        city.addTreasury(-30);
+      if (cityProduction == (GameConstants.SETTLER) && cityTreasury >= GameConstants.SETTLER_COST) {
+        unitMap.put(placementPos, new UnitImpl(GameConstants.SETTLER, cityOwner));
+        city.addTreasury(-GameConstants.SETTLER_COST);
       }
     }
   }
