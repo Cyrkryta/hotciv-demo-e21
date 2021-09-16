@@ -187,8 +187,8 @@ public class GameImpl implements Game {
 
       if(getUnitAt(cityPos) != null) {
         Iterator<Position> listOfNeighbours = Utility.get8neighborhoodIterator(cityPos);
-        for (Iterator<Position> it = listOfNeighbours; it.hasNext(); ) {
-          Position position = it.next();
+        for (; listOfNeighbours.hasNext(); ) {
+          Position position = listOfNeighbours.next();
           if (getUnitAt(position) == null) {
             placementPos = position;
             break;
@@ -196,15 +196,15 @@ public class GameImpl implements Game {
         }
       }
 
-      if (cityProduction == (GameConstants.ARCHER) && cityTreasury >= GameConstants.ARCHER_COST) {
+      if (Objects.equals(cityProduction, GameConstants.ARCHER) && cityTreasury >= GameConstants.ARCHER_COST) {
         unitMap.put(placementPos, new UnitImpl(GameConstants.ARCHER, cityOwner));
         city.addTreasury(-GameConstants.ARCHER_COST);
       }
-      if (cityProduction == (GameConstants.LEGION) && cityTreasury >= GameConstants.LEGION_COST) {
+      if (Objects.equals(cityProduction, GameConstants.LEGION) && cityTreasury >= GameConstants.LEGION_COST) {
         unitMap.put(placementPos, new UnitImpl(GameConstants.LEGION, cityOwner));
         city.addTreasury(-GameConstants.LEGION_COST);
       }
-      if (cityProduction == (GameConstants.SETTLER) && cityTreasury >= GameConstants.SETTLER_COST) {
+      if (Objects.equals(cityProduction, GameConstants.SETTLER) && cityTreasury >= GameConstants.SETTLER_COST) {
         unitMap.put(placementPos, new UnitImpl(GameConstants.SETTLER, cityOwner));
         city.addTreasury(-GameConstants.SETTLER_COST);
       }
