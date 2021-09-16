@@ -447,7 +447,12 @@ public class TestAlphaCiv {
       assertThat(game.getUnitAt(new Position(0,1)).getTypeString(), is(GameConstants.ARCHER));
   }
 
-
+  @Test
+  public void shouldPlaceUnitOnSeconPossibleTileIfCityAndNorthIsOccupied() {
+      game.changeProductionInCityAt(GameConstants.Red_City_Pos, GameConstants.ARCHER);
+      endTurns(12);
+      assertThat(game.getUnitAt(new Position(0,2)).getTypeString(), is(GameConstants.ARCHER));
+  }
 
   /************ TESTS FOR ATTACKS ************/
   // Testing that the attacking player destroys the defending players units.
