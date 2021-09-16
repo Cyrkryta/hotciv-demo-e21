@@ -80,7 +80,6 @@ public class GameImpl implements Game {
     cityMap.put(GameConstants.Blue_City_Pos, blueCity);
   }
 
-
   public Tile getTileAt(Position p) {
     return worldMap.get(p);
   }
@@ -88,8 +87,6 @@ public class GameImpl implements Game {
   public Unit getUnitAt(Position p) {
     return unitMap.get(p);
   }
-
-
 
   public City getCityAt(Position p) {
     return cityMap.get(p);
@@ -122,7 +119,6 @@ public class GameImpl implements Game {
     }
     return null;
   }
-
 
   public int getAge() {
     return currAge;

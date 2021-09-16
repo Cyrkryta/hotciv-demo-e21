@@ -1,5 +1,6 @@
 package hotciv.standard;
 
+import hotciv.Utility.Utility;
 import hotciv.framework.*;
 
 import org.junit.jupiter.api.*;
@@ -331,6 +332,52 @@ public class TestAlphaCiv {
     assertThat(redCity.getTreasury(),is(2));
   }
 
+  /************ TESTS FOR PRODUCTION PLACEMENT ************/
+  // Testing first unit placement if red city.
+  @Test
+  public void shouldBe0_1AtFirstTile() {
+    Iterator<Position> neighbours = Utility.get8neighborhoodIterator(GameConstants.Red_City_Pos);
+    Position p = neighbours.next();
+    assertThat(p, is(new Position(0,1)));
+  }
+
+  // Testing second unit placement if red city
+  @Test
+  public void shouldBe0_2AtSecondTile() {
+    Iterator<Position> neighbours = Utility.get8neighborhoodIterator(GameConstants.Red_City_Pos);
+    Position p = neighbours.next();
+    p = neighbours.next();
+    assertThat(p, is(new Position(0,2)));
+  }
+
+  // Testing the rest of the possible tiles.
+  @Test
+  public void shouldBeOkAtRemainingTiles() {
+      Iterator<Position> neighbours = Utility.get8neighborhoodIterator(GameConstants.Red_City_Pos);
+      Position p = neighbours.next();
+      p = neighbours.next();
+
+      p = neighbours.next();
+      assertThat(p, is(new Position(1,2)));
+
+      p = neighbours.next();
+      assertThat(p, is(new Position(2,2)));
+
+      p = neighbours.next();
+      assertThat(p, is(new Position(2,1)));
+
+      p = neighbours.next();
+      assertThat(p, is(new Position(2,0)));
+
+      p = neighbours.next();
+      assertThat(p, is(new Position(1,0)));
+
+      p = neighbours.next();
+      assertThat(p, is(new Position(0,0)));
+
+      assertThat(neighbours.hasNext(), is(false));
+  }
+
   /************ TESTS FOR ATTACKS ************/
   // Testing that the attacking player destroys the defending players units.
   // Red attacking blue.
@@ -344,6 +391,7 @@ public class TestAlphaCiv {
     // Checking that the unit is now owned by red.
     assertThat(game.getUnitAt(to).getOwner(), is(Player.RED));
   }
+
 
   // Blue attacking red.
   @Test
