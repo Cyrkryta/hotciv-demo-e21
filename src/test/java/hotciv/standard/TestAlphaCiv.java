@@ -377,6 +377,54 @@ public class TestAlphaCiv {
 
       assertThat(neighbours.hasNext(), is(false));
   }
+  //Test that corner tiles have 3 neighbours
+  //Testing top left corner
+  @Test
+  public void shouldOnlyHave3ElementsAround00Position() {
+      Iterator<Position> neighbours = Utility.get8neighborhoodIterator(new Position(0,0));
+      Position p = neighbours.next();
+      assertThat(p, is(new Position(0,1)));
+
+      p = neighbours.next();
+      assertThat(p, is(new Position(1,1)));
+
+      p = neighbours.next();
+      assertThat(p, is(new Position(1,0)));
+
+      assertThat(neighbours.hasNext(), is(false));
+  }
+
+  //Testing bottom right corner
+  @Test
+  public void shouldOnlyHave3ElementsAround15_15Position() {
+      Iterator<Position> neighbours = Utility.get8neighborhoodIterator(
+              new Position(GameConstants.WORLDSIZE - 1, GameConstants.WORLDSIZE - 1));
+
+      Position p = neighbours.next();
+      assertThat(p, is(new Position(14, 15)));
+
+      p = neighbours.next();
+      assertThat(p, is(new Position(15, 14)));
+
+      p = neighbours.next();
+      assertThat(p, is(new Position(14, 14)));
+
+      assertThat(neighbours.hasNext(), is(false));
+  }
+  
+  //Testing that Iterator is allowed
+  @Test
+  public void shouldSupportIterable() {
+      List<Position> list = new ArrayList<>();
+      for (Position p : Utility.get8neighborhoodOf(GameConstants.Red_City_Pos)) {
+          list.add(p);
+      }
+      assertThat(list, hasItems( new Position(0,1),
+              new Position(2,2)));
+      assertThat(list, not(hasItem(new Position(0,3))));
+      assertThat(list.size(), is(8));
+  }  
+
 
   /************ TESTS FOR ATTACKS ************/
   // Testing that the attacking player destroys the defending players units.
@@ -406,4 +454,6 @@ public class TestAlphaCiv {
     // Checking that the unit is now owned by red.
     assertThat(game.getUnitAt(to).getOwner(), is(Player.BLUE));
   }
+
+
 }
