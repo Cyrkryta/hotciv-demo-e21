@@ -14,12 +14,7 @@ public class UnitImpl implements Unit {
     public UnitImpl(String unitName, Player playerOwner) {
         this.unitName = unitName;
         this.playerOwner = playerOwner;
-        switch (unitName){
-            case GameConstants.ARCHER:
-                this.attackingStrength = 2;
-                this.defensiveStrength = 3;
         }
-    }
     @Override
     public String getTypeString() {
         return unitName;
@@ -39,10 +34,11 @@ public class UnitImpl implements Unit {
     public int getDefensiveStrength() {
         switch (unitName) {
             case GameConstants.ARCHER:
+                return GameConstants.ARCHER_DEF;
             case GameConstants.SETTLER:
-                return 3;
+                return GameConstants.SETTLER_DEF;
             case GameConstants.LEGION:
-                return 2;
+                return GameConstants.LEGION_DEF;
         }
         return 0;
     }
@@ -51,11 +47,11 @@ public class UnitImpl implements Unit {
     public int getAttackingStrength() {
         switch (unitName) {
             case GameConstants.ARCHER:
-                return 2;
+                return GameConstants.ARCHER_STR;
             case GameConstants.LEGION:
-                return 4;
+                return GameConstants.LEGION_STR;
             case GameConstants.SETTLER:
-                return 0;
+                return GameConstants.SETTLER_STR;
         }
         return 0;
     }
@@ -66,5 +62,5 @@ public class UnitImpl implements Unit {
 
     public void resetMoveCount() {
         moveCount = 1;
-    };
+    }
 }

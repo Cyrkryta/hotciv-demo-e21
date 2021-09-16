@@ -40,6 +40,16 @@ public class GameConstants {
   public static final int ARCHER_COST  = 10;
   public static final int LEGION_COST  = 15;
   public static final int SETTLER_COST = 30;
+  //Unit Attack strength
+  public static final int ARCHER_STR = 2;
+  public static final int LEGION_STR = 4;
+  public static final int SETTLER_STR= 0;
+  //Unit cost
+  public static final int ARCHER_DEF  = 3;
+  public static final int LEGION_DEF = 2;
+  public static final int SETTLER_DEF = 3;
+
+
   // Valid terrain types
   public static final String PLAINS    = "plains";
   public static final String OCEANS    = "ocean";
