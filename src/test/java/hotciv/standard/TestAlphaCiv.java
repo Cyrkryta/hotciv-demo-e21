@@ -220,6 +220,31 @@ public class TestAlphaCiv {
     assertThat(Player.BLUE, is(game.getUnitAt(p).getOwner()));
   }
 
+  //Testing archer attack is 2
+  @Test
+  public void archersShouldHave2AtkStrength(){
+    assertThat(game.getUnitAt(GameConstants.RedArcher_Start_Position).getAttackingStrength(), is(2));
+  }
+
+    //Testing settler attack is 0
+    @Test
+    public void settlersShouldHave0AtkStrength(){
+        assertThat(game.getUnitAt(GameConstants.RedSettler_Start_Position).getAttackingStrength(), is(0));
+    }
+
+    //Testing legion defense is 2
+    @Test
+    public void legionShouldHave2DefStrength(){
+        assertThat(game.getUnitAt(GameConstants.BlueLegion_Start_Position).getDefensiveStrength(), is(2));
+    }
+
+    //Testing settler defense is 3
+    @Test
+    public void settlersShouldHave3DefStrength(){
+        assertThat(game.getUnitAt(GameConstants.RedSettler_Start_Position).getDefensiveStrength(), is(3));
+    }
+
+
   // Testing move count at start of turn.
   @Test
   public void shouldRefreshMoveCounterAtStartOfTurn() {
