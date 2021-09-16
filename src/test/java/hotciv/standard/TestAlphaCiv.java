@@ -331,9 +331,6 @@ public class TestAlphaCiv {
     assertThat(redCity.getTreasury(),is(2));
   }
 
-  /************ TESTS FOR PLACING UNITS AROUND CITY ************/
-  // Checking the first tile
-
   /************ TESTS FOR ATTACKS ************/
   // Testing that the attacking player destroys the defending players units.
   // Red attacking blue.
