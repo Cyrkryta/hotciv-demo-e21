@@ -439,6 +439,16 @@ public class TestAlphaCiv {
     assertThat(game.getUnitAt(GameConstants.Red_City_Pos).getTypeString(), is(GameConstants.ARCHER));
   }
 
+  //Testing that if a unit is already in a city, the following unit will be placed north of that city
+  @Test
+  public void shouldPlaceUnitNorthOfCityIfItIsOccupied(){
+      game.changeProductionInCityAt(GameConstants.Red_City_Pos, GameConstants.ARCHER);
+      endTurns(8);
+      assertThat(game.getUnitAt(new Position(0,1)).getTypeString(), is(GameConstants.ARCHER));
+  }
+
+
+
   /************ TESTS FOR ATTACKS ************/
   // Testing that the attacking player destroys the defending players units.
   // Red attacking blue.
