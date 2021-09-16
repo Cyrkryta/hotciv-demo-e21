@@ -47,11 +47,11 @@ public class UnitImpl implements Unit {
     public int getAttackingStrength() {
         switch (unitName) {
             case GameConstants.ARCHER:
-                return GameConstants.ARCHER_STR;
+                return GameConstants.ARCHER_ATK;
             case GameConstants.LEGION:
-                return GameConstants.LEGION_STR;
+                return GameConstants.LEGION_ATK;
             case GameConstants.SETTLER:
-                return GameConstants.SETTLER_STR;
+                return GameConstants.SETTLER_ATK;
         }
         return 0;
     }
