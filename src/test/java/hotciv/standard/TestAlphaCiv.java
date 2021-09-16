@@ -426,8 +426,18 @@ public class TestAlphaCiv {
               new Position(2,2)));
       assertThat(list, not(hasItem(new Position(0,3))));
       assertThat(list.size(), is(8));
-  }  
+  }
 
+  // Testing that unit can't be placed on city tile if unit is already present.
+  @Test
+  public void shouldNotBeAbleToPlaceUniTInCityIfUnitIsPresent() {
+    game.changeProductionInCityAt(GameConstants.Red_City_Pos, GameConstants.ARCHER);
+    endTurns(4);
+    assertThat(game.getUnitAt(GameConstants.Red_City_Pos).getTypeString(), is(GameConstants.ARCHER));
+    game.changeProductionInCityAt(GameConstants.Red_City_Pos, GameConstants.LEGION);
+    endTurns(6);
+    assertThat(game.getUnitAt(GameConstants.Red_City_Pos).getTypeString(), is(GameConstants.ARCHER));
+  }
 
   /************ TESTS FOR ATTACKS ************/
   // Testing that the attacking player destroys the defending players units.

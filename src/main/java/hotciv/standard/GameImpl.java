@@ -182,10 +182,19 @@ public class GameImpl implements Game {
       CityImpl city = (CityImpl) entry.getValue();
       int cityTreasury = entry.getValue().getTreasury();
       String cityProduction = entry.getValue().getProduction();
-
-      if (cityProduction == (GameConstants.ARCHER) && cityTreasury >= 10) {
-        unitMap.put(pos, new UnitImpl(GameConstants.ARCHER, owner));
-        city.addTreasury(-10);
+      if(getUnitAt(pos) == null) {
+        if (cityProduction == (GameConstants.ARCHER) && cityTreasury >= 10) {
+          unitMap.put(pos, new UnitImpl(GameConstants.ARCHER, owner));
+          city.addTreasury(-10);
+        }
+        if (cityProduction == (GameConstants.LEGION) && cityTreasury >= 15) {
+          unitMap.put(pos, new UnitImpl(GameConstants.LEGION, owner));
+          city.addTreasury(-15);
+        }
+        if (cityProduction == (GameConstants.SETTLER) && cityTreasury >= 30) {
+          unitMap.put(pos, new UnitImpl(GameConstants.SETTLER, owner));
+          city.addTreasury(-30);
+        }
       }
     }
   }
