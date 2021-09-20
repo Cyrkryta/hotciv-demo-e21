@@ -185,33 +185,33 @@ public class TestAlphaCiv {
     @Test
     public void shouldBeSettlerOn4_3OwnedByRed() {
     // Creating the position.
-        Position p = new Position(4, 3);
+        Position p = GameConstants.RedSettler_Start_Position;
     // Checking that the Settler is at position.
-        assertThat(GameConstants.SETTLER, is(game.getUnitAt(p).getTypeString()));
+        assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.SETTLER));
     // Checking that the Settler is owned by Red.
-        assertThat(Player.RED, is(game.getUnitAt(p).getOwner()));
+        assertThat(game.getUnitAt(p).getOwner(), is(Player.RED));
     }
 
     // Testing that Red starts with archer on 2,0
     @Test
     public void shouldBeArcherOn2_0OwnedByRed() {
     // Creating the position.
-        Position p = new Position(2, 0);
+        Position p = GameConstants.RedArcher_Start_Position;
     // Checking that the archer is at position.
-        assertThat(GameConstants.ARCHER, is(game.getUnitAt(p).getTypeString()));
+        assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.ARCHER));
     // Checking that the archer is owned by Red.
-        assertThat(Player.RED, is(game.getUnitAt(p).getOwner()));
+        assertThat(game.getUnitAt(p).getOwner(), is(Player.RED));
     }
 
     // Testing that Blue starts with legion 3,2.
     @Test
     public void shouldBeLegionOn3_2OwnedByBlue() {
     // Creating the position.
-        Position p = new Position(3, 2);
+        Position p = GameConstants.BlueLegion_Start_Position;
     // Checking that the legion is at the position.
-        assertThat(GameConstants.LEGION, is(game.getUnitAt(p).getTypeString()));
+        assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.LEGION));
     // Checking that the legion is owned by Blue.
-        assertThat(Player.BLUE, is(game.getUnitAt(p).getOwner()));
+        assertThat(game.getUnitAt(p).getOwner(), is(Player.BLUE));
     }
 
     //Testing archer attack is 2
@@ -253,7 +253,7 @@ public class TestAlphaCiv {
     @Test
     public void shouldMoveFromOnePositionToAnother() {
     // Creating positions.
-        Position from = new Position(4, 3);
+        Position from = GameConstants.RedSettler_Start_Position;
         Position to = new Position(4, 4);
     // Moving unit
         game.moveUnit(from, to);
