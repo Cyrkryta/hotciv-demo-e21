@@ -241,9 +241,14 @@ public class TestAlphaCiv {
 
     // Testing move count at start of turn.
     @Test
-    public void shouldRefreshMoveCounterAtStartOfTurn() {
-    // Creating position
-        Position p = new Position(4, 3);
+    public void shouldRefreshMoveCounterAtStartOfRound() {
+    // Creating position and unit
+        Position p = GameConstants.RedSettler_Start_Position;
+        UnitImpl testUnit = (UnitImpl) game.getUnitAt(p);
+    //Reducing unit move count
+        testUnit.reduceMoveCount();
+    //Ending round
+        endTurns(2);
     // Checking ownership if the move count is 1
         assertThat(game.getUnitAt(p).getOwner(), is(Player.RED));
         assertThat(game.getUnitAt(p).getMoveCount(), is(1));
