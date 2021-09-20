@@ -278,7 +278,8 @@ public class TestAlphaCiv {
     //Testing that Red cannot move blue units
     @Test
     public void redShouldNOTMoveBlueUnits() {
-        Position from = new Position(3, 2);
+    //Moving blue legion on (3,2)
+        Position from = GameConstants.BlueLegion_Start_Position;
         Position to = new Position(3, 3);
         assertThat(game.moveUnit(from, to), is(false));
         assertThat(game.getUnitAt(to), is(nullValue()));
@@ -288,7 +289,7 @@ public class TestAlphaCiv {
     @Test
     public void redCanMoveRedUnits() {
     //Moving red settler on (4,3)
-        Position from = new Position(4, 3);
+        Position from = GameConstants.RedSettler_Start_Position;
         Position to = new Position(4, 4);
         assertThat(game.moveUnit(from, to), is(true));
         assertThat(game.getUnitAt(to), is(notNullValue()));
@@ -299,9 +300,9 @@ public class TestAlphaCiv {
     public void shouldNotBeAbleToMoveUnitsOnOcean() {
         {
             //Moving red archer on (2,0)
-            Position from = new Position(2, 0);
+            Position from = GameConstants.RedArcher_Start_Position;
             //To ocean tile at (1,0)
-            Position to = new Position(1, 0);
+            Position to = GameConstants.Ocean_Tile_Position;
             assertThat(game.moveUnit(from, to), is(false));
             assertThat(game.getUnitAt(to), is(nullValue()));
         }
@@ -315,9 +316,9 @@ public class TestAlphaCiv {
             game.endOfTurn();
             assertThat(game.getPlayerInTurn(), is(Player.BLUE));
             //Moving blue legion on (3,2)
-            Position from = new Position(3, 2);
+            Position from = GameConstants.BlueLegion_Start_Position;
             //To mountain tile at (2,2)
-            Position to = new Position(2, 2);
+            Position to = GameConstants.Mountain_Tile_Position;
             assertThat(game.moveUnit(from, to), is(false));
             assertThat(game.getUnitAt(to), is(nullValue()));
         }
