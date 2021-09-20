@@ -162,28 +162,22 @@ public class TestAlphaCiv {
     // Testing that there are ocean at 1,0.
     @Test
     public void shouldBeOceanAtPosition1_0() {
-    // Creating position.
-        Position p = new Position(1, 0);
-    // Assertion.
-        assertThat(GameConstants.OCEANS, is(game.getTileAt(p).getTypeString()));
+    // Asserting ocean tile is of type Ocean
+        assertThat(game.getTileAt(GameConstants.Ocean_Tile_Position).getTypeString(), is(GameConstants.OCEANS));
     }
 
     // Testing that there are mountain at 2,2
     @Test
     public void shouldBeMountainAtPosition2_2() {
-    // Creating Position
-        Position p = new Position(2, 2);
-    // Assertion.
-        assertThat(GameConstants.MOUNTAINS, is(game.getTileAt(p).getTypeString()));
+    // Asserting mountain tile is of type Mountain
+        assertThat(game.getTileAt(GameConstants.Mountain_Tile_Position).getTypeString(), is(GameConstants.MOUNTAINS));
     }
 
     // Testing that there are hills at 0,1
     @Test
-    public void shouldBeMountainAtPosition0_1() {
-    // Creating Position
-        Position p = new Position(0, 1);
-    // Assertion.
-        assertThat(GameConstants.HILLS, is(game.getTileAt(p).getTypeString()));
+    public void shouldBeHillsAtPosition0_1() {
+    // Asserting hill tile is of type Hill
+        assertThat(game.getTileAt(GameConstants.Hill_Tile_Position).getTypeString(), is(GameConstants.HILLS));
     }
 
     /************ TESTS FOR UNITS ************/
