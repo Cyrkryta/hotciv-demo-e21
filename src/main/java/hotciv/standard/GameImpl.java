@@ -5,6 +5,7 @@ import hotciv.framework.*;
 
 import java.util.*;
 
+
 /** Skeleton implementation of HotCiv.
  
    This source code is from the book 
@@ -79,6 +80,7 @@ public class GameImpl implements Game {
     cityMap.put(GameConstants.Blue_City_Pos, blueCity);
   }
 
+
   public Tile getTileAt(Position p) {
     return worldMap.get(p);
   }
@@ -86,6 +88,8 @@ public class GameImpl implements Game {
   public Unit getUnitAt(Position p) {
     return unitMap.get(p);
   }
+
+
 
   public City getCityAt(Position p) {
     return cityMap.get(p);
@@ -119,6 +123,7 @@ public class GameImpl implements Game {
     return null;
   }
 
+
   public int getAge() {
     return currAge;
   }
@@ -139,14 +144,14 @@ public class GameImpl implements Game {
             return true;
           }
       } else if (getUnitAt(to).getOwner() != playerInTurn) {
-        handleAttack(from, to, unit);
+        handleAttack(from, to);
         return true;
       }
     }
     return false;
   }
 
-  private void handleAttack(Position from, Position to, UnitImpl unit) {
+  private void handleAttack(Position from, Position to) {
     UnitImpl attackingUnitType = (UnitImpl) unitMap.remove(from);
     attackingUnitType.reduceMoveCount();
     unitMap.remove(to);
