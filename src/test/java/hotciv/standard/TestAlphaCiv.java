@@ -238,22 +238,6 @@ public class TestAlphaCiv {
         assertThat(game.getUnitAt(GameConstants.RedSettler_Start_Position).getDefensiveStrength(), is(3));
     }
 
-
-    // Testing move count at start of turn.
-    @Test
-    public void shouldRefreshMoveCounterAtStartOfRound() {
-    // Creating position and unit
-        Position p = GameConstants.RedSettler_Start_Position;
-        UnitImpl testUnit = (UnitImpl) game.getUnitAt(p);
-    //Reducing unit move count
-        testUnit.reduceMoveCount();
-    //Ending round
-        endTurns(2);
-    // Checking ownership if the move count is 1
-        assertThat(game.getUnitAt(p).getOwner(), is(Player.RED));
-        assertThat(game.getUnitAt(p).getMoveCount(), is(1));
-    }
-
     // Testing if the unit is moving.
     @Test
     public void shouldMoveFromOnePositionToAnother() {
@@ -270,7 +254,7 @@ public class TestAlphaCiv {
     // Testing that the move count is reduced by one after move.
     @Test
     public void shouldReduceMoveCountBy1AfterMove() {
-        Position from = new Position(4, 3);
+        Position from = GameConstants.RedSettler_Start_Position;
         Position to = new Position(4, 4);
         assertThat(game.getUnitAt(from).getMoveCount(), is(1));
         game.moveUnit(from, to);
@@ -280,15 +264,15 @@ public class TestAlphaCiv {
     // Testing that the move count is reset after turn / round.
     @Test
     public void shouldResetUnitMoveCounterAfterTurns() {
-    // Moving and reducing unit count.
-        Position from = new Position(4, 3);
-        Position to = new Position(4, 4);
-        game.moveUnit(from, to);
-        assertThat(game.getUnitAt(to).getMoveCount(), is(0));
-    // Going through a round.
+    // Creating position and unit
+        Position p = GameConstants.RedSettler_Start_Position;
+        UnitImpl testUnit = (UnitImpl) game.getUnitAt(p);
+    //Reducing unit move count
+        testUnit.reduceMoveCount();
+    //Ending round
         endTurns(2);
-    // checking that the unit count has been reset.
-        assertThat(game.getUnitAt(to).getMoveCount(), is(1));
+    // Checking that move count is 1
+        assertThat(testUnit.getMoveCount(), is(1));
     }
 
     //Testing that Red cannot move blue units
