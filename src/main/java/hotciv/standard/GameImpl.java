@@ -130,27 +130,28 @@ public class GameImpl implements Game {
 
   public boolean moveUnit(Position from, Position to) {
     UnitImpl unit = (UnitImpl) getUnitAt(from);
-    if(unit.getMoveCount() > 0){
-      if(unit.getOwner() == playerInTurn) {
-        if (getUnitAt(to) == null) {
-          // Handling illegal moves.
-          if (getTileAt(to).getTypeString().equals(GameConstants.HILLS) || getTileAt(to).getTypeString().equals(GameConstants.PLAINS)){
-            if(getCityAt(to) != null && getCityAt(to).getOwner() != unit.getOwner()){
-              CityImpl attackedCity = (CityImpl) getCityAt(to);
-              attackedCity.changeOwner(playerInTurn);
+    if(getNeighbourList(from).contains(to)){
+      if(unit.getMoveCount() > 0){
+        if(unit.getOwner() == playerInTurn) {
+          if (getUnitAt(to) == null) {
+            // Handling illegal moves.
+            if (getTileAt(to).getTypeString().equals(GameConstants.HILLS) || getTileAt(to).getTypeString().equals(GameConstants.PLAINS)){
+              if(getCityAt(to) != null && getCityAt(to).getOwner() != unit.getOwner()){
+                CityImpl attackedCity = (CityImpl) getCityAt(to);
+                attackedCity.changeOwner(playerInTurn);
+              }
+              UnitImpl unitType = (UnitImpl) unitMap.remove(from);
+              unitType.reduceMoveCount();
+              unitMap.put(to, unitType);
+              return true;
             }
-            UnitImpl unitType = (UnitImpl) unitMap.remove(from);
-            unitType.reduceMoveCount();
-            unitMap.put(to, unitType);
+          } else if (getUnitAt(to).getOwner() != playerInTurn) {
+            handleAttack(from, to);
             return true;
+          }
         }
-      } else if (getUnitAt(to).getOwner() != playerInTurn) {
-        handleAttack(from, to);
-        return true;
       }
     }
-    }
-
     return false;
   }
 
@@ -230,5 +231,16 @@ public class GameImpl implements Game {
         city.addTreasury(-GameConstants.SETTLER_COST);
       }
     }
+
+
   }
+  private List<Position> getNeighbourList(Position pos){
+    List<Position> neighbourList = new ArrayList<>();
+    Iterator<Position> listOfNeighbours = Utility.get8neighborhoodIterator(pos);
+    while (listOfNeighbours.hasNext()) {
+      neighbourList.add(listOfNeighbours.next());
+
+  }
+    return neighbourList;
+}
 }

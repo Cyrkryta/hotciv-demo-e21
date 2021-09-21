@@ -342,6 +342,17 @@ public class TestAlphaCiv {
         assertThat(game.moveUnit(from, to), is(false));
     }
 
+    //Testing that units can only move to neighbouring tiles
+    @Test
+    public void shouldNotBeAbleToMoveUnitsToNonNeighbouringTiles(){
+    //Attempting to move red Settler (4,3) to blue city (4,1)
+        Position from = GameConstants.RedSettler_Start_Position;
+        Position to = GameConstants.Blue_City_Pos;
+    //Asserting that move fails
+        game.moveUnit(from, to);
+        assertThat(game.getUnitAt(to), is(nullValue()));
+    }
+
     /************ TESTS FOR PRODUCING UNITS ************/
     // Testing that you are able to choose production in city.
     @Test
@@ -531,6 +542,8 @@ public class TestAlphaCiv {
         assertThat(game.getUnitAt(GameConstants.Ocean_Tile_Position), is(nullValue()));
     }
 
+
+
     /************ TESTS FOR ATTACKS ************/
     // Testing that the attacking player destroys the defending players units.
     // Red attacking blue.
@@ -571,12 +584,18 @@ public class TestAlphaCiv {
     //Testing that cities change owners if an opposing unit moves on to its tile
     @Test
     public void shouldChangeCityOwnerIfOpponentUnitEnters() {
+        //Setting up move positions for Blue Legion to enter Red City
         Position from = GameConstants.BlueLegion_Start_Position;
+        Position middle = new Position(2,1);
         Position to = GameConstants.Red_City_Pos;
         // Changing player.
         game.endOfTurn();
-        // Move blues unit
-        game.moveUnit(from, to);
+        // Move blues unit to middle tile
+        game.moveUnit(from, middle);
+        //Ending round and going back to blue in turn
+        endTurns(2);
+        // Move blues unit to Red's city
+        game.moveUnit(middle, to);
         //Checking that city changed owner
         assertThat(game.getCityAt(GameConstants.Red_City_Pos).getOwner(), is(Player.BLUE));
     }
