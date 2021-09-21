@@ -159,8 +159,10 @@ public class GameImpl implements Game {
 
   }
 
-
   public void changeWorkForceFocusInCityAt(Position p, String balance) {
+    CityImpl chosenCity = (CityImpl) getCityAt(p);
+    if(balance.equals(GameConstants.foodFocus) || balance.equals(GameConstants.productionFocus))
+    {chosenCity.changeWorkForceFocus(balance);}
   }
 
   public void changeProductionInCityAt(Position p, String unitType) {

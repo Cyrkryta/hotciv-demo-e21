@@ -113,6 +113,14 @@ public class TestAlphaCiv {
         assertThat(redCity.getTreasury(), is(6));
     }
 
+    //Testing that cities can change work force focus
+    @Test
+    public void shouldBeAbleToChangeWorkForceFocusInCity(){
+        CityImpl redCity = (CityImpl) game.getCityAt(GameConstants.Red_City_Pos);
+        redCity.changeWorkForceFocus(GameConstants.foodFocus);
+        assertThat(redCity.getWorkforceFocus(), is(GameConstants.foodFocus));
+    }
+
     /************ TESTS FOR TIME ************/
     // Testing that game starts in year 4000 BC
     @Test
