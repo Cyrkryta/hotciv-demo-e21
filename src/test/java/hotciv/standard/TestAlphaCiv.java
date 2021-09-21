@@ -522,6 +522,15 @@ public class TestAlphaCiv {
         assertThat(game.getUnitAt(new Position(0, 0)).getTypeString(), is(not(GameConstants.LEGION)));
     }
 
+    //Testing that produce unit does not produce on immovable terrain (Oceans, Mountains)
+    @Test
+    public void shouldNotPlaceUnitsOnImmovableTerrain (){
+        game.changeProductionInCityAt(GameConstants.Red_City_Pos, GameConstants.ARCHER);
+        endTurns(20);
+        assertThat(game.getUnitAt(GameConstants.Mountain_Tile_Position), is(nullValue()));
+        assertThat(game.getUnitAt(GameConstants.Ocean_Tile_Position), is(nullValue()));
+    }
+
     /************ TESTS FOR ATTACKS ************/
     // Testing that the attacking player destroys the defending players units.
     // Red attacking blue.

@@ -207,10 +207,13 @@ public class GameImpl implements Game {
         Iterator<Position> listOfNeighbours = Utility.get8neighborhoodIterator(cityPos);
         for (; listOfNeighbours.hasNext(); ) {
           Position position = listOfNeighbours.next();
-          if (getUnitAt(position) == null) {
-            placementPos = position;
-            break;
+          if(getTileAt(position).getTypeString().equals(GameConstants.HILLS) || getTileAt(position).getTypeString().equals(GameConstants.PLAINS)){
+            if (getUnitAt(position) == null) {
+              placementPos = position;
+              break;
+            }
           }
+
         }
       }
 
