@@ -130,8 +130,9 @@ public class GameImpl implements Game {
 
   public boolean moveUnit(Position from, Position to) {
     UnitImpl unit = (UnitImpl) getUnitAt(from);
-    if(unit.getOwner() == playerInTurn) {
-      if (getUnitAt(to) == null) {
+    if(unit.getMoveCount() > 0){
+      if(unit.getOwner() == playerInTurn) {
+        if (getUnitAt(to) == null) {
           // Handling illegal moves.
           if (getTileAt(to).getTypeString().equals(GameConstants.HILLS) || getTileAt(to).getTypeString().equals(GameConstants.PLAINS)){
             if(getCityAt(to) != null && getCityAt(to).getOwner() != unit.getOwner()){
@@ -142,12 +143,14 @@ public class GameImpl implements Game {
             unitType.reduceMoveCount();
             unitMap.put(to, unitType);
             return true;
-          }
+        }
       } else if (getUnitAt(to).getOwner() != playerInTurn) {
         handleAttack(from, to);
         return true;
       }
     }
+    }
+
     return false;
   }
 

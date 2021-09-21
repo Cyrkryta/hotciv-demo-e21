@@ -332,6 +332,16 @@ public class TestAlphaCiv {
         }
     }
 
+    //Testing units cannot move if they have no available moves
+    @Test
+    public void shouldNotBeAbleToMoveIfNoMovesAreLeft(){
+        Position from = GameConstants.RedSettler_Start_Position;
+        Position to = new Position(4, 4);
+        UnitImpl testUnit = (UnitImpl) game.getUnitAt(GameConstants.RedSettler_Start_Position);
+        testUnit.reduceMoveCount();
+        assertThat(game.moveUnit(from, to), is(false));
+    }
+
     /************ TESTS FOR PRODUCING UNITS ************/
     // Testing that you are able to choose production in city.
     @Test
