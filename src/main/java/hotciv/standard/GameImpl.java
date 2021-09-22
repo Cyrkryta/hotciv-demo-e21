@@ -45,9 +45,11 @@ public class GameImpl implements Game {
   private Player playerInTurn = Player.RED;
   //Sets game age to start age
   private int currentAge = GameConstants.Start_Age;
+  // Starting point for game winner.
+  private Player winner = null;
   // Implements the aging strategy for the game
   private AgeStrategy ageStrategy;
-  // Implements the winning strategy for the game;
+  // Implements the winning strategy for the game.
   private WinningStrategy winningStrategy;
 
   public GameImpl(AgeStrategy ageStrategy, WinningStrategy winningStrategy) {
@@ -57,8 +59,6 @@ public class GameImpl implements Game {
     createUnitMap();
     citySetup();
   }
-
-
 
   private void createUnitMap() {
     unitMap.put(GameConstants.RedSettler_Start_Position, new UnitImpl(GameConstants.SETTLER, Player.RED));
@@ -113,6 +113,7 @@ public class GameImpl implements Game {
       endOfRound();
       resetUnitsMoveCount();
     }
+    winner = winningStrategy.calculateWinner(winner);
   }
 
   private void resetUnitsMoveCount() {
@@ -123,10 +124,10 @@ public class GameImpl implements Game {
   }
 
   public Player getWinner() {
-    if (getAge() == -3000) {
-      return Player.RED;
-    }
-    return null;
+    //if (getAge() == -3000) {
+      //return Player.RED;
+    //}
+    return winner;
   }
 
   public int getAge() {
