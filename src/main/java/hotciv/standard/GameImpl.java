@@ -44,8 +44,8 @@ public class GameImpl implements Game {
 
   // Defining the players in turn.
   private Player playerInTurn = Player.RED;
-  //Tracks the rounds passed during the game
-  private int roundsPassed = 0;
+  //Sets game age to start age
+  private int currentAge = GameConstants.Start_Age;
   //Implements the aging strategy for the game
   private AgeStrategy ageStrategy;
 
@@ -129,9 +129,8 @@ public class GameImpl implements Game {
     return null;
   }
 
-
   public int getAge() {
-    return ageStrategy.calculateAge(roundsPassed);
+    return currentAge;
   }
 
   public boolean moveUnit(Position from, Position to) {
@@ -190,8 +189,8 @@ public class GameImpl implements Game {
   }
 
   private void endOfRound() {
-    //Increments game age by 100 years
-    roundsPassed += 1;
+    //Increments game age according to age strategy
+    currentAge = ageStrategy.calculateAge(currentAge);
     System.out.print(getAge());
     //Iterates through all cities on the map and allocates them 6 production at end of round
     for (Map.Entry<Position, City> entry : cityMap.entrySet()) {
