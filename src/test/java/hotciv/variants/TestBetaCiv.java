@@ -33,9 +33,26 @@ public class TestBetaCiv {
     @Test
     public void shouldAge100In100BC(){
         //Increment game 3900 year
-        endTurns(78);
-        endTurns(2);
+        endTurns(80);
         assertThat(game.getAge(),is(0));
+    }
+
+    @Test
+    public void shouldAge1InFirst0Year() {
+        endTurns(82);
+        assertThat(game.getAge(), is(1));
+    }
+
+    @Test
+    public void shouldAgeMinus1When1() {
+        endTurns(84);
+        assertThat(game.getAge(),is(0));
+    }
+
+    @Test
+    public void shouldAge50InSecond0Year() {
+        endTurns(86);
+        assertThat(game.getAge(),is(50));
     }
 
     @Test
