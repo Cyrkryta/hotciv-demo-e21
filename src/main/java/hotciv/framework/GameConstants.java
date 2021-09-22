@@ -71,4 +71,7 @@ public class GameConstants {
   public static final Position RedSettler_Start_Position = new Position(4,3);
   public static final Position RedArcher_Start_Position = new Position(2,0);
   public static final Position BlueLegion_Start_Position = new Position(3,2);
+
+  //Starting age for game
+  public static int Start_Age = -4000;
 }

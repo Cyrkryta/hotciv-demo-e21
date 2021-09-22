@@ -2,6 +2,7 @@ package hotciv.standard;
 
 import hotciv.Utility.Utility;
 import hotciv.framework.*;
+import hotciv.variants.LinearAgeStrategy;
 
 import java.util.*;
 
@@ -43,14 +44,19 @@ public class GameImpl implements Game {
 
   // Defining the players in turn.
   private Player playerInTurn = Player.RED;
-  //Game always starts in 4000 BC
-  private int currAge = -4000;
+  //Tracks the rounds passed during the game
+  private int roundsPassed = 0;
+  //Implements the aging strategy for the game
+  private AgeStrategy ageStrategy;
 
-  public GameImpl() {
+  public GameImpl(AgeStrategy ageStrategy) {
+    this.ageStrategy = ageStrategy;
     createWorld();
     createUnitMap();
     citySetup();
   }
+
+
 
   private void createUnitMap() {
     unitMap.put(GameConstants.RedSettler_Start_Position, new UnitImpl(GameConstants.SETTLER, Player.RED));
@@ -117,7 +123,7 @@ public class GameImpl implements Game {
   }
 
   public Player getWinner() {
-    if (currAge == -3000) {
+    if (getAge() == -3000) {
       return Player.RED;
     }
     return null;
@@ -125,7 +131,7 @@ public class GameImpl implements Game {
 
 
   public int getAge() {
-    return currAge;
+    return ageStrategy.calculateAge(roundsPassed);
   }
 
   public boolean moveUnit(Position from, Position to) {
@@ -185,7 +191,7 @@ public class GameImpl implements Game {
 
   private void endOfRound() {
     //Increments game age by 100 years
-    currAge += 100;
+    roundsPassed += 1;
     System.out.print(getAge());
     //Iterates through all cities on the map and allocates them 6 production at end of round
     for (Map.Entry<Position, City> entry : cityMap.entrySet()) {

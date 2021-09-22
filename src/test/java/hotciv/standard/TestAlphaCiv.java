@@ -3,6 +3,7 @@ package hotciv.standard;
 import hotciv.Utility.Utility;
 import hotciv.framework.*;
 
+import hotciv.variants.LinearAgeStrategy;
 import org.junit.jupiter.api.*;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -41,13 +42,12 @@ import java.util.*;
  */
 public class TestAlphaCiv {
     private Game game;
-    private City redCity;
+    private AgeStrategy LinearAgeStrategy = new LinearAgeStrategy();
 
     /************  FIXTURE FOR ALPHACIV TESTING ************/
     @BeforeEach
     public void setUp() {
-        game = new GameImpl();
-        redCity = new CityImpl(Player.RED); //Create test city
+        game = new GameImpl(LinearAgeStrategy);
     }
 
     // FRS p. 455 states that 'Red is the first player to take a turn'.
@@ -78,13 +78,13 @@ public class TestAlphaCiv {
     // Testing that the population of the city is always 1.
     @Test
     public void shouldAlwaysContainPopulationOf_1_InCities() {
-        assertThat(redCity.getSize(), is(1));
+        assertThat(game.getCityAt(GameConstants.Red_City_Pos).getSize(), is(1));
     }
 
     // Testing that the city always has an owner.
     @Test
     public void shouldHaveOwnerInCity() {
-        assertThat(redCity.getOwner(), is(Player.RED));
+        assertThat(game.getCityAt(GameConstants.Red_City_Pos).getOwner(), is(Player.RED));
     }
 
     // Testing that there is a red city at 1,1
