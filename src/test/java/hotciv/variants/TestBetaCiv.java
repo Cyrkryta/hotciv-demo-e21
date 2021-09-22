@@ -56,9 +56,15 @@ public class TestBetaCiv {
     }
 
     @Test
-    public void shouldAge50After50AD(){
-        //Age the game 4050 years
-        endTurns(86);
+    public void shouldIncrementBy50From50AdTo1750AD(){
+        endTurns(154);
+        assertThat(game.getAge(),is(1750));
+    }
+
+    @Test
+    public void shouldIncrementBy25From1750AdTo1900AD(){
+        endTurns(166);
+        assertThat(game.getAge(),is(1900));
     }
 
     /************ ASSISTING METHODS FOR TESTS ************/
