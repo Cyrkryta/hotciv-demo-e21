@@ -2,7 +2,6 @@ package hotciv.standard;
 
 import hotciv.Utility.Utility;
 import hotciv.framework.*;
-import hotciv.variants.LinearAgeStrategy;
 
 import java.util.*;
 
@@ -46,11 +45,14 @@ public class GameImpl implements Game {
   private Player playerInTurn = Player.RED;
   //Sets game age to start age
   private int currentAge = GameConstants.Start_Age;
-  //Implements the aging strategy for the game
+  // Implements the aging strategy for the game
   private AgeStrategy ageStrategy;
+  // Implements the winning strategy for the game;
+  private WinningStrategy winningStrategy;
 
-  public GameImpl(AgeStrategy ageStrategy) {
+  public GameImpl(AgeStrategy ageStrategy, WinningStrategy winningStrategy) {
     this.ageStrategy = ageStrategy;
+    this.winningStrategy = winningStrategy;
     createWorld();
     createUnitMap();
     citySetup();
@@ -94,8 +96,6 @@ public class GameImpl implements Game {
   public Unit getUnitAt(Position p) {
     return unitMap.get(p);
   }
-
-
 
   public City getCityAt(Position p) {
     return cityMap.get(p);

@@ -14,12 +14,13 @@ import java.util.*;
 
 public class TestBetaCiv {
     private Game game;
-    private AgeStrategy ageStrategy = new SlowingAgeStrategy();
+    private AgeStrategy slowingAgeStrategy = new SlowingAgeStrategy();
+    private WinningStrategy betaCivWinningStrategy = new BetaCivWinningStrategy();
 
     /************  FIXTURE FOR BETACIV TESTING ************/
     @BeforeEach
     public void setUp() {
-        game = new GameImpl(ageStrategy);
+        game = new GameImpl(slowingAgeStrategy, betaCivWinningStrategy);
     }
 
     /************  TESTS FOR GAME AGING ************/
@@ -80,17 +81,13 @@ public class TestBetaCiv {
         assertThat(game.getAge(), is(2000));
     }
 
-    /************ ASSISTING METHODS FOR TESTS ************/
-    //Helps increment turns by x amount
-    private void endTurns(int x) {
-        for (int i = 0; i < x; i++) {
-            game.endOfTurn();
-        }
-    }
+    /************ TESTS FOR GAME WINNING ************/
 
+
+    /************ ASSISTING METHODS FOR TESTS ************/
     // Helps increment a round.
-    private void performRound(int x) {
-        for (int i=0; i<x; i++) {
+    private void performRound(int number) {
+        for (int i=0; i<number; i++) {
             game.endOfTurn();
             game.endOfTurn();
         }

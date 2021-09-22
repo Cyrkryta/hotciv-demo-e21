@@ -3,6 +3,7 @@ package hotciv.standard;
 import hotciv.Utility.Utility;
 import hotciv.framework.*;
 
+import hotciv.variants.AlphaCivWinningStrategy;
 import hotciv.variants.LinearAgeStrategy;
 import org.junit.jupiter.api.*;
 
@@ -42,12 +43,13 @@ import java.util.*;
  */
 public class TestAlphaCiv {
     private Game game;
-    private AgeStrategy LinearAgeStrategy = new LinearAgeStrategy();
+    private AgeStrategy linearAgeStrategy = new LinearAgeStrategy();
+    private WinningStrategy alphaCivWinningStrategy = new AlphaCivWinningStrategy();
 
     /************  FIXTURE FOR ALPHACIV TESTING ************/
     @BeforeEach
     public void setUp() {
-        game = new GameImpl(LinearAgeStrategy);
+        game = new GameImpl(linearAgeStrategy, alphaCivWinningStrategy);
     }
 
     // FRS p. 455 states that 'Red is the first player to take a turn'.
