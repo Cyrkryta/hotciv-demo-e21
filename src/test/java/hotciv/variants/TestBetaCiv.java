@@ -23,54 +23,75 @@ public class TestBetaCiv {
     }
 
     /************  TESTS FOR GAME AGING ************/
+
     @Test
     public void shouldAge100PerRoundIn4000BC(){
         assertThat(game.getAge(), is(-4000));
-        endTurns(2);
-        assertThat(game.getAge(), is(-3900));
+        performRound(39);
+        assertThat(game.getAge(), is(-100));
     }
 
     @Test
-    public void shouldAge100In100BC(){
+    public void shouldAge100YearsIfTheYearIs100BC(){
         //Increment game 3900 year
-        endTurns(80);
-        assertThat(game.getAge(),is(0));
+        performRound(40);
+        assertThat(game.getAge(), is(0));
     }
 
     @Test
     public void shouldAge1InFirst0Year() {
-        endTurns(82);
+        performRound(41);
         assertThat(game.getAge(), is(1));
     }
 
     @Test
     public void shouldAgeMinus1When1() {
-        endTurns(84);
-        assertThat(game.getAge(),is(0));
+        performRound(42);
+        assertThat(game.getAge(), is(0));
     }
 
     @Test
     public void shouldAge50InSecond0Year() {
-        endTurns(86);
-        assertThat(game.getAge(),is(50));
+        performRound(43);
+        assertThat(game.getAge(), is(50));
     }
 
     @Test
     public void shouldIncrementBy50From50AdTo1750AD(){
-        endTurns(154);
-        assertThat(game.getAge(),is(1750));
+        performRound(77);
+        assertThat(game.getAge(), is(1750));
     }
 
     @Test
-    public void shouldIncrementBy25From1750AdTo1900AD(){
-        endTurns(166);
-        assertThat(game.getAge(),is(1900));
+    public void shouldIncrementBy25From1750ADTo1900AD(){
+        performRound(83);
+        assertThat(game.getAge(), is(1900));
+    }
+
+    @Test
+    public void shouldIncrementBy5From1900ADTo1970AD() {
+        performRound(97);
+        assertThat(game.getAge(), is(1970));
+    }
+
+    @Test
+    public void shouldIncrementBy1From1970AndAfterwards() {
+        performRound(127);
+        assertThat(game.getAge(), is(2000));
     }
 
     /************ ASSISTING METHODS FOR TESTS ************/
     //Helps increment turns by x amount
     private void endTurns(int x) {
         for (int i = 0; i < x; i++) {
+            game.endOfTurn();
+        }
+    }
+
+    // Helps increment a round.
+    private void performRound(int x) {
+        for (int i=0; i<x; i++) {
+            game.endOfTurn();
             game.endOfTurn();
         }
     }
