@@ -189,8 +189,7 @@ public class GameImpl implements Game {
   }
 
   public void performUnitActionAt(Position p) {
-    unitActionStrategy.performAction(p, Game);
-    cityMap.put(p, new CityImpl(getUnitAt(p).getOwner()));
+    unitActionStrategy.performAction(p, this);
   }
 
   private void endOfRound() {
@@ -242,15 +241,19 @@ public class GameImpl implements Game {
       }
     }
 
-
   }
   private List<Position> getNeighbourList(Position pos){
     List<Position> neighbourList = new ArrayList<>();
     Iterator<Position> listOfNeighbours = Utility.get8neighborhoodIterator(pos);
     while (listOfNeighbours.hasNext()) {
       neighbourList.add(listOfNeighbours.next());
-
   }
     return neighbourList;
-}
+  }
+
+  // Function for city creation in GammaCiv.
+  public void gammaCivCreateCity(Position p) {
+    cityMap.put(p, new CityImpl(getUnitAt(p).getOwner()));
+    unitMap.remove(p);
+  }
 }
