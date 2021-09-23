@@ -5,8 +5,6 @@ import hotciv.framework.Player;
 import hotciv.framework.WinningStrategy;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Set;
 
 public class AlphaCivWinningStrategy implements WinningStrategy {
     @Override

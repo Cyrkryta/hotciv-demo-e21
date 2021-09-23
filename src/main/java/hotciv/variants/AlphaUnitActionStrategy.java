@@ -1,6 +1,5 @@
 package hotciv.variants;
 
-import hotciv.framework.Game;
 import hotciv.framework.Position;
 import hotciv.framework.UnitActionStrategy;
 import hotciv.standard.GameImpl;

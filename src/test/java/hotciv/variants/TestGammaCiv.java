@@ -19,11 +19,12 @@ public class TestGammaCiv {
     private AgeStrategy linearAgeStrategy = new LinearAgeStrategy();
     private WinningStrategy alphaCivWinningStrategy = new AlphaCivWinningStrategy();
     private UnitActionStrategy gammaUnitActionStrategy = new GammaUnitActionStrategy();
+    private WorldLayoutStrategy alphaWorldLayoutStrategy = new AlphaWorldLayoutStrategy();
 
     /************  FIXTURE FOR BETACIV TESTING ************/
     @BeforeEach
     public void setUp() {
-        game = new GameImpl(linearAgeStrategy, alphaCivWinningStrategy, gammaUnitActionStrategy);
+        game = new GameImpl(linearAgeStrategy, alphaCivWinningStrategy, gammaUnitActionStrategy, alphaWorldLayoutStrategy);
     }
 
     /************ TESTS FOR SETTLER ACTION ************/

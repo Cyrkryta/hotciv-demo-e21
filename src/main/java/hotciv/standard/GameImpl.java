@@ -34,6 +34,8 @@ import java.util.*;
 
 public class GameImpl implements Game {
 
+
+
   // Creating HashMap for the world.
   HashMap<Position, Tile> worldMap = new HashMap<>();
   // Creating Hashmap for the units.
@@ -49,38 +51,28 @@ public class GameImpl implements Game {
   private Player winner = null;
   // Implements the aging strategy for the game
   private AgeStrategy ageStrategy;
+  // Implements the world strategy for the game
+  private WorldLayoutStrategy worldLayoutStrategy;
   // Implements the winning strategy for the game.
   private WinningStrategy winningStrategy;
+  // Implements the world layout strategy for the game.
   private UnitActionStrategy unitActionStrategy;
 
-  public GameImpl(AgeStrategy ageStrategy, WinningStrategy winningStrategy, UnitActionStrategy unitActionStrategy) {
+
+  public GameImpl(AgeStrategy ageStrategy, WinningStrategy winningStrategy, UnitActionStrategy unitActionStrategy, WorldLayoutStrategy worldLayoutStrategy) {
     this.ageStrategy = ageStrategy;
     this.winningStrategy = winningStrategy;
     this.unitActionStrategy = unitActionStrategy;
-    createWorld();
+    this.worldLayoutStrategy = worldLayoutStrategy;
     createUnitMap();
     citySetup();
+    this.worldMap = worldLayoutStrategy.createWorld();
   }
 
   private void createUnitMap() {
     unitMap.put(GameConstants.RedSettler_Start_Position, new UnitImpl(GameConstants.SETTLER, Player.RED));
     unitMap.put(GameConstants.RedArcher_Start_Position, new UnitImpl(GameConstants.ARCHER, Player.RED));
     unitMap.put(GameConstants.BlueLegion_Start_Position, new UnitImpl(GameConstants.LEGION, Player.BLUE));
-  }
-
-  // Method for handling the creation of the tiles.
-  private void createWorld() {
-    for (int i = 0; i <= GameConstants.WORLDSIZE - 1; i++) {
-      for (int j = 0; j <= GameConstants.WORLDSIZE - 1; j++) {
-        worldMap.put(new Position(i, j), new TileImpl(GameConstants.PLAINS));
-      }
-    }
-    // Creation of tile with ocean.
-    worldMap.put(GameConstants.Ocean_Tile_Position, new TileImpl(GameConstants.OCEANS));
-    // Creation of tile with mountain.
-    worldMap.put(GameConstants.Mountain_Tile_Position, new TileImpl(GameConstants.MOUNTAINS));
-    // Creation of tile with hills.
-    worldMap.put(GameConstants.Hill_Tile_Position, new TileImpl(GameConstants.HILLS));
   }
 
   private void citySetup() {
@@ -126,9 +118,6 @@ public class GameImpl implements Game {
   }
 
   public Player getWinner() {
-    //if (getAge() == -3000) {
-      //return Player.RED;
-    //}
     ArrayList<City> listOfCities = new ArrayList<>(cityMap.values());
     winner = winningStrategy.calculateWinner(getAge(), listOfCities);
     return winner;
