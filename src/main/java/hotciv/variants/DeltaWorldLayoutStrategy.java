@@ -1,9 +1,7 @@
 package hotciv.variants;
 
-import hotciv.framework.GameConstants;
-import hotciv.framework.Position;
-import hotciv.framework.Tile;
-import hotciv.framework.WorldLayoutStrategy;
+import hotciv.framework.*;
+import hotciv.standard.CityImpl;
 import hotciv.standard.TileImpl;
 
 import java.util.HashMap;
@@ -48,5 +46,15 @@ public class DeltaWorldLayoutStrategy implements WorldLayoutStrategy {
             }
         }
         return worldMap;
+    }
+
+    @Override
+    public HashMap<Position, City> placeCities() {
+        HashMap<Position,City> cityMap = new HashMap<>();
+        City redCity = new CityImpl(Player.RED);
+        City blueCity = new CityImpl(Player.BLUE);
+        cityMap.put(new Position(8,12), redCity);
+        cityMap.put(new Position(4,5), blueCity);
+        return cityMap;
     }
 }

@@ -62,4 +62,20 @@ public class TestDeltaCiv {
     public void shouldBeOceanAt15_15() {
         assertThat(game.getTileAt(new Position(15,15)).getTypeString(), is(GameConstants.OCEANS));
     }
+
+    /************ TESTING FOR DELTACIV CITIES ************/
+
+    //Testing that Red has a city on (8,12)
+    @Test
+    public void shouldHaveRedCityOn8_12(){
+        Position redCityPosition = new Position(8,12);
+        assertThat(game.getCityAt(redCityPosition).getOwner(), is(Player.RED));
+    }
+
+    //Testing that Blue has a city on (8,12)
+    @Test
+    public void shouldHaveBlueCityOn4_5(){
+        Position blueCityPosition = new Position(4,5);
+        assertThat(game.getCityAt(blueCityPosition).getOwner(), is(Player.BLUE));
+    }
 }

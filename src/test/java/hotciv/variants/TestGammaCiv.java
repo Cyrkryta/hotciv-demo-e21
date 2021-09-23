@@ -55,6 +55,15 @@ public class TestGammaCiv {
         assertThat(game.getCityAt(cityPosition).getOwner(), is(Player.RED));
     }
 
+    //City should have 1 population after being made
+    @Test
+    public void shouldHave1PopulationAfterBeingCreated(){
+        Position cityPosition = GameConstants.RedSettler_Start_Position;
+        game.performUnitActionAt(cityPosition);
+        assertThat(game.getCityAt(cityPosition).getSize(), is(1));
+    }
+
+
     /************ TESTS FOR ARCHER ACTION ************/
     //Testing that a fortified archer has 6 defense (Double of 3)
     @Test

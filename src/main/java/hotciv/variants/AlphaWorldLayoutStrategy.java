@@ -1,9 +1,7 @@
 package hotciv.variants;
 
-import hotciv.framework.GameConstants;
-import hotciv.framework.Position;
-import hotciv.framework.Tile;
-import hotciv.framework.WorldLayoutStrategy;
+import hotciv.framework.*;
+import hotciv.standard.CityImpl;
 import hotciv.standard.TileImpl;
 
 import java.util.HashMap;
@@ -24,5 +22,15 @@ public class AlphaWorldLayoutStrategy implements WorldLayoutStrategy {
         // Creation of tile with hills.
         worldMap.put(GameConstants.Hill_Tile_Position, new TileImpl(GameConstants.HILLS));
         return worldMap;
+    }
+
+    @Override
+    public HashMap<Position, City> placeCities() {
+        HashMap<Position,City> cityMap = new HashMap<>();
+        City redCity = new CityImpl(Player.RED);
+        City blueCity = new CityImpl(Player.BLUE);
+        cityMap.put(GameConstants.Red_City_Pos, redCity);
+        cityMap.put(GameConstants.Blue_City_Pos, blueCity);
+        return cityMap;
     }
 }

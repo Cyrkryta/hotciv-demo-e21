@@ -33,9 +33,6 @@ import java.util.*;
 */
 
 public class GameImpl implements Game {
-
-
-
   // Creating HashMap for the world.
   HashMap<Position, Tile> worldMap = new HashMap<>();
   // Creating Hashmap for the units.
@@ -50,13 +47,13 @@ public class GameImpl implements Game {
   // Starting point for game winner.
   private Player winner = null;
   // Implements the aging strategy for the game
-  private AgeStrategy ageStrategy;
+  private final AgeStrategy ageStrategy;
   // Implements the world strategy for the game
-  private WorldLayoutStrategy worldLayoutStrategy;
+  private final WorldLayoutStrategy worldLayoutStrategy;
   // Implements the winning strategy for the game.
-  private WinningStrategy winningStrategy;
+  private final WinningStrategy winningStrategy;
   // Implements the world layout strategy for the game.
-  private UnitActionStrategy unitActionStrategy;
+  private final UnitActionStrategy unitActionStrategy;
 
 
   public GameImpl(AgeStrategy ageStrategy, WinningStrategy winningStrategy, UnitActionStrategy unitActionStrategy, WorldLayoutStrategy worldLayoutStrategy) {
@@ -65,7 +62,7 @@ public class GameImpl implements Game {
     this.unitActionStrategy = unitActionStrategy;
     this.worldLayoutStrategy = worldLayoutStrategy;
     createUnitMap();
-    citySetup();
+    this.cityMap = worldLayoutStrategy.placeCities();
     this.worldMap = worldLayoutStrategy.createWorld();
   }
 
@@ -74,14 +71,6 @@ public class GameImpl implements Game {
     unitMap.put(GameConstants.RedArcher_Start_Position, new UnitImpl(GameConstants.ARCHER, Player.RED));
     unitMap.put(GameConstants.BlueLegion_Start_Position, new UnitImpl(GameConstants.LEGION, Player.BLUE));
   }
-
-  private void citySetup() {
-    City redCity = new CityImpl(Player.RED);
-    City blueCity = new CityImpl(Player.BLUE);
-    cityMap.put(GameConstants.Red_City_Pos, redCity);
-    cityMap.put(GameConstants.Blue_City_Pos, blueCity);
-  }
-
 
   public Tile getTileAt(Position p) {
     return worldMap.get(p);
