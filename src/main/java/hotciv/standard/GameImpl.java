@@ -113,7 +113,7 @@ public class GameImpl implements Game {
       endOfRound();
       resetUnitsMoveCount();
     }
-    winner = winningStrategy.calculateWinner(winner);
+    //getWinner();
   }
 
   private void resetUnitsMoveCount() {
@@ -127,6 +127,8 @@ public class GameImpl implements Game {
     //if (getAge() == -3000) {
       //return Player.RED;
     //}
+    Collection<City> collectionOfCities = cityMap.values();
+    winner = winningStrategy.calculateWinner(getAge(), collectionOfCities);
     return winner;
   }
 

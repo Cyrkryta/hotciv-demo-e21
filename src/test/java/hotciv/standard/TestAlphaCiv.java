@@ -147,7 +147,7 @@ public class TestAlphaCiv {
     // Testing that red is winning in year 3000.
     @Test
     public void shouldRedWinInYear3000BC() {
-        assertThat(game.getWinner(), is(nullValue()));
+       assertThat(game.getWinner(), is(nullValue()));
     // Incrementing world age to year 3000.
         endTurns(20);
     // Checking that the winner is RED.
