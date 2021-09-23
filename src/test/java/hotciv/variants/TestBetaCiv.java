@@ -17,11 +17,12 @@ public class TestBetaCiv {
     private Game game;
     private AgeStrategy slowingAgeStrategy = new SlowingAgeStrategy();
     private WinningStrategy betaCivWinningStrategy = new BetaCivWinningStrategy();
+    private UnitActionStrategy alphaUnitActionStrategy = new AlphaUnitActionStrategy();
 
     /************  FIXTURE FOR BETACIV TESTING ************/
     @BeforeEach
     public void setUp() {
-        game = new GameImpl(slowingAgeStrategy, betaCivWinningStrategy);
+        game = new GameImpl(slowingAgeStrategy, betaCivWinningStrategy, alphaUnitActionStrategy);
     }
 
     /************  TESTS FOR GAME AGING ************/

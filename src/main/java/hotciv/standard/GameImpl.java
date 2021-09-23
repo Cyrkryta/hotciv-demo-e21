@@ -51,10 +51,12 @@ public class GameImpl implements Game {
   private AgeStrategy ageStrategy;
   // Implements the winning strategy for the game.
   private WinningStrategy winningStrategy;
+  private UnitActionStrategy unitActionStrategy;
 
-  public GameImpl(AgeStrategy ageStrategy, WinningStrategy winningStrategy) {
+  public GameImpl(AgeStrategy ageStrategy, WinningStrategy winningStrategy, UnitActionStrategy unitActionStrategy) {
     this.ageStrategy = ageStrategy;
     this.winningStrategy = winningStrategy;
+    this.unitActionStrategy = unitActionStrategy;
     createWorld();
     createUnitMap();
     citySetup();
@@ -187,8 +189,8 @@ public class GameImpl implements Game {
   }
 
   public void performUnitActionAt(Position p) {
-    //Placeholder replace with actual functionality later
-    int x = 0;
+    unitActionStrategy.performAction(p, Game);
+    cityMap.put(p, new CityImpl(getUnitAt(p).getOwner()));
   }
 
   private void endOfRound() {
