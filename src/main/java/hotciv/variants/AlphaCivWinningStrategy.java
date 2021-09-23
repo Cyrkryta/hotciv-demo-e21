@@ -4,12 +4,13 @@ import hotciv.framework.City;
 import hotciv.framework.Player;
 import hotciv.framework.WinningStrategy;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
 
 public class AlphaCivWinningStrategy implements WinningStrategy {
     @Override
-    public Player calculateWinner(int currentAge, Collection<City> collectionOfCities) {
+    public Player calculateWinner(int currentAge, ArrayList<City> listOfCities) {
         if(currentAge == -3000) {
             return Player.RED;
         }

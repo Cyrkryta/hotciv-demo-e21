@@ -127,8 +127,8 @@ public class GameImpl implements Game {
     //if (getAge() == -3000) {
       //return Player.RED;
     //}
-    Collection<City> collectionOfCities = cityMap.values();
-    winner = winningStrategy.calculateWinner(getAge(), collectionOfCities);
+    ArrayList<City> listOfCities = new ArrayList<>(cityMap.values());
+    winner = winningStrategy.calculateWinner(getAge(), listOfCities);
     return winner;
   }
 

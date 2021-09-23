@@ -4,18 +4,15 @@ import hotciv.framework.City;
 import hotciv.framework.Player;
 import hotciv.framework.WinningStrategy;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class BetaCivWinningStrategy implements WinningStrategy {
     @Override
-    public Player calculateWinner(int currentAge, Collection<City> collectionOfCities) {
-        collectionOfCities = new ArrayList<City>();
-        Set<Player> setOfCityOwners = new HashSet<>();
-        for (int i = 0; i<collectionOfCities.size(); i++){
+    public Player calculateWinner(int currentAge, ArrayList<City> listOfCities) {
+        for (City city : listOfCities) {
+            if (city.getOwner() != listOfCities.get(0).getOwner())
+                return null;
         }
-        return null;
+        return listOfCities.get(0).getOwner();
     }
 }

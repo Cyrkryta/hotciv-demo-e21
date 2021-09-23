@@ -3,6 +3,7 @@ package hotciv.variants;
 import hotciv.Utility.Utility;
 import hotciv.framework.*;
 
+import hotciv.standard.CityImpl;
 import hotciv.standard.GameImpl;
 import hotciv.variants.LinearAgeStrategy;
 import org.junit.jupiter.api.*;
@@ -82,7 +83,19 @@ public class TestBetaCiv {
     }
 
     /************ TESTS FOR GAME WINNING ************/
+    @Test
+    public void redShouldWinIfItOwnsAllCities(){
+       CityImpl blueCity = (CityImpl) game.getCityAt(GameConstants.Blue_City_Pos);
+       blueCity.changeOwner(Player.RED);
+       assertThat(game.getWinner(), is(Player.RED));
+    }
 
+    @Test
+    public void blueShouldWinIfItOwnsAllCities(){
+        CityImpl redCity = (CityImpl) game.getCityAt(GameConstants.Red_City_Pos);
+        redCity.changeOwner(Player.BLUE);
+        assertThat(game.getWinner(), is(Player.BLUE));
+    }
 
     /************ ASSISTING METHODS FOR TESTS ************/
     // Helps increment a round.
