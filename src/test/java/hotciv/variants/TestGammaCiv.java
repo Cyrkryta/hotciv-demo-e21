@@ -53,4 +53,35 @@ public class TestGammaCiv {
         game.performUnitActionAt(cityPosition);
         assertThat(game.getCityAt(cityPosition).getOwner(), is(Player.RED));
     }
+
+    /************ TESTS FOR ARCHER ACTION ************/
+    //Testing that a fortified archer has 6 defense (Double of 3)
+    @Test
+    public void shouldHave6DefenseWhenFortified(){
+        Position unitPosition = GameConstants.RedArcher_Start_Position;
+        game.performUnitActionAt(unitPosition);
+        assertThat(game.getUnitAt(unitPosition).getDefensiveStrength(), is(6));
+    }
+
+    @Test
+    public void shouldNotBeAbleToMoveIfFortified(){
+        //Testing that units cannot move after they are fortified
+        Position unitPosition = GameConstants.RedArcher_Start_Position;
+        //Fortify unit
+        game.performUnitActionAt(unitPosition);
+        //Attempt to move unit 1 tile (2,0) to (2,1)
+        assertThat(game.moveUnit(unitPosition, new Position(2,1)), is(false));
+    }
+
+    @Test
+    public void shouldBeAbleToMoveAfterUnFortifying(){
+        //Testing that units can move after they are un-fortified
+        Position unitPosition = GameConstants.RedArcher_Start_Position;
+        //Fortify unit
+        game.performUnitActionAt(unitPosition);
+        //Un-Fortify unit
+        game.performUnitActionAt(unitPosition);
+        //Attempt to move unit 1 tile (2,0) to (2,1)
+        assertThat(game.moveUnit(unitPosition, new Position(2,1)), is(true));
+    }
 }

@@ -5,15 +5,16 @@ import hotciv.framework.Player;
 import hotciv.framework.Unit;
 
 public class UnitImpl implements Unit {
-    public String unitName;
-    public Player playerOwner;
-    public int moveCount = 1;
-    public int defensiveStrength;
-    public int attackingStrength;
+    private String unitName;
+    private Player playerOwner;
+    private int moveCount = 1;
+    private boolean isFortified;
+
 
     public UnitImpl(String unitName, Player playerOwner) {
         this.unitName = unitName;
         this.playerOwner = playerOwner;
+        this.isFortified = false;
         }
     @Override
     public String getTypeString() {
@@ -34,7 +35,11 @@ public class UnitImpl implements Unit {
     public int getDefensiveStrength() {
         switch (unitName) {
             case GameConstants.ARCHER:
-                return GameConstants.ARCHER_DEF;
+                if(isFortified){
+                    return GameConstants.ARCHER_DEF*2;
+                }else{
+                    return GameConstants.ARCHER_DEF;
+                }
             case GameConstants.SETTLER:
                 return GameConstants.SETTLER_DEF;
             case GameConstants.LEGION:
@@ -61,6 +66,18 @@ public class UnitImpl implements Unit {
     }
 
     public void resetMoveCount() {
-        moveCount = 1;
+        //Fortified units are not granted movement
+        if(!isFortified){
+            moveCount = 1;
+        }
+    }
+
+    public void fortifyUnit(){
+        if (isFortified){
+            this.isFortified = false;
+            resetMoveCount();
+        }else{
+            reduceMoveCount();
+            this.isFortified = true;}
     }
 }
