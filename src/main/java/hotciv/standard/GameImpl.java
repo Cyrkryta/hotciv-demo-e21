@@ -220,6 +220,8 @@ public class GameImpl implements Game {
     }
 
   }
+
+  //Might refactor to check for positions +/-1 of Pos in moveUnit
   private List<Position> getNeighbourList(Position pos){
     List<Position> neighbourList = new ArrayList<>();
     Iterator<Position> listOfNeighbours = Utility.get8neighborhoodIterator(pos);
