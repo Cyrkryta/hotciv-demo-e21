@@ -3,6 +3,7 @@ package hotciv.standard;
 import hotciv.Utility.Utility;
 import hotciv.framework.*;
 
+import hotciv.variants.*;
 import org.junit.jupiter.api.*;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -41,13 +42,15 @@ import java.util.*;
  */
 public class TestAlphaCiv {
     private Game game;
-    private City redCity;
+    private AgeStrategy linearAgeStrategy = new LinearAgeStrategy();
+    private WinningStrategy alphaCivWinningStrategy = new AlphaCivWinningStrategy();
+    private UnitActionStrategy alphaUnitActionStrategy = new AlphaUnitActionStrategy();
+    private WorldLayoutStrategy alphaWorldLayoutStrategy = new AlphaWorldLayoutStrategy();
 
     /************  FIXTURE FOR ALPHACIV TESTING ************/
     @BeforeEach
     public void setUp() {
-        game = new GameImpl();
-        redCity = new CityImpl(Player.RED); //Create test city
+        game = new GameImpl(linearAgeStrategy, alphaCivWinningStrategy, alphaUnitActionStrategy, alphaWorldLayoutStrategy);
     }
 
     // FRS p. 455 states that 'Red is the first player to take a turn'.
@@ -78,13 +81,13 @@ public class TestAlphaCiv {
     // Testing that the population of the city is always 1.
     @Test
     public void shouldAlwaysContainPopulationOf_1_InCities() {
-        assertThat(redCity.getSize(), is(1));
+        assertThat(game.getCityAt(GameConstants.Red_City_Pos).getSize(), is(1));
     }
 
     // Testing that the city always has an owner.
     @Test
     public void shouldHaveOwnerInCity() {
-        assertThat(redCity.getOwner(), is(Player.RED));
+        assertThat(game.getCityAt(GameConstants.Red_City_Pos).getOwner(), is(Player.RED));
     }
 
     // Testing that there is a red city at 1,1
@@ -113,6 +116,14 @@ public class TestAlphaCiv {
         assertThat(redCity.getTreasury(), is(6));
     }
 
+    //Testing that cities can change work force focus
+    @Test
+    public void shouldBeAbleToChangeWorkForceFocusInCity(){
+        CityImpl redCity = (CityImpl) game.getCityAt(GameConstants.Red_City_Pos);
+        redCity.changeWorkForceFocus(GameConstants.foodFocus);
+        assertThat(redCity.getWorkforceFocus(), is(GameConstants.foodFocus));
+    }
+
     /************ TESTS FOR TIME ************/
     // Testing that game starts in year 4000 BC
     @Test
@@ -137,7 +148,7 @@ public class TestAlphaCiv {
     // Testing that red is winning in year 3000.
     @Test
     public void shouldRedWinInYear3000BC() {
-        assertThat(game.getWinner(), is(nullValue()));
+       assertThat(game.getWinner(), is(nullValue()));
     // Incrementing world age to year 3000.
         endTurns(20);
     // Checking that the winner is RED.
@@ -324,6 +335,27 @@ public class TestAlphaCiv {
         }
     }
 
+    //Testing units cannot move if they have no available moves
+    @Test
+    public void shouldNotBeAbleToMoveIfNoMovesAreLeft(){
+        Position from = GameConstants.RedSettler_Start_Position;
+        Position to = new Position(4, 4);
+        UnitImpl testUnit = (UnitImpl) game.getUnitAt(GameConstants.RedSettler_Start_Position);
+        testUnit.reduceMoveCount();
+        assertThat(game.moveUnit(from, to), is(false));
+    }
+
+    //Testing that units can only move to neighbouring tiles
+    @Test
+    public void shouldNotBeAbleToMoveUnitsToNonNeighbouringTiles(){
+    //Attempting to move red Settler (4,3) to blue city (4,1)
+        Position from = GameConstants.RedSettler_Start_Position;
+        Position to = GameConstants.Blue_City_Pos;
+    //Asserting that move fails
+        game.moveUnit(from, to);
+        assertThat(game.getUnitAt(to), is(nullValue()));
+    }
+
     /************ TESTS FOR PRODUCING UNITS ************/
     // Testing that you are able to choose production in city.
     @Test
@@ -504,6 +536,17 @@ public class TestAlphaCiv {
         assertThat(game.getUnitAt(new Position(0, 0)).getTypeString(), is(not(GameConstants.LEGION)));
     }
 
+    //Testing that produce unit does not produce on immovable terrain (Oceans, Mountains)
+    @Test
+    public void shouldNotPlaceUnitsOnImmovableTerrain (){
+        game.changeProductionInCityAt(GameConstants.Red_City_Pos, GameConstants.ARCHER);
+        endTurns(20);
+        assertThat(game.getUnitAt(GameConstants.Mountain_Tile_Position), is(nullValue()));
+        assertThat(game.getUnitAt(GameConstants.Ocean_Tile_Position), is(nullValue()));
+    }
+
+
+
     /************ TESTS FOR ATTACKS ************/
     // Testing that the attacking player destroys the defending players units.
     // Red attacking blue.
@@ -544,12 +587,18 @@ public class TestAlphaCiv {
     //Testing that cities change owners if an opposing unit moves on to its tile
     @Test
     public void shouldChangeCityOwnerIfOpponentUnitEnters() {
+        //Setting up move positions for Blue Legion to enter Red City
         Position from = GameConstants.BlueLegion_Start_Position;
+        Position middle = new Position(2,1);
         Position to = GameConstants.Red_City_Pos;
         // Changing player.
         game.endOfTurn();
-        // Move blues unit
-        game.moveUnit(from, to);
+        // Move blues unit to middle tile
+        game.moveUnit(from, middle);
+        //Ending round and going back to blue in turn
+        endTurns(2);
+        // Move blues unit to Red's city
+        game.moveUnit(middle, to);
         //Checking that city changed owner
         assertThat(game.getCityAt(GameConstants.Red_City_Pos).getOwner(), is(Player.BLUE));
     }

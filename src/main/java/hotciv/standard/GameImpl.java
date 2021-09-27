@@ -33,7 +33,6 @@ import java.util.*;
 */
 
 public class GameImpl implements Game {
-
   // Creating HashMap for the world.
   HashMap<Position, Tile> worldMap = new HashMap<>();
   // Creating Hashmap for the units.
@@ -43,13 +42,28 @@ public class GameImpl implements Game {
 
   // Defining the players in turn.
   private Player playerInTurn = Player.RED;
-  //Game always starts in 4000 BC
-  private int currAge = -4000;
+  //Sets game age to start age
+  private int currentAge = GameConstants.Start_Age;
+  // Starting point for game winner.
+  private Player winner = null;
+  // Implements the aging strategy for the game
+  private final AgeStrategy ageStrategy;
+  // Implements the world strategy for the game
+  private final WorldLayoutStrategy worldLayoutStrategy;
+  // Implements the winning strategy for the game.
+  private final WinningStrategy winningStrategy;
+  // Implements the world layout strategy for the game.
+  private final UnitActionStrategy unitActionStrategy;
 
-  public GameImpl() {
-    createWorld();
+
+  public GameImpl(AgeStrategy ageStrategy, WinningStrategy winningStrategy, UnitActionStrategy unitActionStrategy, WorldLayoutStrategy worldLayoutStrategy) {
+    this.ageStrategy = ageStrategy;
+    this.winningStrategy = winningStrategy;
+    this.unitActionStrategy = unitActionStrategy;
+    this.worldLayoutStrategy = worldLayoutStrategy;
     createUnitMap();
-    citySetup();
+    this.cityMap = worldLayoutStrategy.placeCities();
+    this.worldMap = worldLayoutStrategy.createWorld();
   }
 
   private void createUnitMap() {
@@ -58,29 +72,6 @@ public class GameImpl implements Game {
     unitMap.put(GameConstants.BlueLegion_Start_Position, new UnitImpl(GameConstants.LEGION, Player.BLUE));
   }
 
-  // Method for handling the creation of the tiles.
-  private void createWorld() {
-    for (int i = 0; i <= GameConstants.WORLDSIZE - 1; i++) {
-      for (int j = 0; j <= GameConstants.WORLDSIZE - 1; j++) {
-        worldMap.put(new Position(i, j), new TileImpl(GameConstants.PLAINS));
-      }
-    }
-    // Creation of tile with ocean.
-    worldMap.put(GameConstants.Ocean_Tile_Position, new TileImpl(GameConstants.OCEANS));
-    // Creation of tile with mountain.
-    worldMap.put(GameConstants.Mountain_Tile_Position, new TileImpl(GameConstants.MOUNTAINS));
-    // Creation of tile with hills.
-    worldMap.put(GameConstants.Hill_Tile_Position, new TileImpl(GameConstants.HILLS));
-  }
-
-  private void citySetup() {
-    City redCity = new CityImpl(Player.RED);
-    City blueCity = new CityImpl(Player.BLUE);
-    cityMap.put(GameConstants.Red_City_Pos, redCity);
-    cityMap.put(GameConstants.Blue_City_Pos, blueCity);
-  }
-
-
   public Tile getTileAt(Position p) {
     return worldMap.get(p);
   }
@@ -88,8 +79,6 @@ public class GameImpl implements Game {
   public Unit getUnitAt(Position p) {
     return unitMap.get(p);
   }
-
-
 
   public City getCityAt(Position p) {
     return cityMap.get(p);
@@ -107,6 +96,7 @@ public class GameImpl implements Game {
       endOfRound();
       resetUnitsMoveCount();
     }
+    //getWinner();
   }
 
   private void resetUnitsMoveCount() {
@@ -117,35 +107,37 @@ public class GameImpl implements Game {
   }
 
   public Player getWinner() {
-    if (currAge == -3000) {
-      return Player.RED;
-    }
-    return null;
+    ArrayList<City> listOfCities = new ArrayList<>(cityMap.values());
+    winner = winningStrategy.calculateWinner(getAge(), listOfCities);
+    return winner;
   }
 
-
   public int getAge() {
-    return currAge;
+    return currentAge;
   }
 
   public boolean moveUnit(Position from, Position to) {
     UnitImpl unit = (UnitImpl) getUnitAt(from);
-    if(unit.getOwner() == playerInTurn) {
-      if (getUnitAt(to) == null) {
-          // Handling illegal moves.
-          if (getTileAt(to).getTypeString().equals(GameConstants.HILLS) || getTileAt(to).getTypeString().equals(GameConstants.PLAINS)){
-            if(getCityAt(to) != null && getCityAt(to).getOwner() != unit.getOwner()){
-              CityImpl attackedCity = (CityImpl) getCityAt(to);
-              attackedCity.changeOwner(playerInTurn);
+    if(getNeighbourList(from).contains(to)){
+      if(unit.getMoveCount() > 0){
+        if(unit.getOwner() == playerInTurn) {
+          if (getUnitAt(to) == null) {
+            // Handling illegal moves.
+            if (getTileAt(to).getTypeString().equals(GameConstants.HILLS) || getTileAt(to).getTypeString().equals(GameConstants.PLAINS)){
+              if(getCityAt(to) != null && getCityAt(to).getOwner() != unit.getOwner()){
+                CityImpl attackedCity = (CityImpl) getCityAt(to);
+                attackedCity.changeOwner(playerInTurn);
+              }
+              UnitImpl unitType = (UnitImpl) unitMap.remove(from);
+              unitType.reduceMoveCount();
+              unitMap.put(to, unitType);
+              return true;
             }
-            UnitImpl unitType = (UnitImpl) unitMap.remove(from);
-            unitType.reduceMoveCount();
-            unitMap.put(to, unitType);
+          } else if (getUnitAt(to).getOwner() != playerInTurn) {
+            handleAttack(from, to);
             return true;
           }
-      } else if (getUnitAt(to).getOwner() != playerInTurn) {
-        handleAttack(from, to);
-        return true;
+        }
       }
     }
     return false;
@@ -159,8 +151,10 @@ public class GameImpl implements Game {
 
   }
 
-
   public void changeWorkForceFocusInCityAt(Position p, String balance) {
+    CityImpl chosenCity = (CityImpl) getCityAt(p);
+    if(balance.equals(GameConstants.foodFocus) || balance.equals(GameConstants.productionFocus))
+    {chosenCity.changeWorkForceFocus(balance);}
   }
 
   public void changeProductionInCityAt(Position p, String unitType) {
@@ -173,13 +167,12 @@ public class GameImpl implements Game {
   }
 
   public void performUnitActionAt(Position p) {
-    //Placeholder replace with actual functionality later
-    int x = 0;
+    unitActionStrategy.performAction(p, this);
   }
 
   private void endOfRound() {
-    //Increments game age by 100 years
-    currAge += 100;
+    //Increments game age according to age strategy
+    currentAge = ageStrategy.calculateAge(currentAge);
     System.out.print(getAge());
     //Iterates through all cities on the map and allocates them 6 production at end of round
     for (Map.Entry<Position, City> entry : cityMap.entrySet()) {
@@ -202,10 +195,13 @@ public class GameImpl implements Game {
         Iterator<Position> listOfNeighbours = Utility.get8neighborhoodIterator(cityPos);
         for (; listOfNeighbours.hasNext(); ) {
           Position position = listOfNeighbours.next();
-          if (getUnitAt(position) == null) {
-            placementPos = position;
-            break;
+          if(getTileAt(position).getTypeString().equals(GameConstants.HILLS) || getTileAt(position).getTypeString().equals(GameConstants.PLAINS)){
+            if (getUnitAt(position) == null) {
+              placementPos = position;
+              break;
+            }
           }
+
         }
       }
 
@@ -222,5 +218,20 @@ public class GameImpl implements Game {
         city.addTreasury(-GameConstants.SETTLER_COST);
       }
     }
+
+  }
+  private List<Position> getNeighbourList(Position pos){
+    List<Position> neighbourList = new ArrayList<>();
+    Iterator<Position> listOfNeighbours = Utility.get8neighborhoodIterator(pos);
+    while (listOfNeighbours.hasNext()) {
+      neighbourList.add(listOfNeighbours.next());
+  }
+    return neighbourList;
+  }
+
+  // Function for city creation in GammaCiv.
+  public void gammaCivCreateCity(Position p) {
+    cityMap.put(p, new CityImpl(getUnitAt(p).getOwner()));
+    unitMap.remove(p);
   }
 }
