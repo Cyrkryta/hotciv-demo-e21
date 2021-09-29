@@ -34,11 +34,11 @@ import java.util.*;
 
 public class GameImpl implements Game {
   // Creating HashMap for the world.
-  HashMap<Position, Tile> worldMap = new HashMap<>();
+  HashMap<Position, Tile> worldMap;
   // Creating Hashmap for the units.
-  HashMap<Position, Unit> unitMap = new HashMap<>();
+  HashMap<Position, Unit> unitMap;
   // Creating map for the cities.
-  Map<Position, City> cityMap = new HashMap<>();
+  Map<Position, City> cityMap;
 
   // Defining the players in turn.
   private Player playerInTurn = Player.RED;
@@ -61,15 +61,10 @@ public class GameImpl implements Game {
     this.winningStrategy = winningStrategy;
     this.unitActionStrategy = unitActionStrategy;
     this.worldLayoutStrategy = worldLayoutStrategy;
-    createUnitMap();
+
+    this.unitMap = worldLayoutStrategy.placeUnits();
     this.cityMap = worldLayoutStrategy.placeCities();
     this.worldMap = worldLayoutStrategy.createWorld();
-  }
-
-  private void createUnitMap() {
-    unitMap.put(GameConstants.RedSettler_Start_Position, new UnitImpl(GameConstants.SETTLER, Player.RED));
-    unitMap.put(GameConstants.RedArcher_Start_Position, new UnitImpl(GameConstants.ARCHER, Player.RED));
-    unitMap.put(GameConstants.BlueLegion_Start_Position, new UnitImpl(GameConstants.LEGION, Player.BLUE));
   }
 
   public Tile getTileAt(Position p) {
@@ -96,7 +91,6 @@ public class GameImpl implements Game {
       endOfRound();
       resetUnitsMoveCount();
     }
-    //getWinner();
   }
 
   private void resetUnitsMoveCount() {
@@ -222,7 +216,7 @@ public class GameImpl implements Game {
   }
 
   // Function for city creation in GammaCiv.
-  public void gammaCivCreateCity(Position p) {
+  public void createCity(Position p) {
     cityMap.put(p, new CityImpl(getUnitAt(p).getOwner()));
     unitMap.remove(p);
   }

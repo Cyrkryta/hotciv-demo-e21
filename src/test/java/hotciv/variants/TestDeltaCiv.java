@@ -78,4 +78,38 @@ public class TestDeltaCiv {
         Position blueCityPosition = new Position(4,5);
         assertThat(game.getCityAt(blueCityPosition).getOwner(), is(Player.BLUE));
     }
+
+    /************ TESTING FOR DELTACIV UNITS ************/
+    // Testing that Red starts with settler on 5,5.
+    @Test
+    public void shouldBeSettlerOn5_5OwnedByRed() {
+        // Creating the position.
+        Position p = new Position(5,5);
+        // Checking that the Settler is at position.
+        assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.SETTLER));
+        // Checking that the Settler is owned by Red.
+        assertThat(game.getUnitAt(p).getOwner(), is(Player.RED));
+    }
+
+    // Testing that Red starts with archer on 3,8
+    @Test
+    public void shouldBeArcherOn3_8OwnedByRed() {
+        // Creating the position.
+        Position p = new Position(3,8);
+        // Checking that the archer is at position.
+        assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.ARCHER));
+        // Checking that the archer is owned by Red.
+        assertThat(game.getUnitAt(p).getOwner(), is(Player.RED));
+    }
+
+    // Testing that Blue starts with legion 4,4.
+    @Test
+    public void shouldBeLegionOn4_4OwnedByBlue() {
+        // Creating the position.
+        Position p = new Position(4,4);
+        // Checking that the legion is at the position.
+        assertThat(game.getUnitAt(p).getTypeString(), is(GameConstants.LEGION));
+        // Checking that the legion is owned by Blue.
+        assertThat(game.getUnitAt(p).getOwner(), is(Player.BLUE));
+    }
 }

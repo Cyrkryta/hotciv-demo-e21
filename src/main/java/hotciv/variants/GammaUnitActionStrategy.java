@@ -11,7 +11,7 @@ public class GammaUnitActionStrategy implements UnitActionStrategy {
     @Override
     public void performAction(Position p, GameImpl game) {
         if (GameConstants.SETTLER.equals(game.getUnitAt(p).getTypeString())) {
-            game.gammaCivCreateCity(p);
+            game.createCity(p);
         } else if (GameConstants.ARCHER.equals(game.getUnitAt(p).getTypeString())) {
             UnitImpl archerUnit = (UnitImpl) game.getUnitAt(p);
             archerUnit.fortifyUnit();
