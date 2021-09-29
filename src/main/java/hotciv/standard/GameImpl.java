@@ -117,38 +117,39 @@ public class GameImpl implements Game {
   }
 
   public boolean moveUnit(Position from, Position to) {
+    boolean hasUnitAtFrom = getUnitAt(from) != null;
+    if (!hasUnitAtFrom) return false;
+
     UnitImpl unit = (UnitImpl) getUnitAt(from);
-    if(getNeighbourList(from).contains(to)){
-      if(unit.getMoveCount() > 0){
-        if(unit.getOwner() == playerInTurn) {
-          if (getUnitAt(to) == null) {
-            // Handling illegal moves.
-            if (getTileAt(to).getTypeString().equals(GameConstants.HILLS) || getTileAt(to).getTypeString().equals(GameConstants.PLAINS)){
-              if(getCityAt(to) != null && getCityAt(to).getOwner() != unit.getOwner()){
-                CityImpl attackedCity = (CityImpl) getCityAt(to);
-                attackedCity.changeOwner(playerInTurn);
-              }
-              UnitImpl unitType = (UnitImpl) unitMap.remove(from);
-              unitType.reduceMoveCount();
-              unitMap.put(to, unitType);
-              return true;
-            }
-          } else if (getUnitAt(to).getOwner() != playerInTurn) {
-            handleAttack(from, to);
-            return true;
-          }
-        }
-      }
+    boolean isOwnUnit = unit.getOwner() == playerInTurn;
+    if (!isOwnUnit) return false;
+
+    boolean onlyMovesOneTile =
+            Math.abs(from.getColumn()-to.getColumn()) <= 1 &&
+            Math.abs(from.getRow() - to.getRow()) <= 1;
+    if (!onlyMovesOneTile) return false;
+
+    boolean hasMovesLeft = unit.getMoveCount() > 0;
+    if (!hasMovesLeft) return false;
+
+    boolean isLegalTile = getTileAt(to).getTypeString().equals(GameConstants.HILLS) ||
+             getTileAt(to).getTypeString().equals(GameConstants.PLAINS) ||
+             getTileAt(to).getTypeString().equals(GameConstants.FOREST);
+    if (!isLegalTile) return false;
+
+    boolean ownUnitAtTo = getUnitAt(to) != null && getUnitAt(to).getOwner() == playerInTurn;
+    if (ownUnitAtTo) return false;
+
+    boolean movingIntoEnemyCity = getCityAt(to) != null && getCityAt(to).getOwner() != unit.getOwner();
+    if(movingIntoEnemyCity){
+      CityImpl attackedCity = (CityImpl) getCityAt(to);
+      attackedCity.changeOwner(playerInTurn);
     }
-    return false;
-  }
 
-  private void handleAttack(Position from, Position to) {
-    UnitImpl attackingUnitType = (UnitImpl) unitMap.remove(from);
-    attackingUnitType.reduceMoveCount();
-    unitMap.remove(to);
-    unitMap.put(to, attackingUnitType);
-
+      UnitImpl unitType = (UnitImpl) unitMap.remove(from);
+      unitType.reduceMoveCount();
+      unitMap.put(to, unitType);
+      return true;
   }
 
   public void changeWorkForceFocusInCityAt(Position p, String balance) {
@@ -173,7 +174,6 @@ public class GameImpl implements Game {
   private void endOfRound() {
     //Increments game age according to age strategy
     currentAge = ageStrategy.calculateAge(currentAge);
-    System.out.print(getAge());
     //Iterates through all cities on the map and allocates them 6 production at end of round
     for (Map.Entry<Position, City> entry : cityMap.entrySet()) {
       CityImpl currCity = (CityImpl) entry.getValue();
@@ -219,16 +219,6 @@ public class GameImpl implements Game {
       }
     }
 
-  }
-
-  //Might refactor to check for positions +/-1 of Pos in moveUnit
-  private List<Position> getNeighbourList(Position pos){
-    List<Position> neighbourList = new ArrayList<>();
-    Iterator<Position> listOfNeighbours = Utility.get8neighborhoodIterator(pos);
-    while (listOfNeighbours.hasNext()) {
-      neighbourList.add(listOfNeighbours.next());
-  }
-    return neighbourList;
   }
 
   // Function for city creation in GammaCiv.
