@@ -182,37 +182,47 @@ public class GameImpl implements Game {
       Player cityOwner = entry.getValue().getOwner();
       CityImpl city = (CityImpl) entry.getValue();
       int cityTreasury = entry.getValue().getTreasury();
-      String cityProduction = entry.getValue().getProduction();
-      Position placementPos = cityPos;
+      Position placementPos = getPlacementPosition(cityPos);
+      String unitType = getCityAt(cityPos).getProduction();
 
-      if(getUnitAt(cityPos) != null) {
-        Iterator<Position> listOfNeighbours = Utility.get8neighborhoodIterator(cityPos);
-        for (; listOfNeighbours.hasNext(); ) {
-          Position position = listOfNeighbours.next();
-          if(getTileAt(position).getTypeString().equals(GameConstants.HILLS) || getTileAt(position).getTypeString().equals(GameConstants.PLAINS)){
-            if (getUnitAt(position) == null) {
-              placementPos = position;
-              break;
-            }
-          }
-
-        }
-      }
-
-      if (Objects.equals(cityProduction, GameConstants.ARCHER) && cityTreasury >= GameConstants.ARCHER_COST) {
-        unitMap.put(placementPos, new UnitImpl(GameConstants.ARCHER, cityOwner));
-        city.addTreasury(-GameConstants.ARCHER_COST);
-      }
-      if (Objects.equals(cityProduction, GameConstants.LEGION) && cityTreasury >= GameConstants.LEGION_COST) {
-        unitMap.put(placementPos, new UnitImpl(GameConstants.LEGION, cityOwner));
-        city.addTreasury(-GameConstants.LEGION_COST);
-      }
-      if (Objects.equals(cityProduction, GameConstants.SETTLER) && cityTreasury >= GameConstants.SETTLER_COST) {
-        unitMap.put(placementPos, new UnitImpl(GameConstants.SETTLER, cityOwner));
-        city.addTreasury(-GameConstants.SETTLER_COST);
+      if(unitType != null && getUnitCost(unitType) <= cityTreasury) {
+        unitMap.put(placementPos, new UnitImpl(unitType, cityOwner));
+        city.addTreasury(-getUnitCost(unitType));
       }
     }
+  }
 
+  private int getUnitCost(String unitType) {
+    int cost = 0;
+    switch(unitType) {
+      case GameConstants.ARCHER:
+        cost = GameConstants.ARCHER_COST;
+        break;
+      case GameConstants.LEGION:
+        cost = GameConstants.LEGION_COST;
+        break;
+      case GameConstants.SETTLER:
+        cost = GameConstants.SETTLER_COST;
+        break;
+    }
+    return cost;
+  }
+
+  private Position getPlacementPosition(Position cityPosition) {
+    Position placementPosition = cityPosition;
+    if(getUnitAt(cityPosition) != null) {
+      Iterator<Position> listOfNeighbours = Utility.get8neighborhoodIterator(cityPosition);
+      while (listOfNeighbours.hasNext()) {
+        Position position = listOfNeighbours.next();
+        if(getTileAt(position).getTypeString().equals(GameConstants.HILLS) || getTileAt(position).getTypeString().equals(GameConstants.PLAINS)){
+          if (getUnitAt(position) == null) {
+            placementPosition = position;
+            break;
+          }
+        }
+      }
+    }
+    return placementPosition;
   }
 
   // Function for city creation in GammaCiv.
