@@ -133,7 +133,9 @@ public class GameImpl implements Game {
     if(!isValidMove(from,to)) return false;
 
     boolean movingIntoEnemyCity = getCityAt(to) != null && getCityAt(to).getOwner() != getUnitAt(from).getOwner();
-    if(movingIntoEnemyCity) attackCity(to);
+    if(movingIntoEnemyCity) {
+      attackCity(to);
+    }
 
     UnitImpl unitType = (UnitImpl) unitMap.remove(from);
     unitType.reduceMoveCount();
