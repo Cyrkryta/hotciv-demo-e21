@@ -111,39 +111,46 @@ public class GameImpl implements Game {
   }
 
   public boolean moveUnit(Position from, Position to) {
-    boolean hasUnitAtFrom = getUnitAt(from) != null;
-    if (!hasUnitAtFrom) return false;
+    if(!isValidMove(from,to)) return false;
+
+    boolean movingIntoEnemyCity = getCityAt(to) != null && getCityAt(to).getOwner() != getUnitAt(from).getOwner();
+    if(movingIntoEnemyCity) attackCity(to);
+
+    UnitImpl unitType = (UnitImpl) unitMap.remove(from);
+    unitType.reduceMoveCount();
+    unitMap.put(to, unitType);
+    return true;
+  }
+
+  private boolean isValidMove(Position from, Position to){
+    if (getUnitAt(from) == null) return false;
+    if (from == to) return false;
 
     UnitImpl unit = (UnitImpl) getUnitAt(from);
-    boolean isOwnUnit = unit.getOwner() == playerInTurn;
-    if (!isOwnUnit) return false;
+    if (unit.getOwner() != playerInTurn) return false;
+    if (!isMovableTerrain(to)) return false;
+    if (!(unit.getMoveCount() > 0)) return false;
 
     boolean onlyMovesOneTile =
             Math.abs(from.getColumn()-to.getColumn()) <= 1 &&
             Math.abs(from.getRow() - to.getRow()) <= 1;
     if (!onlyMovesOneTile) return false;
 
-    boolean hasMovesLeft = unit.getMoveCount() > 0;
-    if (!hasMovesLeft) return false;
-
-    boolean isLegalTile = getTileAt(to).getTypeString().equals(GameConstants.HILLS) ||
-             getTileAt(to).getTypeString().equals(GameConstants.PLAINS) ||
-             getTileAt(to).getTypeString().equals(GameConstants.FOREST);
-    if (!isLegalTile) return false;
-
     boolean ownUnitAtTo = getUnitAt(to) != null && getUnitAt(to).getOwner() == playerInTurn;
     if (ownUnitAtTo) return false;
 
-    boolean movingIntoEnemyCity = getCityAt(to) != null && getCityAt(to).getOwner() != unit.getOwner();
-    if(movingIntoEnemyCity){
-      CityImpl attackedCity = (CityImpl) getCityAt(to);
-      attackedCity.changeOwner(playerInTurn);
-    }
+    return true;
+  }
 
-      UnitImpl unitType = (UnitImpl) unitMap.remove(from);
-      unitType.reduceMoveCount();
-      unitMap.put(to, unitType);
-      return true;
+  //Tests that the tile at the given position movable
+  private boolean isMovableTerrain(Position position){
+    String tileType = getTileAt(position).getTypeString();
+    return GameConstants.movableTerrain.contains(tileType);
+  }
+
+  private void attackCity(Position cityPos){
+    CityImpl attackedCity = (CityImpl) getCityAt(cityPos);
+    attackedCity.changeOwner(playerInTurn);
   }
 
   public void changeWorkForceFocusInCityAt(Position p, String balance) {
