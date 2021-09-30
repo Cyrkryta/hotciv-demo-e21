@@ -639,12 +639,6 @@ public class TestAlphaCiv {
     }
     //endregion
 
-    /************ TESTS FOR TILES ************/
-    @Test
-    public void shouldReturnHillsIsValidTerrain(){
-
-    }
-
     /************ ASSISTING METHODS FOR TESTS ************/
     //region
     //Helps increment turns by x amount
