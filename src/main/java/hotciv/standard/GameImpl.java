@@ -67,6 +67,8 @@ public class GameImpl implements Game {
     this.worldMap = worldLayoutStrategy.createWorld();
   }
 
+  /************ Accessor Methods ************/
+  //region
   public Tile getTileAt(Position p) {
     return worldMap.get(p);
   }
@@ -83,6 +85,19 @@ public class GameImpl implements Game {
     return playerInTurn;
   }
 
+  public Player getWinner() {
+  ArrayList<City> listOfCities = new ArrayList<>(cityMap.values());
+  winner = winningStrategy.calculateWinner(getAge(), listOfCities);
+  return winner;
+  }
+
+  public int getAge() {
+    return currentAge;
+  }
+  //endregion
+
+  /************ Turn and Round methods ************/
+  //region
   public void endOfTurn() {
     if (playerInTurn == Player.RED) {
       playerInTurn = Player.BLUE;
@@ -93,23 +108,27 @@ public class GameImpl implements Game {
     }
   }
 
+  private void endOfRound() {
+    //Increments game age according to age strategy
+    currentAge = ageStrategy.calculateAge(currentAge);
+    //Iterates through all cities on the map and allocates them 6 production at end of round
+    for (Map.Entry<Position, City> entry : cityMap.entrySet()) {
+      CityImpl currCity = (CityImpl) entry.getValue();
+      currCity.addTreasury(6);
+    }
+    produceUnits();
+  }
+
   private void resetUnitsMoveCount() {
     for (Unit currUnit : unitMap.values()) {
       UnitImpl unitImpl = (UnitImpl) currUnit;
       unitImpl.resetMoveCount();
     }
   }
+  //endregion
 
-  public Player getWinner() {
-    ArrayList<City> listOfCities = new ArrayList<>(cityMap.values());
-    winner = winningStrategy.calculateWinner(getAge(), listOfCities);
-    return winner;
-  }
-
-  public int getAge() {
-    return currentAge;
-  }
-
+  /************ moveUnit and related methods ************/
+  //region
   public boolean moveUnit(Position from, Position to) {
     if(!isValidMove(from,to)) return false;
 
@@ -152,7 +171,10 @@ public class GameImpl implements Game {
     CityImpl attackedCity = (CityImpl) getCityAt(cityPos);
     attackedCity.changeOwner(playerInTurn);
   }
+  //endregion
 
+  /************ City Methods ************/
+  //region
   public void changeWorkForceFocusInCityAt(Position p, String balance) {
     CityImpl chosenCity = (CityImpl) getCityAt(p);
     if(balance.equals(GameConstants.foodFocus) || balance.equals(GameConstants.productionFocus))
@@ -168,21 +190,15 @@ public class GameImpl implements Game {
     }
   }
 
-  public void performUnitActionAt(Position p) {
-    unitActionStrategy.performAction(p, this);
+  // Function for city creation in GammaCiv.
+  public void createCity(Position p) {
+    cityMap.put(p, new CityImpl(getUnitAt(p).getOwner()));
+    unitMap.remove(p);
   }
+  //endregion
 
-  private void endOfRound() {
-    //Increments game age according to age strategy
-    currentAge = ageStrategy.calculateAge(currentAge);
-    //Iterates through all cities on the map and allocates them 6 production at end of round
-    for (Map.Entry<Position, City> entry : cityMap.entrySet()) {
-      CityImpl currCity = (CityImpl) entry.getValue();
-      currCity.addTreasury(6);
-    }
-    produceUnits();
-  }
-
+  /************ Unit Production Methods ************/
+  //region
   private void produceUnits() {
     for (Map.Entry<Position, City> entry : cityMap.entrySet()) {
       Position cityPos = entry.getKey();
@@ -231,10 +247,9 @@ public class GameImpl implements Game {
     }
     return placementPosition;
   }
+  //endregion
 
-  // Function for city creation in GammaCiv.
-  public void createCity(Position p) {
-    cityMap.put(p, new CityImpl(getUnitAt(p).getOwner()));
-    unitMap.remove(p);
+  public void performUnitActionAt(Position p) {
+    unitActionStrategy.performAction(p, this);
   }
 }
