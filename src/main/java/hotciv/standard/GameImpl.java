@@ -147,11 +147,7 @@ public class GameImpl implements Game {
     //Checks tile conditions
     if (getUnitAt(from) == null) return false;
     if (from == to) return false;
-
-    boolean onlyMovesOneTile =
-            Math.abs(from.getColumn()-to.getColumn()) <= 1 &&
-                    Math.abs(from.getRow() - to.getRow()) <= 1;
-    if (!onlyMovesOneTile) return false;
+    if (!movesToNeighbourTile(from, to)) return false;
 
     //Checks Unit conditions
     UnitImpl unit = (UnitImpl) getUnitAt(from);
@@ -174,6 +170,15 @@ public class GameImpl implements Game {
   private void attackCity(Position cityPos){
     CityImpl attackedCity = (CityImpl) getCityAt(cityPos);
     attackedCity.changeOwner(playerInTurn);
+  }
+
+  private boolean movesToNeighbourTile(Position from, Position to){
+    List<Position> neighbourList = new ArrayList<>();
+    Iterator<Position> neighbourIterator = Utility.get8neighborhoodIterator(from);
+    while (neighbourIterator.hasNext()) {
+      neighbourList.add(neighbourIterator.next());
+    }
+    return neighbourList.contains(to);
   }
   //endregion
 
