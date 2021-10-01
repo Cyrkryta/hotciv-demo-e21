@@ -61,7 +61,7 @@ public class GameConstants {
   public static final String MOUNTAINS = "mountain";
   //List of movable terrain for land units
   public static final List<String> movableTerrain= Collections.unmodifiableList(
-          new ArrayList<>() {{
+          new ArrayList<String>() {{
             add(PLAINS);
             add(FOREST);
             add(HILLS);
