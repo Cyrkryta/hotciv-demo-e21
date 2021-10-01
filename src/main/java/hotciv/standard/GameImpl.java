@@ -179,16 +179,20 @@ public class GameImpl implements Game {
   private void produceUnits() {
     for (Map.Entry<Position, City> entry : cityMap.entrySet()) {
       Position cityPos = entry.getKey();
-      Player cityOwner = entry.getValue().getOwner();
       CityImpl city = (CityImpl) entry.getValue();
-      int cityTreasury = entry.getValue().getTreasury();
-      Position placementPos = getPlacementPosition(cityPos);
       String unitType = getCityAt(cityPos).getProduction();
 
-      if(unitType != null && getUnitCost(unitType) <= cityTreasury) {
-        unitMap.put(placementPos, new UnitImpl(unitType, cityOwner));
-        city.addTreasury(-getUnitCost(unitType));
-      }
+      executeUnitProduction(unitType, city, cityPos);
+    }
+  }
+
+  private void executeUnitProduction(String unitType, City city, Position cityPos) {
+    CityImpl currentCity = (CityImpl) city;
+    int cityTreasury = city.getTreasury();
+    Position placementPos = getPlacementPosition(cityPos);
+    if(unitType != null && getUnitCost(unitType) <= cityTreasury) {
+      unitMap.put(placementPos, new UnitImpl(unitType, city.getOwner()));
+      currentCity.addTreasury(-getUnitCost(unitType));
     }
   }
 
@@ -214,7 +218,8 @@ public class GameImpl implements Game {
       Iterator<Position> listOfNeighbours = Utility.get8neighborhoodIterator(cityPosition);
       while (listOfNeighbours.hasNext()) {
         Position position = listOfNeighbours.next();
-        if(getTileAt(position).getTypeString().equals(GameConstants.HILLS) || getTileAt(position).getTypeString().equals(GameConstants.PLAINS)){
+        if(getTileAt(position).getTypeString().equals(GameConstants.HILLS)
+                || getTileAt(position).getTypeString().equals(GameConstants.PLAINS)){
           if (getUnitAt(position) == null) {
             placementPosition = position;
             break;
