@@ -250,8 +250,7 @@ public class GameImpl implements Game {
       Iterator<Position> listOfNeighbours = Utility.get8neighborhoodIterator(cityPosition);
       while (listOfNeighbours.hasNext()) {
         Position position = listOfNeighbours.next();
-        if(getTileAt(position).getTypeString().equals(GameConstants.HILLS)
-                || getTileAt(position).getTypeString().equals(GameConstants.PLAINS)){
+        if(isMovableTerrain(position)){
           if (getUnitAt(position) == null) {
             placementPosition = position;
             break;
