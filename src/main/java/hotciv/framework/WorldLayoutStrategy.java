@@ -6,4 +6,6 @@ public interface WorldLayoutStrategy {
     HashMap<Position, Tile> createWorld();
 
     HashMap<Position, City> placeCities();
+
+    HashMap<Position, Unit> placeUnits();
 }

@@ -27,7 +27,7 @@ public class TestBetaCiv {
     }
 
     /************  TESTS FOR GAME AGING ************/
-
+    //region
     @Test
     public void shouldAge100PerRoundIn4000BC(){
         assertThat(game.getAge(), is(-4000));
@@ -83,6 +83,33 @@ public class TestBetaCiv {
         performRound(127);
         assertThat(game.getAge(), is(2000));
     }
+    //endregion
+
+    /************  UNITTESTS FOR GAME AGING ************/
+    @Test
+    public void shouldAge100YearsIfGivenYear4000BC(){
+        assertThat(slowingAgeStrategy.calculateAge(-4000), is(-3900));
+    }
+
+    @Test
+    public void shouldAge50YearsIfGivenYear1300AD(){
+        assertThat(slowingAgeStrategy.calculateAge(1300), is(1350));
+    }
+
+    @Test
+    public void shouldAge25YearsIfGivenYear1800AD(){
+        assertThat(slowingAgeStrategy.calculateAge(1800), is(1825));
+    }
+
+    @Test
+    public void shouldAge5YearsIfGivenYear1960AD(){
+        assertThat(slowingAgeStrategy.calculateAge(1960), is(1965));
+    }
+
+    @Test
+    public void shouldAge1YearIfGivenYear1980AD(){
+        assertThat(slowingAgeStrategy.calculateAge(1980), is(1981));
+    }
 
     /************ TESTS FOR GAME WINNING ************/
     @Test
@@ -97,6 +124,16 @@ public class TestBetaCiv {
         CityImpl redCity = (CityImpl) game.getCityAt(GameConstants.Red_City_Pos);
         redCity.changeOwner(Player.BLUE);
         assertThat(game.getWinner(), is(Player.BLUE));
+    }
+
+    @Test
+    public void shouldHaveNoWinnerIfNoPlayerOwnsAllCities(){
+        CityImpl redCity = (CityImpl) game.getCityAt(GameConstants.Red_City_Pos);
+        CityImpl blueCity = (CityImpl) game.getCityAt(GameConstants.Blue_City_Pos);
+        redCity.changeOwner(Player.BLUE);
+        blueCity.changeOwner(Player.RED);
+
+        assertThat(game.getWinner(), is(nullValue()));
     }
 
     /************ ASSISTING METHODS FOR TESTS ************/

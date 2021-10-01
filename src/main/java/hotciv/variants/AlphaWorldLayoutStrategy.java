@@ -3,6 +3,7 @@ package hotciv.variants;
 import hotciv.framework.*;
 import hotciv.standard.CityImpl;
 import hotciv.standard.TileImpl;
+import hotciv.standard.UnitImpl;
 
 import java.util.HashMap;
 
@@ -32,5 +33,14 @@ public class AlphaWorldLayoutStrategy implements WorldLayoutStrategy {
         cityMap.put(GameConstants.Red_City_Pos, redCity);
         cityMap.put(GameConstants.Blue_City_Pos, blueCity);
         return cityMap;
+    }
+
+    @Override
+    public HashMap<Position, Unit> placeUnits() {
+        HashMap<Position, Unit> unitMap = new HashMap<>();
+        unitMap.put(GameConstants.RedSettler_Start_Position, new UnitImpl(GameConstants.SETTLER, Player.RED));
+        unitMap.put(GameConstants.RedArcher_Start_Position, new UnitImpl(GameConstants.ARCHER, Player.RED));
+        unitMap.put(GameConstants.BlueLegion_Start_Position, new UnitImpl(GameConstants.LEGION, Player.BLUE));
+        return unitMap;
     }
 }

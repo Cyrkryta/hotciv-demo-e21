@@ -53,9 +53,14 @@ public class TestAlphaCiv {
         game = new GameImpl(linearAgeStrategy, alphaCivWinningStrategy, alphaUnitActionStrategy, alphaWorldLayoutStrategy);
     }
 
-    // FRS p. 455 states that 'Red is the first player to take a turn'.
+    /* !!!ATTENTION!!!
+        Tests are structured using the //region functionality
+        Simply unfold regions by clicking the [+] icon
+        at the start of the section
+        !!!ATTENTION!!! */
 
     /************ TESTS FOR PLAYERS ************/
+    //region
     // Testing that Red is the first player to take turn.
     @Test
     public void shouldBeRedAsStartingPlayer() {
@@ -76,8 +81,10 @@ public class TestAlphaCiv {
         endTurns(2);
         assertThat(game.getPlayerInTurn(), is(Player.RED));
     }
+    //endregion
 
     /************ TESTS FOR CITIES ************/
+    //region
     // Testing that the population of the city is always 1.
     @Test
     public void shouldAlwaysContainPopulationOf_1_InCities() {
@@ -123,8 +130,10 @@ public class TestAlphaCiv {
         redCity.changeWorkForceFocus(GameConstants.foodFocus);
         assertThat(redCity.getWorkforceFocus(), is(GameConstants.foodFocus));
     }
+    //endregion
 
     /************ TESTS FOR TIME ************/
+    //region
     // Testing that game starts in year 4000 BC
     @Test
     public void shouldAlwaysStartIn4000BC() {
@@ -143,8 +152,10 @@ public class TestAlphaCiv {
     // Checking if the time has been incremented.
         assertThat(game.getAge(), is(-3900));
     }
+    //endregion
 
     /************ TESTS FOR WINNER ************/
+    //region
     // Testing that red is winning in year 3000.
     @Test
     public void shouldRedWinInYear3000BC() {
@@ -154,8 +165,10 @@ public class TestAlphaCiv {
     // Checking that the winner is RED.
         assertThat(game.getWinner(), is(Player.RED));
     }
+    //endregion
 
     /************ TESTS FOR WORLD ************/
+    //region
     // Testing that most of the world is plains.
     @Test
     public void shouldMostlyBePlainsInTheWorld() {
@@ -190,8 +203,10 @@ public class TestAlphaCiv {
     // Asserting hill tile is of type Hill
         assertThat(game.getTileAt(GameConstants.Hill_Tile_Position).getTypeString(), is(GameConstants.HILLS));
     }
+    //endregion
 
-    /************ TESTS FOR UNITS ************/
+    /************ TESTS FOR UNIT CONSTANTS ************/
+    //region
     // Testing that Red starts with settler on 4,3.
     @Test
     public void shouldBeSettlerOn4_3OwnedByRed() {
@@ -248,7 +263,10 @@ public class TestAlphaCiv {
     public void settlersShouldHave3DefStrength() {
         assertThat(game.getUnitAt(GameConstants.RedSettler_Start_Position).getDefensiveStrength(), is(3));
     }
+    //endregion
 
+    /************ TESTS FOR UNIT MOVEMENT ************/
+    //region
     // Testing if the unit is moving.
     @Test
     public void shouldMoveFromOnePositionToAnother() {
@@ -356,7 +374,22 @@ public class TestAlphaCiv {
         assertThat(game.getUnitAt(to), is(nullValue()));
     }
 
+    //Testing that units cannot move to a tile occupied by another friendly unit
+    @Test
+    public void shouldNotBeAbleToMoveToASquareWithFriendlyUnit(){
+        //Producing a Red archer on (1,1)
+        game.changeProductionInCityAt(GameConstants.Red_City_Pos, GameConstants.ARCHER);
+        endTurns(4);
+
+        //Asserting that move red archer on (2,0) to (1,1) returns false
+        Position from = GameConstants.RedArcher_Start_Position;
+        Position to = GameConstants.Red_City_Pos;
+        assertThat(game.moveUnit(from, to), is(false));
+    }
+    //endregion
+
     /************ TESTS FOR PRODUCING UNITS ************/
+    //region
     // Testing that you are able to choose production in city.
     @Test
     public void shouldBeAbleToChooseProductionInRedCity() {
@@ -392,8 +425,10 @@ public class TestAlphaCiv {
         assertThat(game.getUnitAt(GameConstants.Blue_City_Pos).getTypeString(), is(GameConstants.ARCHER));
         assertThat(blueCity.getTreasury(), is(2));
     }
+    //endregion
 
     /************ TESTS FOR PRODUCTION PLACEMENT ************/
+    //region
     // Testing first unit placement if red city.
     @Test
     public void shouldBe0_1AtFirstTile() {
@@ -544,10 +579,10 @@ public class TestAlphaCiv {
         assertThat(game.getUnitAt(GameConstants.Mountain_Tile_Position), is(nullValue()));
         assertThat(game.getUnitAt(GameConstants.Ocean_Tile_Position), is(nullValue()));
     }
-
-
+    //endregion
 
     /************ TESTS FOR ATTACKS ************/
+    //region
     // Testing that the attacking player destroys the defending players units.
     // Red attacking blue.
     @Test
@@ -602,14 +637,18 @@ public class TestAlphaCiv {
         //Checking that city changed owner
         assertThat(game.getCityAt(GameConstants.Red_City_Pos).getOwner(), is(Player.BLUE));
     }
-
+    //endregion
 
     /************ ASSISTING METHODS FOR TESTS ************/
+    //region
     //Helps increment turns by x amount
     private void endTurns(int x) {
         for (int i = 0; i < x; i++) {
             game.endOfTurn();
         }
     }
+    //endregion
+
+
 
 }
