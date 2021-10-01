@@ -1,5 +1,10 @@
 package hotciv.framework;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 /** Collection of constants used in HotCiv Game. Note that strings are
  * used instead of enumeration types to keep the set of valid
  * constants open to extensions by future HotCiv variants.  Enums can
@@ -54,6 +59,13 @@ public class GameConstants {
   public static final String FOREST    = "forest";
   public static final String HILLS     = "hills";
   public static final String MOUNTAINS = "mountain";
+  //List of movable terrain for land units
+  public static final List<String> movableTerrain= Collections.unmodifiableList(
+          new ArrayList<>() {{
+            add(PLAINS);
+            add(FOREST);
+            add(HILLS);
+          }});
   // Valid production balance types
   public static final String productionFocus = "hammer";
   public static final String foodFocus = "apple";
