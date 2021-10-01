@@ -144,18 +144,20 @@ public class GameImpl implements Game {
   }
 
   private boolean isValidMove(Position from, Position to){
+    //Checks tile conditions
     if (getUnitAt(from) == null) return false;
     if (from == to) return false;
 
+    boolean onlyMovesOneTile =
+            Math.abs(from.getColumn()-to.getColumn()) <= 1 &&
+                    Math.abs(from.getRow() - to.getRow()) <= 1;
+    if (!onlyMovesOneTile) return false;
+
+    //Checks Unit conditions
     UnitImpl unit = (UnitImpl) getUnitAt(from);
     if (unit.getOwner() != playerInTurn) return false;
     if (!isMovableTerrain(to)) return false;
     if (!(unit.getMoveCount() > 0)) return false;
-
-    boolean onlyMovesOneTile =
-            Math.abs(from.getColumn()-to.getColumn()) <= 1 &&
-            Math.abs(from.getRow() - to.getRow()) <= 1;
-    if (!onlyMovesOneTile) return false;
 
     boolean ownUnitAtTo = getUnitAt(to) != null && getUnitAt(to).getOwner() == playerInTurn;
     if (ownUnitAtTo) return false;
