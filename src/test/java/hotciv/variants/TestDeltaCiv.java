@@ -13,11 +13,12 @@ public class TestDeltaCiv {
     private WinningStrategy alphaCivWinningStrategy = new AlphaCivWinningStrategy();
     private UnitActionStrategy alphaUnitActionStrategy = new AlphaUnitActionStrategy();
     private WorldLayoutStrategy deltaWorldLayoutStrategy = new DeltaWorldLayoutStrategy();
+    private AttackingStrategy alphaAttackingStrategy = new AlphaAttackingStrategy();
 
     /************  FIXTURE FOR DELTACIV TESTING ************/
     @BeforeEach
     public void setUp() {
-        game = new GameImpl(linearAgeStrategy, alphaCivWinningStrategy, alphaUnitActionStrategy, deltaWorldLayoutStrategy);
+        game = new GameImpl(linearAgeStrategy, alphaCivWinningStrategy, alphaUnitActionStrategy, deltaWorldLayoutStrategy, alphaAttackingStrategy);
     }
 
     /************ TESTING FOR DELTACIV WORLD LAYOUT ************/

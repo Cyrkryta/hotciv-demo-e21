@@ -46,11 +46,12 @@ public class TestAlphaCiv {
     private WinningStrategy alphaCivWinningStrategy = new AlphaCivWinningStrategy();
     private UnitActionStrategy alphaUnitActionStrategy = new AlphaUnitActionStrategy();
     private WorldLayoutStrategy alphaWorldLayoutStrategy = new AlphaWorldLayoutStrategy();
+    private AttackingStrategy alphaAttackingStrategy = new AlphaAttackingStrategy();
 
     /************  FIXTURE FOR ALPHACIV TESTING ************/
     @BeforeEach
     public void setUp() {
-        game = new GameImpl(linearAgeStrategy, alphaCivWinningStrategy, alphaUnitActionStrategy, alphaWorldLayoutStrategy);
+        game = new GameImpl(linearAgeStrategy, alphaCivWinningStrategy, alphaUnitActionStrategy, alphaWorldLayoutStrategy, alphaAttackingStrategy);
     }
 
     /* !!!ATTENTION!!!

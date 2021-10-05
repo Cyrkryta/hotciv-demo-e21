@@ -55,16 +55,20 @@ public class GameImpl implements Game {
   // Implements the world layout strategy for the game.
   private final UnitActionStrategy unitActionStrategy;
 
+  private final AttackingStrategy attackingStrategy;
 
-  public GameImpl(AgeStrategy ageStrategy, WinningStrategy winningStrategy, UnitActionStrategy unitActionStrategy, WorldLayoutStrategy worldLayoutStrategy) {
+
+  public GameImpl(AgeStrategy ageStrategy, WinningStrategy winningStrategy, UnitActionStrategy unitActionStrategy, WorldLayoutStrategy worldLayoutStrategy, AttackingStrategy attackingStrategy) {
     this.ageStrategy = ageStrategy;
     this.winningStrategy = winningStrategy;
     this.unitActionStrategy = unitActionStrategy;
     this.worldLayoutStrategy = worldLayoutStrategy;
+    this.attackingStrategy = attackingStrategy;
 
     this.unitMap = worldLayoutStrategy.placeUnits();
     this.cityMap = worldLayoutStrategy.placeCities();
     this.worldMap = worldLayoutStrategy.createWorld();
+
   }
 
   /************ Accessor Methods ************/
@@ -130,7 +134,7 @@ public class GameImpl implements Game {
   /************ moveUnit and related methods ************/
   //region
   public boolean moveUnit(Position from, Position to) {
-    if(!isValidMove(from,to)) return false;
+    if(!moveIsPossible(from,to)) return false;
 
     boolean movingIntoEnemyCity = getCityAt(to) != null && getCityAt(to).getOwner() != getUnitAt(from).getOwner();
     if(movingIntoEnemyCity) {
@@ -143,7 +147,8 @@ public class GameImpl implements Game {
     return true;
   }
 
-  private boolean isValidMove(Position from, Position to){
+
+  private boolean moveIsPossible(Position from, Position to){
     //Checks tile conditions
     if (getUnitAt(from) == null) return false;
     if (from == to) return false;
@@ -157,6 +162,11 @@ public class GameImpl implements Game {
 
     boolean ownUnitAtTo = getUnitAt(to) != null && getUnitAt(to).getOwner() == playerInTurn;
     if (ownUnitAtTo) return false;
+
+    boolean attackingEnemyUnit = getUnitAt(to) != null && getUnitAt(to).getOwner() != getUnitAt(from).getOwner();
+    if (attackingEnemyUnit){
+      return attackingStrategy.calculateAttack(from, to, this);
+    }
 
     return true;
   }
