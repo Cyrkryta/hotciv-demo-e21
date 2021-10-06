@@ -147,7 +147,6 @@ public class GameImpl implements Game {
     return true;
   }
 
-
   private boolean moveIsPossible(Position from, Position to){
     //Checks tile conditions
     if (getUnitAt(from) == null) return false;
