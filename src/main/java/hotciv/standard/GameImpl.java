@@ -44,6 +44,8 @@ public class GameImpl implements Game {
   private Player playerInTurn = Player.RED;
   //Sets game age to start age
   private int currentAge = GameConstants.Start_Age;
+  //Round count tracks rounds played
+  private int roundCount = 0;
   // Starting point for game winner.
   private Player winner = null;
   // Implements the aging strategy for the game
@@ -89,9 +91,12 @@ public class GameImpl implements Game {
     return playerInTurn;
   }
 
+  public ArrayList<City> getCityList(){
+    return new ArrayList<>(cityMap.values());
+  }
+
   public Player getWinner() {
-  ArrayList<City> listOfCities = new ArrayList<>(cityMap.values());
-  winner = winningStrategy.calculateWinner(getAge(), listOfCities);
+  winner = winningStrategy.calculateWinner(this);
   return winner;
   }
 
@@ -121,6 +126,7 @@ public class GameImpl implements Game {
       currCity.addTreasury(6);
     }
     produceUnits();
+    roundCount++;
   }
 
   private void resetUnitsMoveCount() {
