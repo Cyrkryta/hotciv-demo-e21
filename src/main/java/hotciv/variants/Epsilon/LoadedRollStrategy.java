@@ -1,5 +1,6 @@
 package hotciv.variants.Epsilon;
 
+/** TEST DOUBLE CLASS FOR EPSILON ATTACK STRATEGY**/
 public class LoadedRollStrategy implements DieRollStrategy {
     private int rollingDieNumber = 1;
     private int die1 = 0;

@@ -22,6 +22,7 @@ public class StubTestEpsilonAttackingStrategy {
     }
 
     /*********  STUB TESTS FOR EPSILON ATTACK STRATEGY **********/
+    //SEE TEST STUBS BELOW FOR EXPLANATIONS OF POSITIONS!
     //Testing that archers with hill terrain advantage defeat archers without advantage
     @Test
     public void archerOnHillShouldBeatArcherOnPlains(){
@@ -84,8 +85,6 @@ public class StubTestEpsilonAttackingStrategy {
         loadedRollStrategy.setDie1And2(1,5);
         assertThat(epsilonAttackingStrategy.calculateAttack(from, to, gameStub), is(false));
     }
-
-
 }
 
 /********  TEST STUBS FOR EPSILON ATTACK STRATEGY **********/

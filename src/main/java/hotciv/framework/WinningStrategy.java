@@ -8,4 +8,6 @@ import java.util.Set;
 
 public interface WinningStrategy {
     Player calculateWinner(GameImpl game);
+
+    void incrementBattlesWonBy(Player player);
 }

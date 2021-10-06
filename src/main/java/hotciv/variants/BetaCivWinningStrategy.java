@@ -17,4 +17,7 @@ public class BetaCivWinningStrategy implements WinningStrategy {
         }
         return listOfCities.get(0).getOwner();
     }
+
+    @Override
+    public void incrementBattlesWonBy(Player player) {}
 }

@@ -168,9 +168,21 @@ public class GameImpl implements Game {
     boolean ownUnitAtTo = getUnitAt(to) != null && getUnitAt(to).getOwner() == playerInTurn;
     if (ownUnitAtTo) return false;
 
+    //Handles combat if moving onto tile occupied by enemy unit
     boolean attackingEnemyUnit = getUnitAt(to) != null && getUnitAt(to).getOwner() != getUnitAt(from).getOwner();
     if (attackingEnemyUnit){
-      return attackingStrategy.calculateAttack(from, to, this);
+      return handleAttack(from, to);
+    }
+
+    return true;
+  }
+
+  //Handle attacks made while moving units, returns boolean for result of combat
+  private boolean handleAttack(Position from, Position to){
+    boolean attackIsSuccessful = attackingStrategy.calculateAttack(from, to, this);
+    if(!attackIsSuccessful){
+      unitMap.remove(from);
+      return false;
     }
 
     return true;
