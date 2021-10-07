@@ -10,8 +10,12 @@ import hotciv.variants.epsilonStrategies.EpsilonCivWinningStrategy;
 import hotciv.variants.epsilonStrategies.LoadedRollStrategy;
 
 public class EpsilonCivTestFactory implements GameFactory {
-
-    DieRollStrategy loadedRollStrategy = new LoadedRollStrategy();
+    DieRollStrategy rollStrategy;
+    WinningStrategy winningStrategy;
+    public EpsilonCivTestFactory(DieRollStrategy rollStrategy, WinningStrategy winningStrategy){
+        this.rollStrategy = rollStrategy;
+        this.winningStrategy = winningStrategy;
+    }
 
     @Override
     public AgeStrategy createAgeStrategy() {
@@ -21,8 +25,7 @@ public class EpsilonCivTestFactory implements GameFactory {
 
     @Override
     public WinningStrategy createWinningStrategy() {
-        WinningStrategy epsilonWinningStrategy = new EpsilonCivWinningStrategy();
-        return epsilonWinningStrategy;
+        return winningStrategy;
     }
 
     @Override
@@ -39,7 +42,7 @@ public class EpsilonCivTestFactory implements GameFactory {
 
     @Override
     public AttackingStrategy createAttackingStrategy() {
-        AttackingStrategy epsilonAttackingStrategy = new EpsilonAttackingStrategy(loadedRollStrategy);
+        AttackingStrategy epsilonAttackingStrategy = new EpsilonAttackingStrategy(rollStrategy);
         return epsilonAttackingStrategy;
     }
 }

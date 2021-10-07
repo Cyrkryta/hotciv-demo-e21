@@ -2,6 +2,7 @@ package hotciv.variants;
 
 import hotciv.framework.*;
 
+import hotciv.standard.GameImpl;
 import hotciv.variants.epsilonStrategies.DieRollStrategy;
 import hotciv.variants.epsilonStrategies.EpsilonAttackingStrategy;
 import hotciv.variants.epsilonStrategies.LoadedRollStrategy;
@@ -103,6 +104,7 @@ public class StubTestEpsilonAttackingStrategy {
 class GameStubForAttackStrategyTesting implements Game {
     private AttackingStrategy attackingStrategy;
     private DieRollStrategy loadedRollStrategy;
+    private WinningStrategy winningStrategy;
 
     public GameStubForAttackStrategyTesting(AttackingStrategy attackingStrategy, LoadedRollStrategy rollStrategy){
         this.attackingStrategy = attackingStrategy;
@@ -156,18 +158,19 @@ class GameStubForAttackStrategyTesting implements Game {
         }
         return null;
     }
+    public Player getPlayerInTurn() {return null;}
+    public boolean moveUnit(Position from, Position to) {return false;}
+    public Player getWinner() {return null;}
 
     // the rest is unused test stub methods...
     public void changeProductionInCityAt(Position p, String unitType) {}
     public void changeWorkForceFocusInCityAt(Position p, String balance) {}
     public void endOfTurn() {}
-    public Player getPlayerInTurn() {return null;}
-    public Player getWinner() {return null;}
     public int getAge() { return 0; }
-    public boolean moveUnit(Position from, Position to) {return false;}
     public void performUnitActionAt( Position p ) {}
 }
 
+//region
 class StubTile implements Tile {
     private String type;
     public StubTile(String type, int r, int c) { this.type = type; }
@@ -208,3 +211,4 @@ class StubUnit implements Unit {
     public Player getOwner() { return owner; }
     public int getMoveCount() { return 0; }
 }
+//endregion
