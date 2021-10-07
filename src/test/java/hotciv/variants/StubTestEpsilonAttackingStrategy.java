@@ -2,9 +2,9 @@ package hotciv.variants;
 
 import hotciv.framework.*;
 
-import hotciv.variants.Epsilon.DieRollStrategy;
-import hotciv.variants.Epsilon.EpsilonAttackingStrategy;
-import hotciv.variants.Epsilon.LoadedRollStrategy;
+import hotciv.variants.epsilonStrategies.DieRollStrategy;
+import hotciv.variants.epsilonStrategies.EpsilonAttackingStrategy;
+import hotciv.variants.epsilonStrategies.LoadedRollStrategy;
 import org.junit.jupiter.api.*;
 
 import static org.hamcrest.CoreMatchers.*;

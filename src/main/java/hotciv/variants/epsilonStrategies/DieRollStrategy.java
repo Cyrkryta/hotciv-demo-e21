@@ -1,4 +1,4 @@
-package hotciv.variants.Epsilon;
+package hotciv.variants.epsilonStrategies;
 
 public interface DieRollStrategy {
     int rollDie();

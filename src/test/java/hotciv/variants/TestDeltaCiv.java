@@ -2,6 +2,11 @@ package hotciv.variants;
 
 import hotciv.framework.*;
 import hotciv.standard.GameImpl;
+import hotciv.variants.agingStrategies.LinearAgeStrategy;
+import hotciv.variants.alphaStrategies.AlphaAttackingStrategy;
+import hotciv.variants.alphaStrategies.AlphaCivWinningStrategy;
+import hotciv.variants.alphaStrategies.AlphaUnitActionStrategy;
+import hotciv.variants.deltaStrategies.DeltaWorldLayoutStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.hamcrest.CoreMatchers.*;

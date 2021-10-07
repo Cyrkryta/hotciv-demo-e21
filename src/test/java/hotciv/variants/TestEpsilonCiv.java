@@ -3,9 +3,12 @@ package hotciv.variants;
 import hotciv.framework.*;
 
 import hotciv.standard.GameImpl;
-import hotciv.variants.Epsilon.EpsilonAttackingStrategy;
-import hotciv.variants.Epsilon.EpsilonCivWinningStrategy;
-import hotciv.variants.Epsilon.LoadedRollStrategy;
+import hotciv.variants.epsilonStrategies.EpsilonAttackingStrategy;
+import hotciv.variants.epsilonStrategies.EpsilonCivWinningStrategy;
+import hotciv.variants.epsilonStrategies.LoadedRollStrategy;
+import hotciv.variants.agingStrategies.LinearAgeStrategy;
+import hotciv.variants.alphaStrategies.AlphaUnitActionStrategy;
+import hotciv.variants.alphaStrategies.AlphaWorldLayoutStrategy;
 import org.junit.jupiter.api.*;
 
 import static org.hamcrest.CoreMatchers.*;

@@ -1,4 +1,4 @@
-package hotciv.variants;
+package hotciv.variants.betaStreategies;
 
 import hotciv.framework.City;
 import hotciv.framework.Player;

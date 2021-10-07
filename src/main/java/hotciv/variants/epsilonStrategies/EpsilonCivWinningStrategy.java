@@ -1,6 +1,5 @@
-package hotciv.variants.Epsilon;
+package hotciv.variants.epsilonStrategies;
 
-import hotciv.framework.City;
 import hotciv.framework.Player;
 import hotciv.framework.WinningStrategy;
 import hotciv.standard.GameImpl;

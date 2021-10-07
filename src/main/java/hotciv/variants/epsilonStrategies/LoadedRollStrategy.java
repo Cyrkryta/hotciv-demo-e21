@@ -1,4 +1,4 @@
-package hotciv.variants.Epsilon;
+package hotciv.variants.epsilonStrategies;
 
 /** TEST DOUBLE CLASS FOR EPSILON ATTACK STRATEGY**/
 public class LoadedRollStrategy implements DieRollStrategy {

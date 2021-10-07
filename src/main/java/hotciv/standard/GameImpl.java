@@ -184,7 +184,7 @@ public class GameImpl implements Game {
       unitMap.remove(from);
       return false;
     }
-
+    winningStrategy.incrementBattlesWonBy(getUnitAt(from).getOwner());
     return true;
   }
 

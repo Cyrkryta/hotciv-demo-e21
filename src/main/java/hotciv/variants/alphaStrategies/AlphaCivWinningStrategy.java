@@ -1,11 +1,8 @@
-package hotciv.variants;
+package hotciv.variants.alphaStrategies;
 
-import hotciv.framework.City;
 import hotciv.framework.Player;
 import hotciv.framework.WinningStrategy;
 import hotciv.standard.GameImpl;
-
-import java.util.ArrayList;
 
 public class AlphaCivWinningStrategy implements WinningStrategy {
     @Override

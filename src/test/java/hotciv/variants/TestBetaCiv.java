@@ -1,17 +1,18 @@
 package hotciv.variants;
 
-import hotciv.Utility.Utility;
 import hotciv.framework.*;
 
 import hotciv.standard.CityImpl;
 import hotciv.standard.GameImpl;
-import hotciv.variants.LinearAgeStrategy;
+import hotciv.variants.agingStrategies.SlowingAgeStrategy;
+import hotciv.variants.alphaStrategies.AlphaAttackingStrategy;
+import hotciv.variants.alphaStrategies.AlphaUnitActionStrategy;
+import hotciv.variants.alphaStrategies.AlphaWorldLayoutStrategy;
+import hotciv.variants.betaStreategies.BetaCivWinningStrategy;
 import org.junit.jupiter.api.*;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-
-import java.util.*;
 
 public class TestBetaCiv {
     private Game game;
