@@ -7,6 +7,7 @@ import hotciv.variants.agingStrategies.LinearAgeStrategy;
 import hotciv.variants.alphaStrategies.AlphaAttackingStrategy;
 import hotciv.variants.alphaStrategies.AlphaCivWinningStrategy;
 import hotciv.variants.alphaStrategies.AlphaWorldLayoutStrategy;
+import hotciv.variants.factories.GammaCivFactory;
 import hotciv.variants.gammaStrategies.GammaUnitActionStrategy;
 import org.junit.jupiter.api.*;
 
@@ -15,16 +16,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class TestGammaCiv {
     private Game game;
-    private AgeStrategy linearAgeStrategy = new LinearAgeStrategy();
-    private WinningStrategy alphaCivWinningStrategy = new AlphaCivWinningStrategy();
-    private UnitActionStrategy gammaUnitActionStrategy = new GammaUnitActionStrategy();
-    private WorldLayoutStrategy alphaWorldLayoutStrategy = new AlphaWorldLayoutStrategy();
-    private AttackingStrategy alphaAttackingStrategy = new AlphaAttackingStrategy();
 
     /************  FIXTURE FOR BETACIV TESTING ************/
     @BeforeEach
     public void setUp() {
-        game = new GameImpl(linearAgeStrategy, alphaCivWinningStrategy, gammaUnitActionStrategy, alphaWorldLayoutStrategy, alphaAttackingStrategy);
+        game = new GameImpl(new GammaCivFactory());
     }
 
     /************ TESTS FOR SETTLER ACTION ************/

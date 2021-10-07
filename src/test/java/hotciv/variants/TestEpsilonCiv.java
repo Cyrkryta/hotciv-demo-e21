@@ -9,6 +9,7 @@ import hotciv.variants.epsilonStrategies.LoadedRollStrategy;
 import hotciv.variants.agingStrategies.LinearAgeStrategy;
 import hotciv.variants.alphaStrategies.AlphaUnitActionStrategy;
 import hotciv.variants.alphaStrategies.AlphaWorldLayoutStrategy;
+import hotciv.variants.factories.EpsilonCivTestFactory;
 import org.junit.jupiter.api.*;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -16,18 +17,15 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class TestEpsilonCiv {
     private GameImpl game;
-    private final AgeStrategy linearAgeStrategy = new LinearAgeStrategy();
-    private final WinningStrategy epsilonCivWinningStrategy = new EpsilonCivWinningStrategy();
-    private final UnitActionStrategy alphaUnitActionStrategy = new AlphaUnitActionStrategy();
-    private final WorldLayoutStrategy alphaWorldLayoutStrategy = new AlphaWorldLayoutStrategy();
 
     private final LoadedRollStrategy loadedRollStrategy = new LoadedRollStrategy();
     private final AttackingStrategy epsilonAttackingStrategy = new EpsilonAttackingStrategy(loadedRollStrategy);
+    private WinningStrategy epsilonCivWinningStrategy = new EpsilonCivWinningStrategy();
 
     /************  FIXTURE FOR EPSILON CIV TESTING ************/
     @BeforeEach
     public void setUp() {
-        game = new GameImpl(linearAgeStrategy, epsilonCivWinningStrategy, alphaUnitActionStrategy, alphaWorldLayoutStrategy, epsilonAttackingStrategy);
+        game = new GameImpl(new EpsilonCivTestFactory());
     }
 
     //Testing that a Settler Type unit loses to a Legion Type unit

@@ -8,6 +8,7 @@ import hotciv.variants.alphaStrategies.AlphaAttackingStrategy;
 import hotciv.variants.alphaStrategies.AlphaCivWinningStrategy;
 import hotciv.variants.alphaStrategies.AlphaUnitActionStrategy;
 import hotciv.variants.alphaStrategies.AlphaWorldLayoutStrategy;
+import hotciv.variants.factories.AlphaCivFactory;
 import org.junit.jupiter.api.*;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -46,16 +47,11 @@ import java.util.*;
  */
 public class TestAlphaCiv {
     private Game game;
-    private AgeStrategy linearAgeStrategy = new LinearAgeStrategy();
-    private WinningStrategy alphaCivWinningStrategy = new AlphaCivWinningStrategy();
-    private UnitActionStrategy alphaUnitActionStrategy = new AlphaUnitActionStrategy();
-    private WorldLayoutStrategy alphaWorldLayoutStrategy = new AlphaWorldLayoutStrategy();
-    private AttackingStrategy alphaAttackingStrategy = new AlphaAttackingStrategy();
 
     /************  FIXTURE FOR ALPHACIV TESTING ************/
     @BeforeEach
     public void setUp() {
-        game = new GameImpl(linearAgeStrategy, alphaCivWinningStrategy, alphaUnitActionStrategy, alphaWorldLayoutStrategy, alphaAttackingStrategy);
+        game = new GameImpl(new AlphaCivFactory());
     }
 
     /* !!!ATTENTION!!!

@@ -60,12 +60,12 @@ public class GameImpl implements Game {
   private final AttackingStrategy attackingStrategy;
 
 
-  public GameImpl(AgeStrategy ageStrategy, WinningStrategy winningStrategy, UnitActionStrategy unitActionStrategy, WorldLayoutStrategy worldLayoutStrategy, AttackingStrategy attackingStrategy) {
-    this.ageStrategy = ageStrategy;
-    this.winningStrategy = winningStrategy;
-    this.unitActionStrategy = unitActionStrategy;
-    this.worldLayoutStrategy = worldLayoutStrategy;
-    this.attackingStrategy = attackingStrategy;
+  public GameImpl(GameFactory gameFactory) {
+    this.ageStrategy = gameFactory.createAgeStrategy();
+    this.winningStrategy = gameFactory.createWinningStrategy();
+    this.unitActionStrategy = gameFactory.createUnitActionStrategy();
+    this.worldLayoutStrategy = gameFactory.createWorldLayoutStrategy();
+    this.attackingStrategy = gameFactory.createAttackingStrategy();
 
     this.unitMap = worldLayoutStrategy.placeUnits();
     this.cityMap = worldLayoutStrategy.placeCities();

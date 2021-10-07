@@ -9,6 +9,7 @@ import hotciv.variants.alphaStrategies.AlphaAttackingStrategy;
 import hotciv.variants.alphaStrategies.AlphaUnitActionStrategy;
 import hotciv.variants.alphaStrategies.AlphaWorldLayoutStrategy;
 import hotciv.variants.betaStreategies.BetaCivWinningStrategy;
+import hotciv.variants.factories.BetaCivFactory;
 import org.junit.jupiter.api.*;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -17,15 +18,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class TestBetaCiv {
     private Game game;
     private AgeStrategy slowingAgeStrategy = new SlowingAgeStrategy();
-    private WinningStrategy betaCivWinningStrategy = new BetaCivWinningStrategy();
-    private UnitActionStrategy alphaUnitActionStrategy = new AlphaUnitActionStrategy();
-    private WorldLayoutStrategy alphaWorldLayoutStrategy = new AlphaWorldLayoutStrategy();
-    private AttackingStrategy alphaAttackingStrategy = new AlphaAttackingStrategy();
 
     /************  FIXTURE FOR BETACIV TESTING ************/
     @BeforeEach
     public void setUp() {
-        game = new GameImpl(slowingAgeStrategy, betaCivWinningStrategy, alphaUnitActionStrategy, alphaWorldLayoutStrategy, alphaAttackingStrategy);
+        game = new GameImpl(new BetaCivFactory());
     }
 
     /************  TESTS FOR GAME AGING ************/
