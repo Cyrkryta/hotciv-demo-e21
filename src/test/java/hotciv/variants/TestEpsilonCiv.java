@@ -21,32 +21,10 @@ public class TestEpsilonCiv {
     //allowing calls to their class method from this test class
     private final LoadedRollStrategy loadedRollStrategy = new LoadedRollStrategy();
     private final WinningStrategy epsilonCivWinningStrategy = new EpsilonCivWinningStrategy();
-    //Attacking strategy allows for unit testing of AttackingStrategy
-    private final AttackingStrategy epsilonAttackingStrategy = new EpsilonAttackingStrategy(loadedRollStrategy);
     /************  FIXTURE FOR EPSILON CIV TESTING ************/
     @BeforeEach
     public void setUp() {
         game = new GameImpl(new EpsilonCivTestFactory(loadedRollStrategy, epsilonCivWinningStrategy));
-    }
-
-
-    /************  UNIT TESTS FOR ATTACK STRATEGY ************/
-    //Testing that a Settler Type unit loses to a Legion Type unit
-    @Test
-    public void settlersShouldLoseToALegion(){
-        Position from = GameConstants.RedSettler_Start_Position;
-        Position to = GameConstants.BlueLegion_Start_Position;
-        loadedRollStrategy.setDie1And2(2,2);
-        assertThat(epsilonAttackingStrategy.calculateAttack(from, to, game), is(false));
-    }
-
-    //Testing that an Archer Unit loses to a Settler Unit if equal
-    @Test
-    public void archerShouldLoseToSettler(){
-        Position from = GameConstants.RedArcher_Start_Position;
-        Position to = GameConstants.RedSettler_Start_Position;
-        loadedRollStrategy.setDie1And2(2,2);
-        assertThat(epsilonAttackingStrategy.calculateAttack(from, to, game), is(false));
     }
 
     /************  GAME TESTS FOR ATTACK STRATEGY ************/
