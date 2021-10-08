@@ -1,6 +1,8 @@
 package hotciv.variants.epsilonStrategies;
 
 
+import hotciv.framework.DieRollStrategy;
+
 import java.util.Random;
 
 public class NormalRollStrategy implements DieRollStrategy {

@@ -10,31 +10,26 @@ import hotciv.variants.gammaStrategies.GammaUnitActionStrategy;
 public class GammaCivFactory implements GameFactory {
     @Override
     public AgeStrategy createAgeStrategy() {
-        AgeStrategy gammaAgingStrategy = new LinearAgeStrategy();
-        return gammaAgingStrategy;
+        return new LinearAgeStrategy();
     }
 
     @Override
     public WinningStrategy createWinningStrategy() {
-        WinningStrategy gammaWinningStrategy = new AlphaCivWinningStrategy();
-        return gammaWinningStrategy;
+        return new AlphaCivWinningStrategy();
     }
 
     @Override
     public UnitActionStrategy createUnitActionStrategy() {
-        UnitActionStrategy gammaUnitActionStrategy = new GammaUnitActionStrategy();
-        return gammaUnitActionStrategy;
+        return new GammaUnitActionStrategy();
     }
 
     @Override
     public WorldLayoutStrategy createWorldLayoutStrategy() {
-        WorldLayoutStrategy gammaWorldLayoutStrategy = new AlphaWorldLayoutStrategy();
-        return gammaWorldLayoutStrategy;
+        return new AlphaWorldLayoutStrategy();
     }
 
     @Override
     public AttackingStrategy createAttackingStrategy() {
-        AttackingStrategy gammaAttackingStrategy = new AlphaAttackingStrategy();
-        return gammaAttackingStrategy;
+        return new AlphaAttackingStrategy();
     }
 }

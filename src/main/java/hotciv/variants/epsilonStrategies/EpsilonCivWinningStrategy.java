@@ -23,4 +23,9 @@ public class EpsilonCivWinningStrategy implements WinningStrategy {
     public void incrementBattlesWonBy(Player player){
         playerVictories.add(player);
     }
+
+    @Override
+    public void incrementRoundsPlayed() {
+
+    }
 }

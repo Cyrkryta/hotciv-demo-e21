@@ -110,7 +110,7 @@ public class TestBetaCiv {
         assertThat(slowingAgeStrategy.calculateAge(1980), is(1981));
     }
 
-    /************ TESTS FOR GAME WINNING ************/
+    /************ TESTS FOR GAME ************/
     @Test
     public void redShouldWinIfItOwnsAllCities(){
        CityImpl blueCity = (CityImpl) game.getCityAt(GameConstants.Blue_City_Pos);

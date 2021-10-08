@@ -10,31 +10,26 @@ import hotciv.variants.alphaStrategies.AlphaWorldLayoutStrategy;
 public class AlphaCivFactory implements GameFactory {
     @Override
     public AgeStrategy createAgeStrategy() {
-        AgeStrategy alphaAgingStrategy = new LinearAgeStrategy();
-        return alphaAgingStrategy;
+        return new LinearAgeStrategy();
     }
 
     @Override
     public WinningStrategy createWinningStrategy() {
-        WinningStrategy alphaWinningStrategy = new AlphaCivWinningStrategy();
-        return alphaWinningStrategy;
+        return new AlphaCivWinningStrategy();
     }
 
     @Override
     public UnitActionStrategy createUnitActionStrategy() {
-        UnitActionStrategy alphaUnitActionStrategy = new AlphaUnitActionStrategy();
-        return alphaUnitActionStrategy;
+        return new AlphaUnitActionStrategy();
     }
 
     @Override
     public WorldLayoutStrategy createWorldLayoutStrategy() {
-        WorldLayoutStrategy alphaWorldLayoutStrategy = new AlphaWorldLayoutStrategy();
-        return alphaWorldLayoutStrategy;
+        return new AlphaWorldLayoutStrategy();
     }
 
     @Override
     public AttackingStrategy createAttackingStrategy() {
-        AttackingStrategy alphaAttackingStrategy = new AlphaAttackingStrategy();
-        return alphaAttackingStrategy;
+        return new AlphaAttackingStrategy();
     }
 }

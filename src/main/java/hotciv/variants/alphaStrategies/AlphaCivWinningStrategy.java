@@ -15,4 +15,10 @@ public class AlphaCivWinningStrategy implements WinningStrategy {
 
     @Override
     public void incrementBattlesWonBy(Player player) {}
+
+    @Override
+    public void incrementRoundsPlayed() {
+
+
+    }
 }

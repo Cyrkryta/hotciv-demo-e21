@@ -2,19 +2,14 @@ package hotciv.variants.factories;
 
 import hotciv.framework.*;
 import hotciv.variants.agingStrategies.LinearAgeStrategy;
+import hotciv.variants.alphaStrategies.AlphaAttackingStrategy;
 import hotciv.variants.alphaStrategies.AlphaUnitActionStrategy;
 import hotciv.variants.alphaStrategies.AlphaWorldLayoutStrategy;
-import hotciv.framework.DieRollStrategy;
-import hotciv.variants.epsilonStrategies.EpsilonAttackingStrategy;
+import hotciv.variants.betaStreategies.BetaCivWinningStrategy;
 import hotciv.variants.epsilonStrategies.EpsilonCivWinningStrategy;
-import hotciv.variants.epsilonStrategies.NormalRollStrategy;
+import hotciv.variants.zetaStrategies.ZetaWinningStrategy;
 
-import javax.sound.sampled.Line;
-
-public class EpsilonCivFactory implements GameFactory {
-    private DieRollStrategy normalRollStrategy = new NormalRollStrategy();
-
-
+public class ZetaCivFactory implements GameFactory {
     @Override
     public AgeStrategy createAgeStrategy() {
         return new LinearAgeStrategy();
@@ -22,7 +17,7 @@ public class EpsilonCivFactory implements GameFactory {
 
     @Override
     public WinningStrategy createWinningStrategy() {
-        return new EpsilonCivWinningStrategy();
+        return new ZetaWinningStrategy(new BetaCivWinningStrategy(), new EpsilonCivWinningStrategy());
     }
 
     @Override
@@ -37,6 +32,6 @@ public class EpsilonCivFactory implements GameFactory {
 
     @Override
     public AttackingStrategy createAttackingStrategy() {
-        return new EpsilonAttackingStrategy(normalRollStrategy);
+        return new AlphaAttackingStrategy();
     }
 }

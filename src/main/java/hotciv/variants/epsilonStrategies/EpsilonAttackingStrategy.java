@@ -1,10 +1,7 @@
 package hotciv.variants.epsilonStrategies;
 
 import hotciv.Utility.Utility;
-import hotciv.framework.AttackingStrategy;
-import hotciv.framework.Game;
-import hotciv.framework.Player;
-import hotciv.framework.Position;
+import hotciv.framework.*;
 
 public class EpsilonAttackingStrategy implements AttackingStrategy {
     private final DieRollStrategy dieRollStrategy;

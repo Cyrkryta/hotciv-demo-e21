@@ -20,4 +20,9 @@ public class BetaCivWinningStrategy implements WinningStrategy {
 
     @Override
     public void incrementBattlesWonBy(Player player) {}
+
+    @Override
+    public void incrementRoundsPlayed() {
+
+    }
 }

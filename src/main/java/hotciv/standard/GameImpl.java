@@ -58,6 +58,7 @@ public class GameImpl implements Game {
   private final UnitActionStrategy unitActionStrategy;
 
   private final AttackingStrategy attackingStrategy;
+  private int battlesWon;
 
 
   public GameImpl(GameFactory gameFactory) {
@@ -129,6 +130,10 @@ public class GameImpl implements Game {
     roundCount++;
   }
 
+  public int getRoundCount() {
+    return roundCount;
+  }
+
   private void resetUnitsMoveCount() {
     for (Unit currUnit : unitMap.values()) {
       UnitImpl unitImpl = (UnitImpl) currUnit;
@@ -184,7 +189,9 @@ public class GameImpl implements Game {
       unitMap.remove(from);
       return false;
     }
+    getWinner();
     winningStrategy.incrementBattlesWonBy(getUnitAt(from).getOwner());
+
     return true;
   }
 
@@ -291,5 +298,9 @@ public class GameImpl implements Game {
 
   public void performUnitActionAt(Position p) {
     unitActionStrategy.performAction(p, this);
+  }
+
+  public int getBattlesWon() {
+    return battlesWon;
   }
 }

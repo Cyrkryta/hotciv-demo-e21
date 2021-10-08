@@ -2,8 +2,7 @@ package hotciv.variants;
 
 import hotciv.framework.*;
 
-import hotciv.standard.GameImpl;
-import hotciv.variants.epsilonStrategies.DieRollStrategy;
+import hotciv.framework.DieRollStrategy;
 import hotciv.variants.epsilonStrategies.EpsilonAttackingStrategy;
 import hotciv.variants.epsilonStrategies.LoadedRollStrategy;
 import org.junit.jupiter.api.*;

@@ -10,4 +10,6 @@ public interface WinningStrategy {
     Player calculateWinner(GameImpl game);
 
     void incrementBattlesWonBy(Player player);
+
+    void incrementRoundsPlayed();
 }

@@ -10,31 +10,26 @@ import hotciv.variants.betaStreategies.BetaCivWinningStrategy;
 public class BetaCivFactory implements GameFactory {
     @Override
     public AgeStrategy createAgeStrategy() {
-        AgeStrategy betaAgingStrategy = new SlowingAgeStrategy();
-        return betaAgingStrategy;
+        return new SlowingAgeStrategy();
     }
 
     @Override
     public WinningStrategy createWinningStrategy() {
-        WinningStrategy betaWinningStrategy = new BetaCivWinningStrategy();
-        return betaWinningStrategy;
+        return new BetaCivWinningStrategy();
     }
 
     @Override
     public UnitActionStrategy createUnitActionStrategy() {
-        UnitActionStrategy betaUnitActionStrategy = new AlphaUnitActionStrategy();
-        return betaUnitActionStrategy;
+        return new AlphaUnitActionStrategy();
     }
 
     @Override
     public WorldLayoutStrategy createWorldLayoutStrategy() {
-        WorldLayoutStrategy betaWorldLayoutStrategy = new AlphaWorldLayoutStrategy();
-        return betaWorldLayoutStrategy;
+        return new AlphaWorldLayoutStrategy();
     }
 
     @Override
     public AttackingStrategy createAttackingStrategy() {
-        AttackingStrategy betaAttackingStrategy = new AlphaAttackingStrategy();
-        return betaAttackingStrategy;
+        return new AlphaAttackingStrategy();
     }
 }
