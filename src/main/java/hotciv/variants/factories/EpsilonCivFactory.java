@@ -9,8 +9,6 @@ import hotciv.variants.epsilonStrategies.EpsilonAttackingStrategy;
 import hotciv.variants.epsilonStrategies.EpsilonCivWinningStrategy;
 import hotciv.variants.epsilonStrategies.NormalRollStrategy;
 
-import javax.sound.sampled.Line;
-
 public class EpsilonCivFactory implements GameFactory {
     private DieRollStrategy normalRollStrategy = new NormalRollStrategy();
 
