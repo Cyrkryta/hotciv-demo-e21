@@ -8,6 +8,7 @@ public class ZetaWinningStrategy implements WinningStrategy {
     WinningStrategy betaWinningStrategy;
     WinningStrategy epsilonWinningStrategy;
     WinningStrategy currentState = null;
+    int roundCount = 0;
 
     public ZetaWinningStrategy(WinningStrategy betaWinningStrategy, WinningStrategy epsilonWinningStrategy) {
         this.betaWinningStrategy = betaWinningStrategy;
@@ -16,9 +17,9 @@ public class ZetaWinningStrategy implements WinningStrategy {
 
     @Override
     public Player calculateWinner(GameImpl game) {
-        if (game.getRoundCount() <= 20) {
+        if (roundCount <= 20) {
             currentState = betaWinningStrategy;
-        } else if (game.getRoundCount() >= 21){
+        } else {
             currentState = epsilonWinningStrategy;
         }
         return currentState.calculateWinner(game);
@@ -31,5 +32,6 @@ public class ZetaWinningStrategy implements WinningStrategy {
 
     @Override
     public void incrementRoundsPlayed() {
+        roundCount++;
     }
 }
