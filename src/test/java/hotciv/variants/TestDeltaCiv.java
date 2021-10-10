@@ -2,6 +2,12 @@ package hotciv.variants;
 
 import hotciv.framework.*;
 import hotciv.standard.GameImpl;
+import hotciv.variants.agingStrategies.LinearAgeStrategy;
+import hotciv.variants.alphaStrategies.AlphaAttackingStrategy;
+import hotciv.variants.alphaStrategies.AlphaCivWinningStrategy;
+import hotciv.variants.alphaStrategies.AlphaUnitActionStrategy;
+import hotciv.variants.deltaStrategies.DeltaWorldLayoutStrategy;
+import hotciv.variants.factories.DeltaCivFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.hamcrest.CoreMatchers.*;
@@ -9,15 +15,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class TestDeltaCiv {
     private Game game;
-    private AgeStrategy linearAgeStrategy = new LinearAgeStrategy();
-    private WinningStrategy alphaCivWinningStrategy = new AlphaCivWinningStrategy();
-    private UnitActionStrategy alphaUnitActionStrategy = new AlphaUnitActionStrategy();
-    private WorldLayoutStrategy deltaWorldLayoutStrategy = new DeltaWorldLayoutStrategy();
 
     /************  FIXTURE FOR DELTACIV TESTING ************/
     @BeforeEach
     public void setUp() {
-        game = new GameImpl(linearAgeStrategy, alphaCivWinningStrategy, alphaUnitActionStrategy, deltaWorldLayoutStrategy);
+        game = new GameImpl(new DeltaCivFactory());
     }
 
     /************ TESTING FOR DELTACIV WORLD LAYOUT ************/

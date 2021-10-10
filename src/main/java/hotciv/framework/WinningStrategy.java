@@ -1,9 +1,15 @@
 package hotciv.framework;
 
+import hotciv.standard.GameImpl;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
 
 public interface WinningStrategy {
-    Player calculateWinner(int currentAge, ArrayList<City> listOfCities);
+    Player calculateWinner(GameImpl game);
+
+    void incrementBattlesWonBy(Player player);
+
+    void incrementRoundsPlayed();
 }

@@ -1,29 +1,28 @@
 package hotciv.variants;
 
-import hotciv.Utility.Utility;
 import hotciv.framework.*;
 
 import hotciv.standard.CityImpl;
 import hotciv.standard.GameImpl;
-import hotciv.variants.LinearAgeStrategy;
+import hotciv.variants.agingStrategies.SlowingAgeStrategy;
+import hotciv.variants.alphaStrategies.AlphaAttackingStrategy;
+import hotciv.variants.alphaStrategies.AlphaUnitActionStrategy;
+import hotciv.variants.alphaStrategies.AlphaWorldLayoutStrategy;
+import hotciv.variants.betaStreategies.BetaCivWinningStrategy;
+import hotciv.variants.factories.BetaCivFactory;
 import org.junit.jupiter.api.*;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import java.util.*;
-
 public class TestBetaCiv {
     private Game game;
     private AgeStrategy slowingAgeStrategy = new SlowingAgeStrategy();
-    private WinningStrategy betaCivWinningStrategy = new BetaCivWinningStrategy();
-    private UnitActionStrategy alphaUnitActionStrategy = new AlphaUnitActionStrategy();
-    private WorldLayoutStrategy alphaWorldLayoutStrategy = new AlphaWorldLayoutStrategy();
 
     /************  FIXTURE FOR BETACIV TESTING ************/
     @BeforeEach
     public void setUp() {
-        game = new GameImpl(slowingAgeStrategy, betaCivWinningStrategy, alphaUnitActionStrategy, alphaWorldLayoutStrategy);
+        game = new GameImpl(new BetaCivFactory());
     }
 
     /************  TESTS FOR GAME AGING ************/
@@ -111,7 +110,7 @@ public class TestBetaCiv {
         assertThat(slowingAgeStrategy.calculateAge(1980), is(1981));
     }
 
-    /************ TESTS FOR GAME WINNING ************/
+    /************ TESTS FOR GAME ************/
     @Test
     public void redShouldWinIfItOwnsAllCities(){
        CityImpl blueCity = (CityImpl) game.getCityAt(GameConstants.Blue_City_Pos);

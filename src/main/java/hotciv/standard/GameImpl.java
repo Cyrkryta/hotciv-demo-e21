@@ -55,16 +55,21 @@ public class GameImpl implements Game {
   // Implements the world layout strategy for the game.
   private final UnitActionStrategy unitActionStrategy;
 
+  private final AttackingStrategy attackingStrategy;
+  private int battlesWon;
 
-  public GameImpl(AgeStrategy ageStrategy, WinningStrategy winningStrategy, UnitActionStrategy unitActionStrategy, WorldLayoutStrategy worldLayoutStrategy) {
-    this.ageStrategy = ageStrategy;
-    this.winningStrategy = winningStrategy;
-    this.unitActionStrategy = unitActionStrategy;
-    this.worldLayoutStrategy = worldLayoutStrategy;
+
+  public GameImpl(GameFactory gameFactory) {
+    this.ageStrategy = gameFactory.createAgeStrategy();
+    this.winningStrategy = gameFactory.createWinningStrategy();
+    this.unitActionStrategy = gameFactory.createUnitActionStrategy();
+    this.worldLayoutStrategy = gameFactory.createWorldLayoutStrategy();
+    this.attackingStrategy = gameFactory.createAttackingStrategy();
 
     this.unitMap = worldLayoutStrategy.placeUnits();
     this.cityMap = worldLayoutStrategy.placeCities();
     this.worldMap = worldLayoutStrategy.createWorld();
+
   }
 
   /************ Accessor Methods ************/
@@ -85,9 +90,12 @@ public class GameImpl implements Game {
     return playerInTurn;
   }
 
+  public ArrayList<City> getCityList(){
+    return new ArrayList<>(cityMap.values());
+  }
+
   public Player getWinner() {
-  ArrayList<City> listOfCities = new ArrayList<>(cityMap.values());
-  winner = winningStrategy.calculateWinner(getAge(), listOfCities);
+  winner = winningStrategy.calculateWinner(this);
   return winner;
   }
 
@@ -117,6 +125,7 @@ public class GameImpl implements Game {
       currCity.addTreasury(6);
     }
     produceUnits();
+    winningStrategy.incrementRoundsPlayed();
   }
 
   private void resetUnitsMoveCount() {
@@ -130,7 +139,7 @@ public class GameImpl implements Game {
   /************ moveUnit and related methods ************/
   //region
   public boolean moveUnit(Position from, Position to) {
-    if(!isValidMove(from,to)) return false;
+    if(!moveIsPossible(from,to)) return false;
 
     boolean movingIntoEnemyCity = getCityAt(to) != null && getCityAt(to).getOwner() != getUnitAt(from).getOwner();
     if(movingIntoEnemyCity) {
@@ -143,7 +152,7 @@ public class GameImpl implements Game {
     return true;
   }
 
-  private boolean isValidMove(Position from, Position to){
+  private boolean moveIsPossible(Position from, Position to){
     //Checks tile conditions
     if (getUnitAt(from) == null) return false;
     if (from == to) return false;
@@ -157,6 +166,25 @@ public class GameImpl implements Game {
 
     boolean ownUnitAtTo = getUnitAt(to) != null && getUnitAt(to).getOwner() == playerInTurn;
     if (ownUnitAtTo) return false;
+
+    //Handles combat if moving onto tile occupied by enemy unit
+    boolean attackingEnemyUnit = getUnitAt(to) != null && getUnitAt(to).getOwner() != getUnitAt(from).getOwner();
+    if (attackingEnemyUnit){
+      return handleAttack(from, to);
+    }
+
+    return true;
+  }
+
+  //Handle attacks made while moving units, returns boolean for result of combat
+  private boolean handleAttack(Position from, Position to){
+    boolean attackIsSuccessful = attackingStrategy.calculateAttack(from, to, this);
+    if(!attackIsSuccessful){
+      unitMap.remove(from);
+      return false;
+    }
+    getWinner();
+    winningStrategy.incrementBattlesWonBy(getUnitAt(from).getOwner());
 
     return true;
   }
@@ -264,5 +292,9 @@ public class GameImpl implements Game {
 
   public void performUnitActionAt(Position p) {
     unitActionStrategy.performAction(p, this);
+  }
+
+  public int getBattlesWon() {
+    return battlesWon;
   }
 }

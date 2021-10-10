@@ -1,4 +1,4 @@
-package hotciv.variants;
+package hotciv.variants.agingStrategies;
 
 import hotciv.framework.AgeStrategy;
 import hotciv.framework.GameConstants;

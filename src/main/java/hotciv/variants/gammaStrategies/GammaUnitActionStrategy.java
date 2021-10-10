@@ -1,4 +1,4 @@
-package hotciv.variants;
+package hotciv.variants.gammaStrategies;
 
 import hotciv.framework.GameConstants;
 import hotciv.framework.Position;
