@@ -192,7 +192,7 @@ public class GameImpl implements Game {
   //Tests that the tile at the given position movable
   private boolean isMovableTerrain(Position position){
     String tileType = getTileAt(position).getTypeString();
-    return GameConstants.movableTerrain.contains(tileType);
+    return GameConstants.regularMovableTerrain.contains(tileType);
   }
 
   private void attackCity(Position cityPos){

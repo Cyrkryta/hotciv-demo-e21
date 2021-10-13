@@ -50,15 +50,15 @@ public class UnitImpl implements Unit {
 
     @Override
     public int getAttackingStrength() {
-        switch (unitName) {
+/*        switch (unitName) {
             case GameConstants.ARCHER:
                 return GameConstants.ARCHER_ATK;
             case GameConstants.LEGION:
                 return GameConstants.LEGION_ATK;
             case GameConstants.SETTLER:
                 return GameConstants.SETTLER_ATK;
-        }
-        return 0;
+        }*/
+        return GameConstants.unitConstants.get(unitName)[GameConstants.ATTACK_INDEX];
     }
 
     public void reduceMoveCount() {
