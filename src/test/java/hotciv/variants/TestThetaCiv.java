@@ -40,7 +40,7 @@ public class TestThetaCiv {
         //Go to blue's turn
         game.endOfTurn();
         //Assert that unit doesn't move to plains at 9,7
-        assertThat(game.moveUnit(BlueSandwormPosition, new Position(9,7)), is(false));
+        assertThat(game.moveUnit(BlueSandwormPosition, new Position(9,7)), is(true));
     }
     //endregion
 
