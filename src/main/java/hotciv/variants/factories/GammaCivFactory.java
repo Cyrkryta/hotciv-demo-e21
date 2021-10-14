@@ -4,6 +4,7 @@ import hotciv.framework.*;
 import hotciv.variants.agingStrategies.LinearAgeStrategy;
 import hotciv.variants.alphaStrategies.AlphaAttackingStrategy;
 import hotciv.variants.alphaStrategies.AlphaCivWinningStrategy;
+import hotciv.variants.alphaStrategies.AlphaValidMoveStrategy;
 import hotciv.variants.alphaStrategies.AlphaWorldLayoutStrategy;
 import hotciv.variants.gammaStrategies.GammaUnitActionStrategy;
 
@@ -31,5 +32,10 @@ public class GammaCivFactory implements GameFactory {
     @Override
     public AttackingStrategy createAttackingStrategy() {
         return new AlphaAttackingStrategy();
+    }
+
+    @Override
+    public ValidMoveStrategy createValidMoveStrategy() {
+        return new AlphaValidMoveStrategy();
     }
 }

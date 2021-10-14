@@ -2,10 +2,7 @@ package hotciv.variants.factories;
 
 import hotciv.framework.*;
 import hotciv.variants.agingStrategies.LinearAgeStrategy;
-import hotciv.variants.alphaStrategies.AlphaAttackingStrategy;
-import hotciv.variants.alphaStrategies.AlphaCivWinningStrategy;
-import hotciv.variants.alphaStrategies.AlphaUnitActionStrategy;
-import hotciv.variants.alphaStrategies.AlphaWorldLayoutStrategy;
+import hotciv.variants.alphaStrategies.*;
 
 public class AlphaCivFactory implements GameFactory {
     @Override
@@ -31,5 +28,10 @@ public class AlphaCivFactory implements GameFactory {
     @Override
     public AttackingStrategy createAttackingStrategy() {
         return new AlphaAttackingStrategy();
+    }
+
+    @Override
+    public ValidMoveStrategy createValidMoveStrategy() {
+        return new AlphaValidMoveStrategy();
     }
 }

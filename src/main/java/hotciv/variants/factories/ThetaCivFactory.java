@@ -4,8 +4,9 @@ import hotciv.framework.*;
 import hotciv.variants.agingStrategies.LinearAgeStrategy;
 import hotciv.variants.alphaStrategies.AlphaAttackingStrategy;
 import hotciv.variants.alphaStrategies.AlphaCivWinningStrategy;
-import hotciv.variants.alphaStrategies.AlphaWorldLayoutStrategy;
+import hotciv.variants.alphaStrategies.AlphaValidMoveStrategy;
 import hotciv.variants.gammaStrategies.GammaUnitActionStrategy;
+import hotciv.variants.thetaStrategies.ThetaValidMoveSandwormDecorator;
 import hotciv.variants.thetaStrategies.ThetaWorldLayoutStrategy;
 
 public class ThetaCivFactory implements GameFactory {
@@ -32,5 +33,10 @@ public class ThetaCivFactory implements GameFactory {
     @Override
     public AttackingStrategy createAttackingStrategy() {
         return new AlphaAttackingStrategy();
+    }
+
+    @Override
+    public ValidMoveStrategy createValidMoveStrategy() {
+        return new ThetaValidMoveSandwormDecorator(new AlphaValidMoveStrategy());
     }
 }

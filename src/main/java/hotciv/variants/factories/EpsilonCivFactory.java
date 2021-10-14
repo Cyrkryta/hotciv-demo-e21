@@ -2,6 +2,7 @@ package hotciv.variants.factories;
 
 import hotciv.framework.*;
 import hotciv.variants.agingStrategies.LinearAgeStrategy;
+import hotciv.variants.alphaStrategies.AlphaValidMoveStrategy;
 import hotciv.variants.alphaStrategies.AlphaUnitActionStrategy;
 import hotciv.variants.alphaStrategies.AlphaWorldLayoutStrategy;
 import hotciv.framework.DieRollStrategy;
@@ -36,5 +37,10 @@ public class EpsilonCivFactory implements GameFactory {
     @Override
     public AttackingStrategy createAttackingStrategy() {
         return new EpsilonAttackingStrategy(normalRollStrategy);
+    }
+
+    @Override
+    public ValidMoveStrategy createValidMoveStrategy() {
+        return new AlphaValidMoveStrategy();
     }
 }

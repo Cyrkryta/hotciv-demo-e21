@@ -11,4 +11,6 @@ public interface GameFactory {
    public WorldLayoutStrategy createWorldLayoutStrategy();
    // AttackingStrategy
    public AttackingStrategy createAttackingStrategy();
+   // MoveUnitStrategy
+   ValidMoveStrategy createValidMoveStrategy();
 }

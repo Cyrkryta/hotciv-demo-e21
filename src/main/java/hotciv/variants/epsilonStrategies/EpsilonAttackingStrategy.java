@@ -18,21 +18,21 @@ public class EpsilonAttackingStrategy implements AttackingStrategy {
         return finalDefensiveStrength < finalAttackingStrength;
     }
 
-    private int getTotalAttackingStrength(Position from, Game game){
+    private int getTotalAttackingStrength(Position from, Game game) {
         Player attackingPlayer = game.getUnitAt(from).getOwner();
         int attackingStrength = game.getUnitAt(from).getAttackingStrength();
         int attackingSupport = Utility.getFriendlySupport(game, from, attackingPlayer);
         int attackingTerrainMultiplier = Utility.getTerrainFactor(game, from);
 
-        return (attackingStrength+attackingSupport)*attackingTerrainMultiplier;
+        return (attackingStrength + attackingSupport) * attackingTerrainMultiplier;
     }
 
-    private int getTotalDefensiveStrength(Position to, Game game){
+    private int getTotalDefensiveStrength(Position to, Game game) {
         Player defendingPlayer = game.getUnitAt(to).getOwner();
         int defendingStrength = game.getUnitAt(to).getDefensiveStrength();
         int defendingSupport = Utility.getFriendlySupport(game, to, defendingPlayer);
         int defendingTerrainMultiplier = Utility.getTerrainFactor(game, to);
 
-        return (defendingStrength+defendingSupport)*defendingTerrainMultiplier;
+        return (defendingStrength + defendingSupport) * defendingTerrainMultiplier;
     }
 }
