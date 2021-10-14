@@ -14,7 +14,6 @@ public class ThetaValidMoveSandwormDecorator implements ValidMoveStrategy {
 
     @Override
     public boolean moveIsPossible(Position from, Position to, GameImpl game) {
-
         return false;
     }
 
