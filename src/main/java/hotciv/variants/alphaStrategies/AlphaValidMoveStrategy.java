@@ -34,7 +34,6 @@ public class AlphaValidMoveStrategy implements ValidMoveStrategy {
         if (attackingEnemyUnit) {
             return game.handleAttack(from, to);
         }
-
         return true;
     }
 

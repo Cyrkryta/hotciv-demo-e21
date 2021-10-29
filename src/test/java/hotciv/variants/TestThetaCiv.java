@@ -1,20 +1,20 @@
 package hotciv.variants;
 
-import hotciv.framework.Game;
-import hotciv.framework.GameConstants;
-import hotciv.framework.Player;
-import hotciv.framework.Position;
+import hotciv.framework.*;
 import hotciv.standard.GameImpl;
-import hotciv.variants.factories.GammaCivFactory;
 import hotciv.variants.factories.ThetaCivFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class TestThetaCiv {
     private Game game;
+
+    // City starting positions
+    Position blueCityPosition = new Position(4,5);
+    Position redCityPosition = new Position(8,12);
 
     //Unit Start positions
     Position RedSettlerPosition = new Position(5,5);
@@ -42,7 +42,15 @@ public class TestThetaCiv {
         //Assert that unit doesn't move to plains at 9,7
         assertThat(game.moveUnit(BlueSandwormPosition, new Position(9,7)), is(false));
     }
-    //endregion
+
+    // Testing that sandworms can move on dessert tiles.
+    @Test
+    public void shouldBeAbleToMoveSandwormsOnDessertTiles() {
+        // Go to blue turns.
+        game.endOfTurn();
+        // Assert that the unit moves to dessert tile at 8,6
+        assertThat(game.moveUnit(BlueSandwormPosition, new Position(8,5)), is(true));
+    }
 
     /************ TESTS FOR THETACIV CITIES ************/
     //region
@@ -132,6 +140,24 @@ public class TestThetaCiv {
     public void shouldBeOceanAt15_15() {
         assertThat(game.getTileAt(new Position(15,15)).getTypeString(), is(GameConstants.OCEANS));
     }
-    //endregion
 
+    /************ TESTS FOR SANDWORM UNIT PRODUCTION ************/
+    @Test
+    public void shouldBeAbleToCreateSandworm() {
+        // Creating a sandworm from blue city.
+        game.changeProductionInCityAt(blueCityPosition, GameConstants.SANDWORM);
+        endOfRound(22);
+        game.endOfTurn();
+        // Checking that sandworm has been created
+        assertThat(game.getUnitAt(new Position(3,5)).getTypeString(), is(GameConstants.SANDWORM));
+    }
+
+    /********** HELPER METHODS ************/
+    public void endOfRound(int rounds) {
+        for (int i = 0; i < rounds; i++) {
+            game.endOfTurn();
+            game.endOfTurn();
+        game.endOfTurn();
+        }
+    }
 }

@@ -186,7 +186,8 @@ public class GameImpl implements Game {
     public void changeProductionInCityAt(Position p, String unitType) {
         CityImpl chosenCity = (CityImpl) getCityAt(p);
         if (chosenCity != null) {
-            if (Objects.equals(unitType, GameConstants.ARCHER) || Objects.equals(unitType, GameConstants.SETTLER) || Objects.equals(unitType, GameConstants.LEGION)) {
+            if (Objects.equals(unitType, GameConstants.ARCHER) || Objects.equals(unitType, GameConstants.SETTLER) ||
+                    Objects.equals(unitType, GameConstants.LEGION) || Objects.equals(unitType, GameConstants.SANDWORM)) {
                 chosenCity.changeProd(unitType);
             }
         }
@@ -233,6 +234,9 @@ public class GameImpl implements Game {
             case GameConstants.SETTLER:
                 cost = GameConstants.SETTLER_COST;
                 break;
+            case GameConstants.SANDWORM:
+                cost = GameConstants.SANDWORM_COST;
+                break;
         }
         return cost;
     }
@@ -242,6 +246,7 @@ public class GameImpl implements Game {
         if (getUnitAt(cityPosition) != null) {
             Iterator<Position> listOfNeighbours = Utility.get8neighborhoodIterator(cityPosition);
             while (listOfNeighbours.hasNext()) {
+                /*** MAYBE BEHAVIOUR FOR PLACING SANDWORM ***/
                 Position position = listOfNeighbours.next();
                 if (validMoveStrategy.isMovableTerrain(position, this)) {
                     if (getUnitAt(position) == null) {
