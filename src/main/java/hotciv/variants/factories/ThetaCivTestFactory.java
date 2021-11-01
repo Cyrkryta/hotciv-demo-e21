@@ -5,6 +5,7 @@ import hotciv.variants.agingStrategies.LinearAgeStrategy;
 import hotciv.variants.alphaStrategies.AlphaAttackingStrategy;
 import hotciv.variants.alphaStrategies.AlphaCivWinningStrategy;
 import hotciv.variants.alphaStrategies.AlphaValidMoveStrategy;
+import hotciv.variants.decorators.ThetaSandwormActionDecorator;
 import hotciv.variants.decorators.ThetaSandwormDecorator;
 import hotciv.variants.gammaStrategies.GammaUnitActionStrategy;
 import hotciv.variants.thetaStrategies.TestThetaWorldLayoutStrategy;
@@ -23,7 +24,7 @@ public class ThetaCivTestFactory implements GameFactory {
 
     @Override
     public UnitActionStrategy createUnitActionStrategy() {
-        return new GammaUnitActionStrategy();
+        return new ThetaSandwormActionDecorator(new GammaUnitActionStrategy());
     }
 
     @Override

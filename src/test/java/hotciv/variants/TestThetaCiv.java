@@ -81,7 +81,8 @@ public class TestThetaCiv {
         assertThat(sandwormActionTestGame.getUnitAt(redArcher1Pos), is(notNullValue()));
         assertThat(sandwormActionTestGame.getUnitAt(redArcher1Pos).getOwner(), is(Player.RED));
         sandwormActionTestGame.performUnitActionAt(sandwormPosition);
-
+        assertThat(sandwormActionTestGame.getUnitAt(blueArcher1Pos), is(notNullValue()));
+        assertThat(sandwormActionTestGame.getUnitAt(blueArcher2Pos), is(notNullValue()));
         assertThat(sandwormActionTestGame.getUnitAt(redArcher2Pos), is(nullValue()));
     }
 
