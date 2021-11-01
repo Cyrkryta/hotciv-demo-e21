@@ -3,6 +3,7 @@ package hotciv.variants;
 import hotciv.framework.*;
 import hotciv.standard.GameImpl;
 import hotciv.variants.factories.ThetaCivFactory;
+import hotciv.variants.factories.ThetaCivTestFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -28,10 +29,6 @@ public class TestThetaCiv {
         game = new GameImpl(new ThetaCivFactory());
     }
 
-    /************ TESTS FOR THETACIV CITIES ************/
-    //region
-    //endregion
-
     /************ TESTS FOR THETACIV UNITS************/
     //region
     //Testing that sandworms can only move in desserts
@@ -50,6 +47,42 @@ public class TestThetaCiv {
         game.endOfTurn();
         // Assert that the unit moves to dessert tile at 8,6
         assertThat(game.moveUnit(BlueSandwormPosition, new Position(8,5)), is(true));
+    }
+
+    @Test
+    public void sandwormsShouldBeAbleToMoveTwice() {
+        game.endOfTurn();
+        //Assert that first 2 moves are successful
+        assertThat(game.moveUnit(BlueSandwormPosition, new Position(9, 5)), is(true));
+        assertThat(game.moveUnit(new Position(9, 5), new Position(8, 5)), is(true));
+        //Assert that 3rd move in unsuccessful
+        assertThat(game.moveUnit(new Position(8, 5), new Position(8, 4)), is(false));
+    }
+
+    @Test
+    public void sandwormsShouldHave0Attack() {
+        assertThat(game.getUnitAt(BlueSandwormPosition).getAttackingStrength(),is(0));
+    }
+
+    @Test
+    public void sandwormsShouldHave10Defense() {
+        assertThat(game.getUnitAt(BlueSandwormPosition).getDefensiveStrength(),is(10));
+    }
+
+    @Test
+    public void sandwormActionShouldKillAllNonFriendlyUnitsInNeighbourhood() {
+        Position sandwormPosition = new Position(9,6);
+        Position redArcher1Pos = new Position(8,5);
+        Position redArcher2Pos = new Position(8,7);
+        Position blueArcher1Pos = new Position(10,6);
+        Position blueArcher2Pos = new Position(10,7);
+
+        GameImpl sandwormActionTestGame = new GameImpl(new ThetaCivTestFactory());
+        assertThat(sandwormActionTestGame.getUnitAt(redArcher1Pos), is(notNullValue()));
+        assertThat(sandwormActionTestGame.getUnitAt(redArcher1Pos).getOwner(), is(Player.RED));
+        sandwormActionTestGame.performUnitActionAt(sandwormPosition);
+
+        assertThat(sandwormActionTestGame.getUnitAt(redArcher2Pos), is(nullValue()));
     }
 
     /************ TESTS FOR THETACIV CITIES ************/
@@ -158,8 +191,9 @@ public class TestThetaCiv {
         game.changeProductionInCityAt(redCityPosition, GameConstants.SANDWORM);
         endOfRound(22);
         // Checking that the sandworm has NOT been created.
-        assertThat(game.getUnitAt(new Position(7,12)).getTypeString(), is(nullValue()));
+        assertThat(game.getUnitAt(new Position(7,12)), is(nullValue()));
     }
+
 
     /********** HELPER METHODS ************/
     public void endOfRound(int rounds) {

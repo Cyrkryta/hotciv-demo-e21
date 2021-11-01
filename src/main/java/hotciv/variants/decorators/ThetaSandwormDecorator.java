@@ -12,15 +12,7 @@ public class ThetaSandwormDecorator implements ValidMoveStrategy {
     }
 
     @Override
-    public boolean moveIsPossible(Position from, Position to, GameImpl game) {
-        String unitType = game.getUnitAt(from).getTypeString();
-        String tileType = game.getTileAt(to).getTypeString();
-        if (unitType.equals(GameConstants.SANDWORM) && !tileType.equals(GameConstants.DESSERT)) {
-            return false;
-        } else {
-            return decoratee.moveIsPossible(from, to, game);
-        }
-    }
+    public boolean moveIsPossible(Position from, Position to, GameImpl game) {return decoratee.moveIsPossible(from, to, game);}
 
     @Override
     public boolean movesToNeighbourTile(Position from, Position to) {
@@ -29,6 +21,13 @@ public class ThetaSandwormDecorator implements ValidMoveStrategy {
 
     @Override
     public boolean isMovableTerrain(Position from, Position to, GameImpl game) {
-        return decoratee.isMovableTerrain(from, to, game);
+        String unitType = game.getUnitAt(from).getTypeString();
+        String tileType = game.getTileAt(to).getTypeString();
+        if (unitType.equals(GameConstants.SANDWORM) && !tileType.equals(GameConstants.DESSERT)) {
+            return false;
+        } else {
+            return decoratee.isMovableTerrain(from, to, game);
+        }
+
     }
 }

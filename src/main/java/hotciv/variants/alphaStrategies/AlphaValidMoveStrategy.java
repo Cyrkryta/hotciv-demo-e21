@@ -18,7 +18,7 @@ public class AlphaValidMoveStrategy implements ValidMoveStrategy {
         //Checks tile conditions
         if (game.getUnitAt(from) == null) return false;
         if (from == to) return false;
-        if (!movesToNeighbourTile(from, to)) return false;
+        //if (!movesToNeighbourTile(from, to)) return false;
 
         //Checks Unit conditions
         UnitImpl unit = (UnitImpl) game.getUnitAt(from);

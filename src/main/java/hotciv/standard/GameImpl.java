@@ -144,6 +144,8 @@ public class GameImpl implements Game {
     //region
     public boolean moveUnit(Position from, Position to) {
         if (!validMoveStrategy.moveIsPossible(from, to, this)) return false;
+        if (!validMoveStrategy.isMovableTerrain(from, to, this)) return false;
+        if (!validMoveStrategy.movesToNeighbourTile(from, to)) return false;
 
         boolean movingIntoEnemyCity = getCityAt(to) != null && getCityAt(to).getOwner() != getUnitAt(from).getOwner();
         if (movingIntoEnemyCity) {
@@ -214,7 +216,7 @@ public class GameImpl implements Game {
     private void executeUnitProduction(String unitType, City city, Position cityPos) {
         CityImpl currentCity = (CityImpl) city;
         int cityTreasury = currentCity.getTreasury();
-        Position placementPos = getPlacementPosition(currentCity, cityPos);
+        Position placementPos = getPlacementPosition(cityPos);
         if (unitType != null && getUnitCost(unitType) <= cityTreasury) {
             unitMap.put(placementPos, new UnitImpl(unitType, city.getOwner()));
             currentCity.addTreasury(-getUnitCost(unitType));
@@ -222,25 +224,10 @@ public class GameImpl implements Game {
     }
 
     private int getUnitCost(String unitType) {
-        int cost = 0;
-        switch (unitType) {
-            case GameConstants.ARCHER:
-                cost = GameConstants.ARCHER_COST;
-                break;
-            case GameConstants.LEGION:
-                cost = GameConstants.LEGION_COST;
-                break;
-            case GameConstants.SETTLER:
-                cost = GameConstants.SETTLER_COST;
-                break;
-            case GameConstants.SANDWORM:
-                cost = GameConstants.SANDWORM_COST;
-                break;
-        }
-        return cost;
+        return GameConstants.unitConstants.get(unitType)[GameConstants.COST_INDEX];
     }
 
-    private Position getPlacementPosition(City currentCity, Position cityPosition) {
+    private Position getPlacementPosition(Position cityPosition) {
         Position placementPosition = cityPosition;
         if (getUnitAt(cityPosition) != null) {
             Iterator<Position> listOfNeighbours = Utility.get8neighborhoodIterator(cityPosition);
