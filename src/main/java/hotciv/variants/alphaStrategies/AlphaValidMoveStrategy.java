@@ -23,7 +23,7 @@ public class AlphaValidMoveStrategy implements ValidMoveStrategy {
         //Checks Unit conditions
         UnitImpl unit = (UnitImpl) game.getUnitAt(from);
         if (unit.getOwner() != game.playerInTurn) return false;
-        if (!isMovableTerrain(to, game)) return false;
+        if (!isMovableTerrain(from, to, game)) return false;
         if (!(unit.getMoveCount() > 0)) return false;
 
         boolean ownUnitAtTo = game.getUnitAt(to) != null && game.getUnitAt(to).getOwner() == game.playerInTurn;
@@ -48,7 +48,7 @@ public class AlphaValidMoveStrategy implements ValidMoveStrategy {
     }
 
     @Override
-    public boolean isMovableTerrain(Position to, GameImpl game) {
+    public boolean isMovableTerrain(Position from, Position to, GameImpl game) {
         String tileType = game.getTileAt(to).getTypeString();
         return GameConstants.regularMovableTerrain.contains(tileType);
     }

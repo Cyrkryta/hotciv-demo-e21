@@ -152,6 +152,15 @@ public class TestThetaCiv {
         assertThat(game.getUnitAt(new Position(3,5)).getTypeString(), is(GameConstants.SANDWORM));
     }
 
+    @Test
+    public void shouldNotCreateSandwormOnNonDesertTiles() {
+        // Creating a sandworm from red city.
+        game.changeProductionInCityAt(redCityPosition, GameConstants.SANDWORM);
+        endOfRound(22);
+        // Checking that the sandworm has NOT been created.
+        assertThat(game.getUnitAt(new Position(7,12)).getTypeString(), is(nullValue()));
+    }
+
     /********** HELPER METHODS ************/
     public void endOfRound(int rounds) {
         for (int i = 0; i < rounds; i++) {

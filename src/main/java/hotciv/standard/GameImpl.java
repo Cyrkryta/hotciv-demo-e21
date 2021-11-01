@@ -207,15 +207,14 @@ public class GameImpl implements Game {
             Position cityPos = entry.getKey();
             CityImpl city = (CityImpl) entry.getValue();
             String unitType = getCityAt(cityPos).getProduction();
-
             executeUnitProduction(unitType, city, cityPos);
         }
     }
 
     private void executeUnitProduction(String unitType, City city, Position cityPos) {
         CityImpl currentCity = (CityImpl) city;
-        int cityTreasury = city.getTreasury();
-        Position placementPos = getPlacementPosition(cityPos);
+        int cityTreasury = currentCity.getTreasury();
+        Position placementPos = getPlacementPosition(currentCity, cityPos);
         if (unitType != null && getUnitCost(unitType) <= cityTreasury) {
             unitMap.put(placementPos, new UnitImpl(unitType, city.getOwner()));
             currentCity.addTreasury(-getUnitCost(unitType));
@@ -241,14 +240,13 @@ public class GameImpl implements Game {
         return cost;
     }
 
-    private Position getPlacementPosition(Position cityPosition) {
+    private Position getPlacementPosition(City currentCity, Position cityPosition) {
         Position placementPosition = cityPosition;
         if (getUnitAt(cityPosition) != null) {
             Iterator<Position> listOfNeighbours = Utility.get8neighborhoodIterator(cityPosition);
             while (listOfNeighbours.hasNext()) {
-                /*** MAYBE BEHAVIOUR FOR PLACING SANDWORM ***/
                 Position position = listOfNeighbours.next();
-                if (validMoveStrategy.isMovableTerrain(position, this)) {
+                if (validMoveStrategy.isMovableTerrain(cityPosition, position, this)) {
                     if (getUnitAt(position) == null) {
                         placementPosition = position;
                         break;
