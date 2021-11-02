@@ -5,10 +5,13 @@ import hotciv.variants.agingStrategies.LinearAgeStrategy;
 import hotciv.variants.alphaStrategies.AlphaAttackingStrategy;
 import hotciv.variants.alphaStrategies.AlphaCivWinningStrategy;
 import hotciv.variants.alphaStrategies.AlphaValidMoveStrategy;
-import hotciv.variants.alphaStrategies.AlphaWorldLayoutStrategy;
+import hotciv.variants.decorators.ThetaSandwormActionDecorator;
+import hotciv.variants.decorators.ThetaSandwormDecorator;
 import hotciv.variants.gammaStrategies.GammaUnitActionStrategy;
+import hotciv.variants.thetaStrategies.TestThetaWorldLayoutStrategy;
+import hotciv.variants.thetaStrategies.ThetaWorldLayoutStrategy;
 
-public class GammaCivFactory implements GameFactory {
+public class ThetaCivTestFactory implements GameFactory {
     @Override
     public AgeStrategy createAgeStrategy() {
         return new LinearAgeStrategy();
@@ -21,12 +24,12 @@ public class GammaCivFactory implements GameFactory {
 
     @Override
     public UnitActionStrategy createUnitActionStrategy() {
-        return new GammaUnitActionStrategy();
+        return new ThetaSandwormActionDecorator(new GammaUnitActionStrategy());
     }
 
     @Override
     public WorldLayoutStrategy createWorldLayoutStrategy() {
-        return new AlphaWorldLayoutStrategy();
+        return new TestThetaWorldLayoutStrategy();
     }
 
     @Override
@@ -36,6 +39,6 @@ public class GammaCivFactory implements GameFactory {
 
     @Override
     public ValidMoveStrategy createValidMoveStrategy() {
-        return new AlphaValidMoveStrategy();
+        return new ThetaSandwormDecorator(new AlphaValidMoveStrategy());
     }
 }

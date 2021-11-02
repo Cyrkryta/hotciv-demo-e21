@@ -2,11 +2,11 @@ package hotciv.variants.factories;
 
 import hotciv.framework.*;
 import hotciv.variants.agingStrategies.LinearAgeStrategy;
+import hotciv.variants.alphaStrategies.AlphaValidMoveStrategy;
 import hotciv.variants.alphaStrategies.AlphaUnitActionStrategy;
 import hotciv.variants.alphaStrategies.AlphaWorldLayoutStrategy;
 import hotciv.framework.DieRollStrategy;
 import hotciv.variants.epsilonStrategies.EpsilonAttackingStrategy;
-import hotciv.variants.epsilonStrategies.EpsilonCivWinningStrategy;
 
 public class EpsilonCivTestFactory implements GameFactory {
     DieRollStrategy rollStrategy;
@@ -39,5 +39,10 @@ public class EpsilonCivTestFactory implements GameFactory {
     @Override
     public AttackingStrategy createAttackingStrategy() {
         return new EpsilonAttackingStrategy(rollStrategy);
+    }
+
+    @Override
+    public ValidMoveStrategy createValidMoveStrategy() {
+        return new AlphaValidMoveStrategy();
     }
 }

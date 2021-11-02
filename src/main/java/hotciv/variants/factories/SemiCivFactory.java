@@ -1,42 +1,40 @@
 package hotciv.variants.factories;
 
 import hotciv.framework.*;
-import hotciv.variants.agingStrategies.LinearAgeStrategy;
+import hotciv.variants.agingStrategies.SlowingAgeStrategy;
 import hotciv.variants.alphaStrategies.AlphaValidMoveStrategy;
-import hotciv.variants.alphaStrategies.AlphaUnitActionStrategy;
-import hotciv.variants.alphaStrategies.AlphaWorldLayoutStrategy;
-import hotciv.framework.DieRollStrategy;
+import hotciv.variants.betaStreategies.BetaCivWinningStrategy;
+import hotciv.variants.deltaStrategies.DeltaWorldLayoutStrategy;
 import hotciv.variants.epsilonStrategies.EpsilonAttackingStrategy;
 import hotciv.variants.epsilonStrategies.EpsilonCivWinningStrategy;
 import hotciv.variants.epsilonStrategies.NormalRollStrategy;
+import hotciv.variants.gammaStrategies.GammaUnitActionStrategy;
+import hotciv.variants.zetaStrategies.ZetaWinningStrategy;
 
-public class EpsilonCivFactory implements GameFactory {
-    private DieRollStrategy normalRollStrategy = new NormalRollStrategy();
-
-
+public class SemiCivFactory implements GameFactory {
     @Override
     public AgeStrategy createAgeStrategy() {
-        return new LinearAgeStrategy();
+        return new SlowingAgeStrategy();
     }
 
     @Override
     public WinningStrategy createWinningStrategy() {
-        return new EpsilonCivWinningStrategy();
+        return new ZetaWinningStrategy(new BetaCivWinningStrategy(), new EpsilonCivWinningStrategy());
     }
 
     @Override
     public UnitActionStrategy createUnitActionStrategy() {
-        return new AlphaUnitActionStrategy();
+        return new GammaUnitActionStrategy();
     }
 
     @Override
     public WorldLayoutStrategy createWorldLayoutStrategy() {
-        return new AlphaWorldLayoutStrategy();
+        return new DeltaWorldLayoutStrategy();
     }
 
     @Override
     public AttackingStrategy createAttackingStrategy() {
-        return new EpsilonAttackingStrategy(normalRollStrategy);
+        return new EpsilonAttackingStrategy(new NormalRollStrategy());
     }
 
     @Override

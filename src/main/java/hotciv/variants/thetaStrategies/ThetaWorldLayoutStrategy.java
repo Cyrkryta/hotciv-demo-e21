@@ -1,4 +1,4 @@
-package hotciv.variants.deltaStrategies;
+package hotciv.variants.thetaStrategies;
 
 import hotciv.framework.*;
 import hotciv.standard.CityImpl;
@@ -7,28 +7,28 @@ import hotciv.standard.UnitImpl;
 
 import java.util.HashMap;
 
-public class DeltaWorldLayoutStrategy implements WorldLayoutStrategy {
+public class ThetaWorldLayoutStrategy implements WorldLayoutStrategy {
     @Override
     public HashMap<Position, Tile> createWorld() {
         String[] layout =
                 new String[] {
-                        "...ooMooooo.....",
-                        "..ohhoooofffoo..",
-                        ".oooooMooo...oo.",
-                        ".ooMMMoooo..oooo",
-                        "...ofooohhoooo..",
-                        ".ofoofooooohhoo.",
-                        "...ooo..........",
-                        ".ooooo.ooohooM..",
-                        ".ooooo.oohooof..",
-                        "offfoooo.offoooo",
-                        "oooooooo...ooooo",
-                        ".ooMMMoooo......",
-                        "..ooooooffoooo..",
-                        "....ooooooooo...",
-                        "..ooohhoo.......",
-                        ".....ooooooooo..",
-                };
+                "...oododdoo.....",
+                "..ohhdddddddddd.",
+                ".oddddMddd...dd.",
+                ".odMMddododdddoo",
+                "...ofodddddddo..",
+                ".ofddddoddddddo.",
+                "...odd..dddddd..",
+                ".oddddddddddoM..",
+                ".oddddddddddddf.",
+                "offddddoddddddoo",
+                "oodddodo...oddoo",
+                ".ooMMdddd...ddd.",
+                "..oodddddfoddd..",
+                "....oddddMMdo...",
+                "..ooddddddMd....",
+                ".....oddddddoo..",
+        };
         // Conversion...
         HashMap<Position,Tile> worldMap = new HashMap<>();
         String line;
@@ -42,6 +42,7 @@ public class DeltaWorldLayoutStrategy implements WorldLayoutStrategy {
                 if ( tileChar == 'M' ) { type = GameConstants.MOUNTAINS; }
                 if ( tileChar == 'f' ) { type = GameConstants.FOREST; }
                 if ( tileChar == 'h' ) { type = GameConstants.HILLS; }
+                if ( tileChar == 'd' ) { type = GameConstants.DESSERT; }
                 Position p = new Position(r,c);
                 worldMap.put( p, new TileImpl(type));
             }
@@ -70,10 +71,12 @@ public class DeltaWorldLayoutStrategy implements WorldLayoutStrategy {
         Position RedSettlerPosition = new Position(5,5);
         Position RedArcherPosition = new Position(3,8);
         Position BlueLegionPosition = new Position(4,4);
+        Position BlueSandwormPosition = new Position(9,6);
 
         unitMap.put(RedSettlerPosition, new UnitImpl(GameConstants.SETTLER, Player.RED));
         unitMap.put(RedArcherPosition, new UnitImpl(GameConstants.ARCHER, Player.RED));
         unitMap.put(BlueLegionPosition, new UnitImpl(GameConstants.LEGION, Player.BLUE));
+        unitMap.put(BlueSandwormPosition, new UnitImpl(GameConstants.SANDWORM, Player.BLUE));
         return unitMap;
     }
 }

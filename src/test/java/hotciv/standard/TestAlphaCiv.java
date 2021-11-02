@@ -619,7 +619,6 @@ public class TestAlphaCiv {
         assertThat(game.getCityAt(GameConstants.Red_City_Pos).getOwner(), is(Player.BLUE));
     }
 
-
     //Testing that cities change owners if an opposing unit moves on to its tile
     @Test
     public void shouldChangeCityOwnerIfOpponentUnitEnters() {

@@ -17,7 +17,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class TestGammaCiv {
     private Game game;
 
-    /************  FIXTURE FOR BETACIV TESTING ************/
+    /************  FIXTURE FOR GAMMACIV TESTING ************/
     @BeforeEach
     public void setUp() {
         game = new GameImpl(new GammaCivFactory());

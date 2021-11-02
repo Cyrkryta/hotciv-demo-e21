@@ -7,7 +7,8 @@ import hotciv.framework.Unit;
 public class UnitImpl implements Unit {
     private String unitName;
     private Player playerOwner;
-    private int moveCount = 1;
+    private int maxMoveCount = 1;
+    private int moveCount;
     private boolean isFortified;
 
 
@@ -15,7 +16,17 @@ public class UnitImpl implements Unit {
         this.unitName = unitName;
         this.playerOwner = playerOwner;
         this.isFortified = false;
+
+        setMaxMoveCount();
+        this.moveCount = maxMoveCount;
         }
+
+    private void setMaxMoveCount() {
+        if (this.unitName.equals(GameConstants.SANDWORM)){
+            this.maxMoveCount = 2;
+        }
+    }
+
     @Override
     public String getTypeString() {
         return unitName;
@@ -33,32 +44,16 @@ public class UnitImpl implements Unit {
 
     @Override
     public int getDefensiveStrength() {
-        switch (unitName) {
-            case GameConstants.ARCHER:
-                if(isFortified){
-                    return GameConstants.ARCHER_DEF*2;
-                }else{
-                    return GameConstants.ARCHER_DEF;
-                }
-            case GameConstants.SETTLER:
-                return GameConstants.SETTLER_DEF;
-            case GameConstants.LEGION:
-                return GameConstants.LEGION_DEF;
+        int defensiveStrength = GameConstants.unitConstants.get(unitName)[GameConstants.DEFENSE_INDEX];
+        if (isFortified){
+            return defensiveStrength*2;
         }
-        return 0;
+        return defensiveStrength;
     }
 
     @Override
     public int getAttackingStrength() {
-        switch (unitName) {
-            case GameConstants.ARCHER:
-                return GameConstants.ARCHER_ATK;
-            case GameConstants.LEGION:
-                return GameConstants.LEGION_ATK;
-            case GameConstants.SETTLER:
-                return GameConstants.SETTLER_ATK;
-        }
-        return 0;
+        return GameConstants.unitConstants.get(unitName)[GameConstants.ATTACK_INDEX];
     }
 
     public void reduceMoveCount() {
@@ -68,7 +63,7 @@ public class UnitImpl implements Unit {
     public void resetMoveCount() {
         //Fortified units are not granted movement
         if(!isFortified){
-            moveCount = 1;
+            moveCount = maxMoveCount;
         }
     }
 
