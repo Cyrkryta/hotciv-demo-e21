@@ -37,6 +37,9 @@ plugins {
 }
 
 repositories {
+    maven {
+        url "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+    }
     mavenCentral()
 }
     
@@ -50,6 +53,17 @@ dependencies {
     // Use the Hamcrest matcher library
     testImplementation group: 'org.hamcrest',
         name: 'hamcrest-library', version: '2.2'
+
+    // Retreiving Bearbak
+    implementation 'com.baerbak.maven:hotciv-fractal:1.0-SNAPSHOT'
+}
+
+task demo(type: JavaExec) {
+    group 'Demo'
+    description 'Demonstration of the HotCiv Fractal landscape generator'
+
+    classpath sourceSets.test.runtimeClasspath
+    main = 'demo.DemoFractal'
 }
 
 // Tell to use JUnit as testing platform

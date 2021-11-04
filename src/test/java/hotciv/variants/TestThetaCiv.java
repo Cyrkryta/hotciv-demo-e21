@@ -178,6 +178,7 @@ public class TestThetaCiv {
     /************ TESTS FOR SANDWORM UNIT PRODUCTION ************/
     @Test
     public void shouldBeAbleToCreateSandworm() {
+        game.endOfTurn();
         // Creating a sandworm from blue city.
         game.changeProductionInCityAt(blueCityPosition, GameConstants.SANDWORM);
         endOfRound(22);

@@ -24,6 +24,7 @@ public class TestGameLogDecorator {
 
     @Test
     public void moveUnitPrintsCorrectMove() {
+        game.endOfTurn();
         System.out.println("moveUnitPrintsCorrectMove:");
         //Should print: RED moves Archer from (2,0) to (3,1)
         game.moveUnit(GameConstants.RedArcher_Start_Position, new Position(3,1));
