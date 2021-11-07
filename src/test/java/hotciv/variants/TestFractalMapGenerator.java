@@ -12,8 +12,7 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class TestFractalMapGenerator {
-
-    /************ TESTS FOR RANDOM MAP GENERATION ************/
+    /************ TESTS FOR FRACTAL RANDOM MAP GENERATION ************/
     @Test
     public void shouldGenerateNewMapEveryTime() {
         String tileToAdd = null;
