@@ -179,21 +179,25 @@ public class GameImpl implements Game {
     /************ City Methods ************/
     //region
     public void changeWorkForceFocusInCityAt(Position p, String balance) {
+        if(getCityAt(p).getOwner() != getPlayerInTurn()) return;
+
         CityImpl chosenCity = (CityImpl) getCityAt(p);
+        if (chosenCity == null) return;
         if (balance.equals(GameConstants.foodFocus) || balance.equals(GameConstants.productionFocus)) {
             chosenCity.changeWorkForceFocus(balance);
         }
     }
 
     public void changeProductionInCityAt(Position p, String unitType) {
+        if(getCityAt(p).getOwner() != getPlayerInTurn()) return;
         CityImpl chosenCity = (CityImpl) getCityAt(p);
-        if (chosenCity != null) {
-            if (Objects.equals(unitType, GameConstants.ARCHER) || Objects.equals(unitType, GameConstants.SETTLER) ||
-                    Objects.equals(unitType, GameConstants.LEGION) || Objects.equals(unitType, GameConstants.SANDWORM)) {
-                chosenCity.changeProd(unitType);
+        if (chosenCity == null) return;
+        if (Objects.equals(unitType, GameConstants.ARCHER) || Objects.equals(unitType, GameConstants.SETTLER) ||
+                Objects.equals(unitType, GameConstants.LEGION) || Objects.equals(unitType, GameConstants.SANDWORM)) {
+            chosenCity.changeProd(unitType);
             }
         }
-    }
+
 
     // Function for city creation in GammaCiv.
     public void createCity(Position p) {

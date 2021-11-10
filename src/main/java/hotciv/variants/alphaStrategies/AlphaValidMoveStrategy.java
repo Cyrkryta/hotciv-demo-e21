@@ -17,8 +17,6 @@ public class AlphaValidMoveStrategy implements ValidMoveStrategy {
     public boolean moveIsPossible(Position from, Position to, GameImpl game) {
         //Checks tile conditions
         if (game.getUnitAt(from) == null) return false;
-        if (from == to) return false;
-        //if (!movesToNeighbourTile(from, to)) return false;
 
         //Checks Unit conditions
         UnitImpl unit = (UnitImpl) game.getUnitAt(from);

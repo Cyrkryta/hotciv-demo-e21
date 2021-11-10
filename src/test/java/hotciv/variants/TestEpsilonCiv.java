@@ -61,9 +61,10 @@ public class TestEpsilonCiv {
 
     @Test
     public void redShouldWinIfTheyWin3Battles(){
+        endTurns(1);
         //Creating 2 new legions from blue city
         game.changeProductionInCityAt(GameConstants.Blue_City_Pos, GameConstants.LEGION);
-        endTurns(10);
+        endTurns(11);
         //Load dice so archer always wins
         loadedRollStrategy.setDie1And2(6,1);
         //Use Archer to attack all blues legions
