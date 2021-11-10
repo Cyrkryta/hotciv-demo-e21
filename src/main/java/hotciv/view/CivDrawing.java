@@ -2,6 +2,7 @@ package hotciv.view;
 
 import hotciv.framework.*;
 import hotciv.view.figure.HotCivFigure;
+import hotciv.view.figure.TextFigure;
 import hotciv.view.figure.UnitFigure;
 import minidraw.framework.*;
 import minidraw.standard.ImageFigure;
@@ -156,13 +157,14 @@ public class CivDrawing implements Drawing, GameObserver {
 
   // Figures representing icons (showing status in status panel)
   protected ImageFigure turnShieldIcon;
+  protected TextFigure textFigure;
   protected void synchronizeIconsWithGameState() {
     // Note - we have to guard creating figures and adding
     // them to the collection, so we do not create multiple
     // instances; this method is called on every 'requestRedraw'
     if (turnShieldIcon == null) {
       turnShieldIcon =
-              new HotCivFigure("redshield",
+              new HotCivFigure(GfxConstants.RED_SHIELD,
                       new Point(GfxConstants.TURN_SHIELD_X,
                               GfxConstants.TURN_SHIELD_Y),
                       GfxConstants.TURN_SHIELD_TYPE_STRING);
@@ -174,6 +176,12 @@ public class CivDrawing implements Drawing, GameObserver {
 
     // TODO: Further development to include rest of figures needed
     // for other status panel info, like age, etc.
+
+    textFigure = new TextFigure("4000 BC",
+            new Point(GfxConstants.AGE_TEXT_X,
+                    GfxConstants.AGE_TEXT_Y) );
+    figureCollection.add(textFigure);
+    updateAgeText(game.getAge());
   }
  
   // === Observer Methods ===
@@ -199,7 +207,7 @@ public class CivDrawing implements Drawing, GameObserver {
     System.out.println( "CivDrawing: turnEnds for "+
                         nextPlayer+" at "+age );
     updateTurnShield(nextPlayer);
-    // TODO: Age output pending
+    updateAgeText(age);
   }
 
   private void updateTurnShield(Player nextPlayer) {
@@ -208,6 +216,14 @@ public class CivDrawing implements Drawing, GameObserver {
     turnShieldIcon.set( playername+"shield",
                         new Point( GfxConstants.TURN_SHIELD_X,
                                    GfxConstants.TURN_SHIELD_Y ) );
+  }
+
+  private void updateAgeText(int age) {
+    String ageSuffix = " BC";
+    if (age > 0) {
+      ageSuffix = " AD";
+    }
+    textFigure.setText(Math.abs(age)+ageSuffix);
   }
 
   public void tileFocusChangedAt(Position position) {

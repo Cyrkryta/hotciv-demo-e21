@@ -39,6 +39,9 @@ import java.util.Map;
 public class FakeObjectGame implements Game {
 
   private Map<Position, Unit> unitMap;
+  //Roundcount keeps track of what round the game is in
+  private int roundCount = 1;
+
   public Unit getUnitAt(Position p) {
     return unitMap.get(p);
   }
@@ -62,11 +65,15 @@ public class FakeObjectGame implements Game {
   private Player inTurn;
   public void endOfTurn() {
     System.out.println( "-- FakeObjectGame / endOfTurn called." );
-    inTurn = (getPlayerInTurn() == Player.RED ?
-              Player.BLUE : 
-              Player.RED );
+    //inTurn = (getPlayerInTurn() == Player.RED ? Player.BLUE : Player.RED);
+    if (inTurn == Player.RED) {
+      inTurn = Player.BLUE;
+    } else {
+      inTurn = Player.RED;
+      roundCount++;
+    }
     // no age increments implemented...
-    gameObserver.turnEnds(inTurn, -4000);
+    gameObserver.turnEnds(inTurn, getAge());
   }
   public Player getPlayerInTurn() { return inTurn; }
 
@@ -117,7 +124,9 @@ public class FakeObjectGame implements Game {
   // TODO: Add more fake object behaviour to test MiniDraw updating
   public City getCityAt( Position p ) { return null; }
   public Player getWinner() { return null; }
-  public int getAge() { return 0; }  
+
+  public int getAge() { return -4000+(roundCount-1)*100; }
+
   public void changeWorkForceFocusInCityAt( Position p, String balance ) {}
   public void changeProductionInCityAt( Position p, String unitType ) {}
   public void performUnitActionAt( Position p ) {}  
@@ -126,6 +135,7 @@ public class FakeObjectGame implements Game {
     // TODO: setTileFocus implementation pending.
     System.out.println("-- FakeObjectGame / setTileFocus called.");
     System.out.println(" *** IMPLEMENTATION PENDING ***");
+    gameObserver.tileFocusChangedAt(position);
   }
 }
 
