@@ -132,5 +132,7 @@ class GameStubForBattleTesting implements Game {
     public int getAge() { return 0; }
     public boolean moveUnit(Position from, Position to) {return false;}
     public void performUnitActionAt( Position p ) {}
+    public void addObserver(GameObserver observer) {}
+    public void setTileFocus(Position position) {}
 }
 

@@ -3,11 +3,6 @@ package hotciv.standard;
 import hotciv.Utility.Utility;
 import hotciv.framework.*;
 
-import hotciv.variants.agingStrategies.LinearAgeStrategy;
-import hotciv.variants.alphaStrategies.AlphaAttackingStrategy;
-import hotciv.variants.alphaStrategies.AlphaCivWinningStrategy;
-import hotciv.variants.alphaStrategies.AlphaUnitActionStrategy;
-import hotciv.variants.alphaStrategies.AlphaWorldLayoutStrategy;
 import hotciv.variants.factories.AlphaCivFactory;
 import org.junit.jupiter.api.*;
 

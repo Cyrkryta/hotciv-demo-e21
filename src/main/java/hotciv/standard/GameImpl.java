@@ -2,9 +2,7 @@ package hotciv.standard;
 
 import hotciv.Utility.Utility;
 import hotciv.framework.*;
-
 import java.util.*;
-
 
 /**
  * Skeleton implementation of HotCiv.
@@ -59,8 +57,8 @@ public class GameImpl implements Game {
     private final ValidMoveStrategy validMoveStrategy;
 
     private final AttackingStrategy attackingStrategy;
-    private int battlesWon;
-
+    //Implements game observing functionality
+    protected ArrayList<GameObserver> gameObservers = new ArrayList<>();
 
     public GameImpl(GameFactory gameFactory) {
         this.ageStrategy = gameFactory.createAgeStrategy();
@@ -74,6 +72,17 @@ public class GameImpl implements Game {
         this.cityMap = worldLayoutStrategy.placeCities();
         this.worldMap = worldLayoutStrategy.createWorld();
 
+    }
+
+    /************ Observer Methods ************/
+    public void addObserver(GameObserver observer){
+        gameObservers.add(observer);
+    }
+
+    public void setTileFocus(Position position) {
+        for (GameObserver gameObserver: gameObservers) {
+            gameObserver.tileFocusChangedAt(position);
+        }
     }
 
     /************ Accessor Methods ************/
@@ -118,6 +127,9 @@ public class GameImpl implements Game {
             endOfRound();
             resetUnitsMoveCount();
         }
+        for (GameObserver gameObserver: gameObservers) {
+            gameObserver.turnEnds(playerInTurn, getAge());
+        }
     }
 
     private void endOfRound() {
@@ -155,6 +167,8 @@ public class GameImpl implements Game {
         UnitImpl unitType = (UnitImpl) unitMap.remove(from);
         unitType.reduceMoveCount();
         unitMap.put(to, unitType);
+        worldChangeUpdateObserver(from);
+        worldChangeUpdateObserver(to);
         return true;
     }
 
@@ -198,7 +212,6 @@ public class GameImpl implements Game {
     // Function for city creation in GammaCiv.
     public void createCity(Position p) {
         cityMap.put(p, new CityImpl(getUnitAt(p).getOwner()));
-        unitMap.remove(p);
     }
     //endregion
 
@@ -247,9 +260,12 @@ public class GameImpl implements Game {
 
     public void performUnitActionAt(Position p) {
         unitActionStrategy.performAction(p, this);
+        //worldChangeUpdateObserver(p);
     }
 
-    public int getBattlesWon() {
-        return battlesWon;
+    public void worldChangeUpdateObserver(Position pos) {
+        for (GameObserver gameObserver: gameObservers) {
+            gameObserver.worldChangedAt(pos);
+        }
     }
 }

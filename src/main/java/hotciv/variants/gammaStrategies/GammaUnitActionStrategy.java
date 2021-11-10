@@ -12,6 +12,8 @@ public class GammaUnitActionStrategy implements UnitActionStrategy {
     public void performAction(Position p, GameImpl game) {
         if (GameConstants.SETTLER.equals(game.getUnitAt(p).getTypeString())) {
             game.createCity(p);
+            game.unitMap.remove(p);
+            game.worldChangeUpdateObserver(p);
         } else if (GameConstants.ARCHER.equals(game.getUnitAt(p).getTypeString())) {
             UnitImpl archerUnit = (UnitImpl) game.getUnitAt(p);
             archerUnit.fortifyUnit();
