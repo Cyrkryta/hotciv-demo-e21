@@ -1,6 +1,7 @@
 package hotciv.visual;
 
 import hotciv.framework.Game;
+import hotciv.framework.GameConstants;
 import hotciv.framework.Position;
 import hotciv.stub.FakeObjectGame;
 import minidraw.framework.DrawingEditor;
@@ -86,8 +87,35 @@ class UpdateTool extends NullTool {
       break;
     }
     case 5: {
-      editor.showStatus( "State change: Inspect Unit at (4,3)" );
-      game.setTileFocus(new Position(4,3));
+      editor.showStatus( "State change: Inspect Unit at (4,2)" );
+      game.setTileFocus(new Position(4,2));
+      break;
+    }
+    case 6: {
+      editor.showStatus( "State change: Inspect City/Unit at (3,2)" );
+      game.setTileFocus(new Position(3,2));
+      break;
+    }
+    case 7: {
+      editor.showStatus( "State change: Inspect City at (8,8)" );
+      game.setTileFocus(new Position(8,8));
+      break;
+    }
+    case 8: {
+      editor.showStatus( "State change: Production changed in City at (8,8)" );
+      Position cityPos = new Position(8,8);
+      game.changeProductionInCityAt(cityPos, GameConstants.ARCHER);
+      break;
+    }
+    case 9: {
+      editor.showStatus( "State change: Focus changed in City at (8,8)" );
+      Position cityPos = new Position(8,8);
+      game.changeWorkForceFocusInCityAt(cityPos, GameConstants.productionFocus);
+      break;
+    }
+    case 10: {
+      editor.showStatus( "State change: Focus on empty tile at (8,9)" );
+      game.setTileFocus(new Position(8,9));
       break;
     }
       // TODO: Add more state changes for other things to test

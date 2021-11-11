@@ -39,6 +39,7 @@ import java.util.Map;
 public class FakeObjectGame implements Game {
 
   private Map<Position, Unit> unitMap;
+  private Map<Position, City> cityMap;
   //Roundcount keeps track of what round the game is in
   private int roundCount = 1;
 
@@ -94,6 +95,10 @@ public class FakeObjectGame implements Game {
     unitMap.put(new Position(4,2), new StubUnit( GameConstants.SETTLER, Player.RED ));
     unitMap.put(new Position(6,3), new StubUnit( ThetaConstants.SANDWORM, Player.RED ));
     inTurn = Player.RED;
+
+    cityMap = new HashMap<>();
+    cityMap.put((new Position(3,2)), new StubCity(Player.BLUE));
+    cityMap.put((new Position(8,8)), new StubCity(Player.RED));
   }
 
   // A simple implementation to draw the map of DeltaCiv
@@ -122,13 +127,26 @@ public class FakeObjectGame implements Game {
   }
 
   // TODO: Add more fake object behaviour to test MiniDraw updating
-  public City getCityAt( Position p ) { return null; }
+  public City getCityAt( Position p ) { return cityMap.get(p); }
+
   public Player getWinner() { return null; }
 
   public int getAge() { return -4000+(roundCount-1)*100; }
 
-  public void changeWorkForceFocusInCityAt( Position p, String balance ) {}
-  public void changeProductionInCityAt( Position p, String unitType ) {}
+  public void changeWorkForceFocusInCityAt( Position p, String balance ) {
+    StubCity city = (StubCity) cityMap.get(p);
+    if(city != null) {
+      city.setWorkForceFocus(balance);
+    }
+    gameObserver.worldChangedAt(p);
+  }
+  public void changeProductionInCityAt( Position p, String unitType ) {
+    StubCity city = (StubCity) cityMap.get(p);
+    if(city != null) {
+      city.setProduction(unitType);
+    }
+    gameObserver.worldChangedAt(p);
+  }
   public void performUnitActionAt( Position p ) {}  
 
   public void setTileFocus(Position position) {
@@ -142,13 +160,54 @@ public class FakeObjectGame implements Game {
 class StubUnit implements  Unit {
   private String type;
   private Player owner;
+  private int moveCount = 1;
   public StubUnit(String type, Player owner) {
     this.type = type;
     this.owner = owner;
   }
   public String getTypeString() { return type; }
   public Player getOwner() { return owner; }
-  public int getMoveCount() { return 1; }
+  public int getMoveCount() { return moveCount; }
   public int getDefensiveStrength() { return 0; }
   public int getAttackingStrength() { return 0; }
+}
+
+class StubCity implements City {
+  private Player owner;
+  private String cityProduction;
+  private String workForceFocus = GameConstants.foodFocus;
+  public StubCity (Player owner){
+    this.owner = owner;
+  }
+
+  @Override
+  public Player getOwner() {return owner;}
+
+  @Override
+  public int getSize() {
+    return 1;
+  }
+
+  @Override
+  public int getTreasury() {
+    return 0;
+  }
+
+  @Override
+  public String getProduction() {
+    return cityProduction;
+  }
+
+  @Override
+  public String getWorkforceFocus() {
+    return workForceFocus;
+  }
+
+  public void setProduction(String production) {
+     cityProduction = production;
+  }
+
+  public void setWorkForceFocus(String focus){
+    workForceFocus = focus;
+  }
 }

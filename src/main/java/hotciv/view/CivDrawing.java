@@ -1,6 +1,7 @@
 package hotciv.view;
 
 import hotciv.framework.*;
+import hotciv.view.figure.CityFigure;
 import hotciv.view.figure.HotCivFigure;
 import hotciv.view.figure.TextFigure;
 import hotciv.view.figure.UnitFigure;
@@ -62,6 +63,7 @@ public class CivDrawing implements Drawing, GameObserver {
   // A mapping between position to the Unit figure at that position
   // allowing us to track where units move
   private Map<Position, UnitFigure> positionToUnitFigureMap;
+  private Map<Position, CityFigure> positionToCityFigureMap;
 
   /** the Game instance that this CivDrawing is going to render units,
    * cities, ages, player-in-turn, from */
@@ -77,6 +79,7 @@ public class CivDrawing implements Drawing, GameObserver {
     figureCollection = new StandardFigureCollection(figureChangeListener);
 
     positionToUnitFigureMap = new HashMap<>();
+    positionToCityFigureMap = new HashMap<>();
 
     // associate with game
     this.game = game;
@@ -87,6 +90,7 @@ public class CivDrawing implements Drawing, GameObserver {
     // ensure our drawing's figure collection of UnitFigures
     // reflects those present in the game
     synchronizeUnitFigureCollectionWithGameUnits();
+    synchronizeCityFigureCollectionWithGameCities();
     // and the set of 'icons' in status panel represents game state
     synchronizeIconsWithGameState();
   }
@@ -121,7 +125,7 @@ public class CivDrawing implements Drawing, GameObserver {
         p = new Position(r, c);
         Unit unit = game.getUnitAt(p);
         UnitFigure unitFigure = positionToUnitFigureMap.get(p);
-        // Synchronize each tile position with figure collection
+        // Synchronize etShieldIconach tile position with figure collection
         if (unit != null) {
           // if a unit is present in game, then
           if (unitFigure == null) {
@@ -144,29 +148,77 @@ public class CivDrawing implements Drawing, GameObserver {
     }
   }
 
+  protected void synchronizeCityFigureCollectionWithGameCities() {
+    // iterate all tile positions and ensure that our figure
+    // collection truthfully match that of game by adding/removing
+    // figures.
+    Position p;
+    for (int r = 0; r < GameConstants.WORLDSIZE; r++) {
+      for (int c = 0; c < GameConstants.WORLDSIZE; c++) {
+        p = new Position(r, c);
+        City city = game.getCityAt(p);
+        CityFigure cityFigure = positionToCityFigureMap.get(p);
+        // Synchronize etShieldIconach tile position with figure collection
+        if (city != null) {
+          // if a unit is present in game, then
+          if (cityFigure == null) {
+            // if the associated unit figure has not been created, make it
+            cityFigure = createCityFigureFor(p, city);
+            // We add the figure both to our internal data structure
+            positionToCityFigureMap.put(p, cityFigure);
+            // and of course to MiniDraw's figure collection for
+            // visual rendering
+            figureCollection.add(cityFigure);
+            zOrder(cityFigure,ZOrder.TO_BOTTOM);
+          }
+        } else {
+          // no unit at tile, maybe there is a unitFigure wrongly here
+          if (cityFigure != null) {
+            positionToCityFigureMap.remove(p);
+            figureCollection.remove(cityFigure);
+          }
+        }
+      }
+    }
+  }
+
   /** Create a figure representing a unit at given position */
   private UnitFigure createUnitFigureFor(Position p, Unit unit) {
     String type = unit.getTypeString();
     // convert the unit's Position to (x,y) coordinates
     Point point = new Point( GfxConstants.getXFromColumn(p.getColumn()),
                              GfxConstants.getYFromRow(p.getRow()) );
-    UnitFigure unitFigure =
-      new UnitFigure(type, point, unit);
+
+    UnitFigure unitFigure = new UnitFigure(type, point, unit);
     return unitFigure;
+  }
+
+  /** Create a figure representing a city at given position */
+  private CityFigure createCityFigureFor(Position p, City city) {
+    // convert the unit's Position to (x,y) coordinates
+    Point point = new Point( GfxConstants.getXFromColumn(p.getColumn()),
+            GfxConstants.getYFromRow(p.getRow()) );
+
+    CityFigure cityFigure = new CityFigure(city, point);
+    return cityFigure;
   }
 
   // Figures representing icons (showing status in status panel)
   protected ImageFigure turnShieldIcon;
-  protected TextFigure textFigure;
+  protected ImageFigure unitShieldIcon;
+  protected ImageFigure cityShieldIcon;
+  protected ImageFigure cityProductionIcon;
+  protected ImageFigure cityWorkForceFocusIcon;
+
+  protected TextFigure ageTextFigure;
+  protected TextFigure moveCountTextFigure;
   protected void synchronizeIconsWithGameState() {
     // Note - we have to guard creating figures and adding
     // them to the collection, so we do not create multiple
     // instances; this method is called on every 'requestRedraw'
     if (turnShieldIcon == null) {
-      turnShieldIcon =
-              new HotCivFigure(GfxConstants.RED_SHIELD,
-                      new Point(GfxConstants.TURN_SHIELD_X,
-                              GfxConstants.TURN_SHIELD_Y),
+      turnShieldIcon = new HotCivFigure(GfxConstants.RED_SHIELD,
+                      new Point(GfxConstants.TURN_SHIELD_X, GfxConstants.TURN_SHIELD_Y),
                       GfxConstants.TURN_SHIELD_TYPE_STRING);
       // insert in delegate figure list to ensure graphical
       // rendering.
@@ -174,32 +226,81 @@ public class CivDrawing implements Drawing, GameObserver {
     }
     updateTurnShield(game.getPlayerInTurn());
 
+    if (unitShieldIcon == null) {
+      unitShieldIcon = new HotCivFigure(GfxConstants.NOTHING,
+                      new Point(GfxConstants.UNIT_SHIELD_X, GfxConstants.UNIT_SHIELD_Y),
+                      GfxConstants.UNIT_SHIELD_TYPE_STRING);
+      // insert in delegate figure list to ensure graphical
+      // rendering.
+      figureCollection.add(unitShieldIcon);
+    }
+
+    if (cityShieldIcon == null) {
+      cityShieldIcon = new HotCivFigure(GfxConstants.NOTHING,
+                      new Point(GfxConstants.CITY_SHIELD_X, GfxConstants.CITY_SHIELD_Y),
+                      GfxConstants.TURN_SHIELD_TYPE_STRING);
+      // insert in delegate figure list to ensure graphical
+      // rendering.
+      figureCollection.add(cityShieldIcon);
+    }
+
+    if (cityProductionIcon == null) {
+      cityProductionIcon = new HotCivFigure(GfxConstants.NOTHING,
+                      new Point(GfxConstants.CITY_PRODUCTION_X, GfxConstants.CITY_PRODUCTION_Y),
+                      GfxConstants.UNIT_TYPE_STRING);
+      // insert in delegate figure list to ensure graphical
+      // rendering.
+      figureCollection.add(cityProductionIcon);
+    }
+
+    if (cityWorkForceFocusIcon == null) {
+      cityWorkForceFocusIcon = new HotCivFigure(GfxConstants.NOTHING,
+                      new Point(GfxConstants.WORKFORCEFOCUS_X, GfxConstants.WORKFORCEFOCUS_Y),
+                      GfxConstants.FOCUS_TYPE_STRING);
+      // insert in delegate figure list to ensure graphical
+      // rendering.
+      figureCollection.add(cityWorkForceFocusIcon);
+    }
+
     // TODO: Further development to include rest of figures needed
     // for other status panel info, like age, etc.
 
-    textFigure = new TextFigure("4000 BC",
-            new Point(GfxConstants.AGE_TEXT_X,
-                    GfxConstants.AGE_TEXT_Y) );
-    figureCollection.add(textFigure);
-    updateAgeText(game.getAge());
+    if (ageTextFigure == null) {
+      ageTextFigure = new TextFigure("4000 BC",
+              new Point(GfxConstants.AGE_TEXT_X, GfxConstants.AGE_TEXT_Y) );
+      figureCollection.add(ageTextFigure);
+    }
+
+    if (moveCountTextFigure == null) {
+      moveCountTextFigure = new TextFigure("",
+              new Point(GfxConstants.UNIT_COUNT_X, GfxConstants.UNIT_COUNT_Y) );
+      figureCollection.add(moveCountTextFigure);
+    }
+
   }
  
   // === Observer Methods ===
   public void worldChangedAt(Position pos) {
     // TODO: Remove system.out debugging output, included here for learning purposes
     System.out.println( "CivDrawing: world changes at "+pos);
-    Unit u = game.getUnitAt(pos);
-    if (u == null) {
+    Unit unit = game.getUnitAt(pos);
+    if (unit == null) {
       // Unit has been removed
       UnitFigure uf = positionToUnitFigureMap.remove(pos);
       figureCollection.remove(uf);
     } else {
       // Unit has appeared
-      UnitFigure uf = createUnitFigureFor(pos, u);
+      UnitFigure uf = createUnitFigureFor(pos, unit);
       positionToUnitFigureMap.put(pos, uf);
       figureCollection.add(uf);
     }
     // TODO: Cities may change on position as well
+
+    City city = game.getCityAt(pos);
+    if(city != null){
+      updateCityFocusIcon(city.getWorkforceFocus());
+      updateCityProductionIcon(city.getProduction());
+    }
   }
 
   public void turnEnds(Player nextPlayer, int age) {
@@ -210,6 +311,42 @@ public class CivDrawing implements Drawing, GameObserver {
     updateAgeText(age);
   }
 
+  public void tileFocusChangedAt(Position position) {
+    // TODO: Implementation pending
+    System.out.println( "Fake it: tileFocusChangedAt "+position );
+    if(game.getUnitAt(position) != null) {
+      updateUnitShield(game.getUnitAt(position).getOwner());
+      updateUnitMoveCount(game.getUnitAt(position).getMoveCount());
+    }
+
+    if (game.getCityAt(position) != null) {
+      updateCityShield(game.getCityAt(position).getOwner());
+      updateCityProductionIcon(game.getCityAt(position).getProduction());
+      updateCityFocusIcon(game.getCityAt(position).getWorkforceFocus());
+    }
+
+    if (game.getUnitAt(position) == null && game.getCityAt(position) == null) {
+      clearMenuInformation();
+    }
+
+  }
+
+  private void clearMenuInformation() {
+    unitShieldIcon.set(GfxConstants.NOTHING,
+            new Point( GfxConstants.UNIT_SHIELD_X, GfxConstants.UNIT_SHIELD_Y ) );
+
+    cityShieldIcon.set(GfxConstants.NOTHING,
+            new Point( GfxConstants.CITY_SHIELD_X, GfxConstants.CITY_SHIELD_Y ) );
+
+    cityProductionIcon.set(GfxConstants.NOTHING,
+            new Point( GfxConstants.CITY_PRODUCTION_X, GfxConstants.CITY_PRODUCTION_Y ));
+
+    cityWorkForceFocusIcon.set(GfxConstants.NOTHING,
+            new Point( GfxConstants.WORKFORCEFOCUS_X, GfxConstants.WORKFORCEFOCUS_Y ));
+
+    moveCountTextFigure.setText("");
+  }
+
   private void updateTurnShield(Player nextPlayer) {
     String playername = "red";
     if ( nextPlayer == Player.BLUE ) { playername = "blue"; }
@@ -218,24 +355,55 @@ public class CivDrawing implements Drawing, GameObserver {
                                    GfxConstants.TURN_SHIELD_Y ) );
   }
 
+  private void updateUnitShield(Player unitOwner) {
+    String playername = "red";
+    if ( unitOwner == Player.BLUE ) { playername = "blue"; }
+    unitShieldIcon.set( playername+"shield",
+                        new Point( GfxConstants.UNIT_SHIELD_X,
+                                GfxConstants.UNIT_SHIELD_Y ) );
+  }
+
+  private void updateCityShield(Player cityOwner) {
+    String playername = "red";
+    if ( cityOwner == Player.BLUE ) { playername = "blue"; }
+    cityShieldIcon.set( playername+"shield",
+            new Point( GfxConstants.CITY_SHIELD_X,
+                    GfxConstants.CITY_SHIELD_Y ) );
+  }
+
+  public void updateCityProductionIcon (String type) {
+    if (type != null){
+      cityProductionIcon.set(type, new Point( GfxConstants.CITY_PRODUCTION_X,
+              GfxConstants.CITY_PRODUCTION_Y ));
+    }
+  }
+
+  public void  updateCityFocusIcon (String focus) {
+    if (focus != null){
+      cityWorkForceFocusIcon.set(focus, new Point( GfxConstants.WORKFORCEFOCUS_X,
+              GfxConstants.WORKFORCEFOCUS_Y ));
+    }
+  }
+
+  private void updateUnitMoveCount(int moveCount) {
+    String count = ""+moveCount;
+    moveCountTextFigure.setText(count);
+  }
+
   private void updateAgeText(int age) {
     String ageSuffix = " BC";
     if (age > 0) {
       ageSuffix = " AD";
     }
-    textFigure.setText(Math.abs(age)+ageSuffix);
-  }
-
-  public void tileFocusChangedAt(Position position) {
-    // TODO: Implementation pending
-    System.out.println( "Fake it: tileFocusChangedAt "+position );
+    ageTextFigure.setText(Math.abs(age)+ageSuffix);
   }
 
   @Override
   public void requestUpdate() {
     // A request to redraw from scratch, so we
-    // synchronize with all game state
+    // synchronize with all game states
     synchronizeUnitFigureCollectionWithGameUnits();
+    synchronizeCityFigureCollectionWithGameCities();
     synchronizeIconsWithGameState();
     // TODO: Cities pending
   }
