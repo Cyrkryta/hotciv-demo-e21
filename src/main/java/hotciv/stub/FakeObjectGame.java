@@ -1,6 +1,7 @@
 package hotciv.stub;
 
 import hotciv.framework.*;
+import hotciv.standard.CityImpl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -76,6 +77,13 @@ public class FakeObjectGame implements Game {
     // no age increments implemented...
     gameObserver.turnEnds(inTurn, getAge());
   }
+
+  public void produceUnits(Position cityPosition) {
+    System.out.println("-- FakeObjectGame / produceUnits called.");
+    unitMap.put(cityPosition, new StubUnit(GameConstants.ARCHER, getCityAt(cityPosition).getOwner()));
+    gameObserver.worldChangedAt(cityPosition);
+  }
+
   public Player getPlayerInTurn() { return inTurn; }
 
   // === Observer handling ===
@@ -141,13 +149,15 @@ public class FakeObjectGame implements Game {
     gameObserver.worldChangedAt(p);
   }
   public void changeProductionInCityAt( Position p, String unitType ) {
+    System.out.println("-- FakeObjectGame / changeProductionInCityAt called. Position: " + p +
+            ", Production unit: " + unitType);
     StubCity city = (StubCity) cityMap.get(p);
     if(city != null) {
       city.setProduction(unitType);
     }
     gameObserver.worldChangedAt(p);
   }
-  public void performUnitActionAt( Position p ) {}  
+  public void performUnitActionAt( Position p ) {}
 
   public void setTileFocus(Position position) {
     // TODO: setTileFocus implementation pending.
@@ -176,6 +186,7 @@ class StubCity implements City {
   private Player owner;
   private String cityProduction;
   private String workForceFocus = GameConstants.foodFocus;
+  private int treasury;
   public StubCity (Player owner){
     this.owner = owner;
   }
@@ -189,9 +200,7 @@ class StubCity implements City {
   }
 
   @Override
-  public int getTreasury() {
-    return 0;
-  }
+  public int getTreasury() {return treasury;}
 
   @Override
   public String getProduction() {
@@ -209,5 +218,9 @@ class StubCity implements City {
 
   public void setWorkForceFocus(String focus){
     workForceFocus = focus;
+  }
+
+  public void addTreasury(int amount) {
+    treasury += amount;
   }
 }

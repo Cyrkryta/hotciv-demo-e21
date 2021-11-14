@@ -2,9 +2,13 @@ package hotciv.visual;
 
 import hotciv.framework.Game;
 import hotciv.stub.FakeObjectGame;
+import hotciv.view.tool.UnitMoveTool;
+import minidraw.framework.Drawing;
 import minidraw.framework.DrawingEditor;
 import minidraw.standard.MiniDrawApplication;
 import minidraw.standard.SelectionTool;
+
+import java.awt.event.MouseEvent;
 
 /** Template code for exercise.
 
@@ -22,18 +26,18 @@ import minidraw.standard.SelectionTool;
    distribute it for non-commercial purposes. For any 
    commercial use, see http://www.baerbak.com/
  */
-public class ShowMove {
+public class  ShowMove {
   
   public static void main(String[] args) {
     Game game = new FakeObjectGame();
 
-    DrawingEditor editor = 
-      new MiniDrawApplication( "Move any unit using the mouse",  
+    DrawingEditor editor =
+             new MiniDrawApplication( "Move any unit using the mouse",
                                new HotCivFactory4(game) );
     editor.open();
     editor.showStatus("Move units to see Game's moveUnit method being called.");
-
     // TODO: Replace the setting of the tool with your UnitMoveTool implementation.
-    editor.setTool(new SelectionTool(editor));
+    //editor.setTool(new SelectionTool(editor));
+    editor.setTool(new UnitMoveTool(editor, game));
   }
 }

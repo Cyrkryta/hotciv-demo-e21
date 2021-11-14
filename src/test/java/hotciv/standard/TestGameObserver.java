@@ -49,6 +49,15 @@ public class TestGameObserver {
         game.performUnitActionAt(GameConstants.RedSettler_Start_Position);
         assertThat(gameObserver.lastMethodCalled(), is("World changed at (4,3)"));
     }
+
+    @Test
+    public void gameObserverRegisterTreasuryChange() {
+        game.endOfTurn();
+        game.endOfTurn();
+        assertThat(gameObserver.lastMethodCalled(), is("Player RED has treasury 6"));
+    }
+
+
 }
 
 class GameObserverSpy implements GameObserver {
@@ -68,6 +77,10 @@ class GameObserverSpy implements GameObserver {
     @Override
     public void tileFocusChangedAt(Position pos) {
         lastMethodCalled = "tile focus changed at "+"("+pos.getRow()+","+pos.getColumn()+")";
+    }
+
+    public void treasuryAdded(Player currentPlayer, int treasury, int age) {
+        lastMethodCalled = "Player" + currentPlayer + " has treasury " + treasury;
     }
 
     public String previousMethodCalled() {

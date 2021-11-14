@@ -51,11 +51,11 @@ public class ShowUpdating {
  * the mouse is clicked anywhere; as a visual testing
  * of the 'from Domain to GUI' data flow is coded correctly*/
 class UpdateTool extends NullTool {
-  private Game game;
+  private FakeObjectGame game;
   private DrawingEditor editor;
   public UpdateTool(DrawingEditor editor, Game game) {
     this.editor = editor;
-    this.game = game;
+    this.game = (FakeObjectGame) game;
   }
   private int count = 0;
 
@@ -117,6 +117,10 @@ class UpdateTool extends NullTool {
       editor.showStatus( "State change: Focus on empty tile at (8,9)" );
       game.setTileFocus(new Position(8,9));
       break;
+    }
+    case 11: {
+      editor.showStatus("Creating new unit");
+      game.produceUnits(new Position(8,8));
     }
       // TODO: Add more state changes for other things to test
     default: {
