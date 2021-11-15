@@ -1,10 +1,12 @@
 package hotciv.stub;
 
+import hotciv.Utility.Utility;
 import hotciv.framework.*;
 import hotciv.standard.CityImpl;
+import hotciv.standard.UnitImpl;
+import hotciv.variants.alphaStrategies.AlphaValidMoveStrategy;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /** FakeObject implementation for Game. Base your
  * development of Tools and CivDrawing on this test double,
@@ -51,16 +53,35 @@ public class FakeObjectGame implements Game {
   public boolean moveUnit(Position from, Position to) {
     // Using print statements to aid in debugging and development
     System.out.println("-- FakeObjectGame / moveUnit called: " + from + "->" + to);
-    Unit unit = getUnitAt(from);
-    if (unit == null) return false;
+    if (getUnitAt(from) == null) return false;
+    if (from == to) return false;
+
+    //Checks Unit conditions
+    StubUnit unit = (StubUnit) getUnitAt(from);
+    if (unit.getOwner() != getPlayerInTurn()) return false;
+    if (!(unit.getMoveCount() > 0)) return false;
+    if (!movesToNeighbourTile(from , to)) return false;
+
+    boolean ownUnitAtTo = getUnitAt(to) != null && getUnitAt(to).getOwner() == getPlayerInTurn();
+    if (ownUnitAtTo) return false;
 
     System.out.println("-- moveUnit found unit at: " + from);
     // Remember to inform game observer on any change on the tiles
     unitMap.put(from, null);
     gameObserver.worldChangedAt(from);
+    unit.reduceMoveCount();
     unitMap.put(to, unit);
     gameObserver.worldChangedAt(to);
     return true;
+  }
+
+  public boolean movesToNeighbourTile(Position from, Position to) {
+    List<Position> neighbourList = new ArrayList<>();
+    Iterator<Position> neighbourIterator = Utility.get8neighborhoodIterator(from);
+    while (neighbourIterator.hasNext()) {
+      neighbourList.add(neighbourIterator.next());
+    }
+    return neighbourList.contains(to);
   }
 
   // === Turn handling ===
@@ -73,9 +94,17 @@ public class FakeObjectGame implements Game {
     } else {
       inTurn = Player.RED;
       roundCount++;
+      resetUnitsMoveCount();
     }
     // no age increments implemented...
     gameObserver.turnEnds(inTurn, getAge());
+  }
+
+  private void resetUnitsMoveCount() {
+    for (Unit currUnit : unitMap.values()) {
+      StubUnit unit = (StubUnit) currUnit;
+      unit.resetMoveCount();
+    }
   }
 
   public void produceUnits(Position cityPosition) {
@@ -92,13 +121,18 @@ public class FakeObjectGame implements Game {
   // one, suffices for development.
   public void addObserver(GameObserver observer) {
     gameObserver = observer;
-  } 
+  }
+
+  public void worldChangeUpdateObserver(Position pos) {
+      gameObserver.worldChangedAt(pos);
+  }
 
   public FakeObjectGame() {
     defineWorld();
     // Put some units into play
     unitMap = new HashMap<>();
     unitMap.put(new Position(2,0), new StubUnit( GameConstants.ARCHER, Player.RED ));
+    unitMap.put(new Position(2,1), new StubUnit( GameConstants.ARCHER, Player.RED ));
     unitMap.put(new Position(3,2), new StubUnit( GameConstants.LEGION, Player.BLUE ));
     unitMap.put(new Position(4,2), new StubUnit( GameConstants.SETTLER, Player.RED ));
     unitMap.put(new Position(6,3), new StubUnit( ThetaConstants.SANDWORM, Player.RED ));
@@ -180,6 +214,11 @@ class StubUnit implements  Unit {
   public int getMoveCount() { return moveCount; }
   public int getDefensiveStrength() { return 0; }
   public int getAttackingStrength() { return 0; }
+  public void reduceMoveCount() {
+    moveCount --;
+  }
+
+  public void resetMoveCount() {moveCount = 1;}
 }
 
 class StubCity implements City {

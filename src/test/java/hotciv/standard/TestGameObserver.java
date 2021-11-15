@@ -50,13 +50,6 @@ public class TestGameObserver {
         assertThat(gameObserver.lastMethodCalled(), is("World changed at (4,3)"));
     }
 
-    @Test
-    public void gameObserverRegisterTreasuryChange() {
-        game.endOfTurn();
-        game.endOfTurn();
-        assertThat(gameObserver.lastMethodCalled(), is("Player RED has treasury 6"));
-    }
-
 
 }
 

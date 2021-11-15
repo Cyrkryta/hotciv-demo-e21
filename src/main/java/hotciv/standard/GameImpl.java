@@ -157,7 +157,7 @@ public class GameImpl implements Game {
     public boolean moveUnit(Position from, Position to) {
         if (!validMoveStrategy.moveIsPossible(from, to, this)) return false;
         if (!validMoveStrategy.isMovableTerrain(from, to, this)) return false;
-        if (!validMoveStrategy.movesToNeighbourTile(from, to)) return false;
+        //if (!validMoveStrategy.movesToNeighbourTile(from, to)) return false;
 
         boolean movingIntoEnemyCity = getCityAt(to) != null && getCityAt(to).getOwner() != getUnitAt(from).getOwner();
         if (movingIntoEnemyCity) {
@@ -181,7 +181,6 @@ public class GameImpl implements Game {
         }
         getWinner();
         winningStrategy.incrementBattlesWonBy(getUnitAt(from).getOwner());
-
         return true;
     }
 

@@ -18,11 +18,11 @@ public class AlphaValidMoveStrategy implements ValidMoveStrategy {
         //Checks tile conditions
         if (game.getUnitAt(from) == null) return false;
         if (from == to) return false;
-        //if (!movesToNeighbourTile(from, to)) return false;
+        if (!movesToNeighbourTile(from, to)) return false;
 
         //Checks Unit conditions
         UnitImpl unit = (UnitImpl) game.getUnitAt(from);
-        if (unit.getOwner() != game.playerInTurn) return false;
+        if (unit.getOwner() != game.getPlayerInTurn()) return false;
         if (!isMovableTerrain(from, to, game)) return false;
         if (!(unit.getMoveCount() > 0)) return false;
 
@@ -30,10 +30,10 @@ public class AlphaValidMoveStrategy implements ValidMoveStrategy {
         if (ownUnitAtTo) return false;
 
         //Handles combat if moving onto tile occupied by enemy unit
-        boolean attackingEnemyUnit = game.getUnitAt(to) != null && game.getUnitAt(to).getOwner() != game.getUnitAt(from).getOwner();
-        if (attackingEnemyUnit) {
-            return game.handleAttack(from, to);
-        }
+            boolean attackingEnemyUnit = game.getUnitAt(to) != null && game.getUnitAt(to).getOwner() != game.getUnitAt(from).getOwner();
+            if (attackingEnemyUnit) {
+                return game.handleAttack(from, to);
+            }
         return true;
     }
 
