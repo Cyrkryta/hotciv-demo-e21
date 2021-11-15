@@ -196,7 +196,6 @@ public class FakeObjectGame implements Game {
   public void setTileFocus(Position position) {
     // TODO: setTileFocus implementation pending.
     System.out.println("-- FakeObjectGame / setTileFocus called.");
-    System.out.println(" *** IMPLEMENTATION PENDING ***");
     gameObserver.tileFocusChangedAt(position);
   }
 }
