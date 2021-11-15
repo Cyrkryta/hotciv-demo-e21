@@ -5,6 +5,7 @@ import hotciv.framework.*;
 import hotciv.standard.CityImpl;
 import hotciv.standard.UnitImpl;
 import hotciv.variants.alphaStrategies.AlphaValidMoveStrategy;
+import hotciv.variants.gammaStrategies.GammaUnitActionStrategy;
 
 import java.util.*;
 
@@ -41,8 +42,9 @@ import java.util.*;
 
 public class FakeObjectGame implements Game {
 
-  private Map<Position, Unit> unitMap;
+  private Map<Position, StubUnit> unitMap;
   private Map<Position, City> cityMap;
+
   //Roundcount keeps track of what round the game is in
   private int roundCount = 1;
 
@@ -67,9 +69,10 @@ public class FakeObjectGame implements Game {
 
     System.out.println("-- moveUnit found unit at: " + from);
     // Remember to inform game observer on any change on the tiles
-    unitMap.put(from, null);
+    unitMap.remove(from);
     gameObserver.worldChangedAt(from);
     unit.reduceMoveCount();
+
     unitMap.put(to, unit);
     gameObserver.worldChangedAt(to);
     return true;
@@ -86,33 +89,6 @@ public class FakeObjectGame implements Game {
 
   // === Turn handling ===
   private Player inTurn;
-  public void endOfTurn() {
-    System.out.println( "-- FakeObjectGame / endOfTurn called." );
-    //inTurn = (getPlayerInTurn() == Player.RED ? Player.BLUE : Player.RED);
-    if (inTurn == Player.RED) {
-      inTurn = Player.BLUE;
-    } else {
-      inTurn = Player.RED;
-      roundCount++;
-      resetUnitsMoveCount();
-    }
-    // no age increments implemented...
-    gameObserver.turnEnds(inTurn, getAge());
-  }
-
-  private void resetUnitsMoveCount() {
-    for (Unit currUnit : unitMap.values()) {
-      StubUnit unit = (StubUnit) currUnit;
-      unit.resetMoveCount();
-    }
-  }
-
-  public void produceUnits(Position cityPosition) {
-    System.out.println("-- FakeObjectGame / produceUnits called.");
-    unitMap.put(cityPosition, new StubUnit(GameConstants.ARCHER, getCityAt(cityPosition).getOwner()));
-    gameObserver.worldChangedAt(cityPosition);
-  }
-
   public Player getPlayerInTurn() { return inTurn; }
 
   // === Observer handling ===
@@ -168,7 +144,6 @@ public class FakeObjectGame implements Game {
     world.put(new Position(7,5), new StubTile(ThetaConstants.DESERT));
   }
 
-  // TODO: Add more fake object behaviour to test MiniDraw updating
   public City getCityAt( Position p ) { return cityMap.get(p); }
 
   public Player getWinner() { return null; }
@@ -191,7 +166,48 @@ public class FakeObjectGame implements Game {
     }
     gameObserver.worldChangedAt(p);
   }
-  public void performUnitActionAt( Position p ) {}
+  public void performUnitActionAt( Position p ) {
+    if (getUnitAt(p).getTypeString().equals(GameConstants.SETTLER)) {
+      createCity(p);
+      unitMap.remove(p);
+      worldChangeUpdateObserver(p);
+    }
+  }
+
+  public void createCity(Position p) {
+    cityMap.put(p, new CityImpl(getUnitAt(p).getOwner()));
+  }
+
+  public void endOfTurn() {
+    System.out.println( "-- FakeObjectGame / endOfTurn called." );
+    //inTurn = (getPlayerInTurn() == Player.RED ? Player.BLUE : Player.RED);
+    if (inTurn == Player.RED) {
+      inTurn = Player.BLUE;
+    } else {
+      inTurn = Player.RED;
+      endOfRound();
+    }
+    // no age increments implemented...
+    gameObserver.turnEnds(inTurn, getAge());
+  }
+
+  private void endOfRound() {
+    roundCount++;
+    resetUnitsMoveCount();
+  }
+
+  private void resetUnitsMoveCount() {
+    for (StubUnit currUnit : unitMap.values()) {
+        currUnit.resetMoveCount();
+        System.out.println(currUnit.getTypeString()+"has "+currUnit.getMoveCount()+" moves left");
+    }
+  }
+
+  public void produceUnits(Position cityPosition) {
+    System.out.println("-- FakeObjectGame / produceUnits called.");
+    unitMap.put(cityPosition, new StubUnit(GameConstants.ARCHER, getCityAt(cityPosition).getOwner()));
+    gameObserver.worldChangedAt(cityPosition);
+  }
 
   public void setTileFocus(Position position) {
     // TODO: setTileFocus implementation pending.

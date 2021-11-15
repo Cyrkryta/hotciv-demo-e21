@@ -125,7 +125,7 @@ public class CivDrawing implements Drawing, GameObserver {
         p = new Position(r, c);
         Unit unit = game.getUnitAt(p);
         UnitFigure unitFigure = positionToUnitFigureMap.get(p);
-        // Synchronize etShieldIconach tile position with figure collection
+        // Synchronize unitShieldIcon tile position with figure collection
         if (unit != null) {
           // if a unit is present in game, then
           if (unitFigure == null) {
@@ -298,6 +298,9 @@ public class CivDrawing implements Drawing, GameObserver {
 
     City city = game.getCityAt(pos);
     if(city != null){
+      CityFigure cf = createCityFigureFor(pos, city);
+      positionToCityFigureMap.put(pos, cf);
+      figureCollection.add(cf);
       updateCityFocusIcon(city.getWorkforceFocus());
       updateCityProductionIcon(city.getProduction());
     }
