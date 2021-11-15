@@ -65,6 +65,17 @@ public class UnitMoveTool extends NullTool{
         }
         if (figureBelowClickPoint.getTypeString().equals(GfxConstants.UNIT_TYPE_STRING) &&
                 game.getUnitAt(fromPosition).getOwner() == game.getPlayerInTurn()) {
+            int movingDistance = rowColumnDistance(fromPosition, toPosition);
+            if (game.getUnitAt(fromPosition).getMoveCount() >= 1) {
+                if (movingDistance >= 0 && movingDistance <=1) {
+                    game.moveUnit(fromPosition, toPosition);
+                } else {
+                    System.out.println("The move is illegal. Try again");
+                    game.moveUnit(fromPosition, fromPosition);
+                }
+            } else {
+                System.out.println("The unit doesn't have any moves left. Try another.");
+            }
             /*if (Math.abs(toPosition.getColumn()-fromPosition.getColumn()) >= 0
                     && Math.abs(toPosition.getColumn()-fromPosition.getColumn()) <
                     game.getUnitAt(fromPosition).getMoveCount()) {
@@ -74,9 +85,16 @@ public class UnitMoveTool extends NullTool{
                     game.moveUnit(fromPosition, toPosition);
                 }
             }*/
-            game.moveUnit(fromPosition, toPosition);
         } else {
             System.out.println("You doesn't own this unit");
         }
+    }
+
+    public int rowColumnDistance(Position fromPosition, Position toPosition) {
+        int rowDistance = 0;
+        int columnDifference = toPosition.getColumn()-fromPosition.getColumn();
+        int rowDifference = toPosition.getRow()-fromPosition.getRow();
+        rowDistance = Math.abs(columnDifference+rowDifference);
+        return rowDistance;
     }
 }
