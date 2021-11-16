@@ -6,12 +6,18 @@ import hotciv.stub.FakeObjectGame;
 import hotciv.view.GfxConstants;
 import hotciv.view.figure.HotCivFigure;
 import minidraw.framework.DrawingEditor;
+import minidraw.framework.Figure;
+import minidraw.framework.Tool;
 import minidraw.standard.NullTool;
+import minidraw.standard.handlers.DragTracker;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
 public class UnitMoveTool extends NullTool{
+    protected Tool fChild;
+    protected Tool cachedNullTool;
+
     private final DrawingEditor editor;
     private final FakeObjectGame game;
 
@@ -25,11 +31,14 @@ public class UnitMoveTool extends NullTool{
     public UnitMoveTool(DrawingEditor editor, Game game) {
         this.editor = editor;
         this.game = (FakeObjectGame) game;
+        fChild = cachedNullTool = new NullTool();
     }
 
     public void mouseDown(MouseEvent event, int x, int y) {
         super.mouseDown(event, x, y);
+
         figureBelowClickPoint = (HotCivFigure) editor.drawing().findFigure(x, y);
+
         fromPosition = GfxConstants.getPositionFromXY(x, y);
         FromPoint = new Point(x, y);
         clickValue = event.getPoint();
@@ -82,5 +91,9 @@ public class UnitMoveTool extends NullTool{
         } else {
             System.out.println("You don't own this unit");
         }
+    }
+
+    protected Tool createDragTracker(Figure f) {
+        return new DragTracker(editor, f);
     }
 }

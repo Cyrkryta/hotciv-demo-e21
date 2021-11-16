@@ -39,21 +39,55 @@ public class CompositionTool extends NullTool {
     // Find the figure (if any) just below the mouse click position
     figureBelowClickPoint = (HotCivFigure) editor.drawing().findFigure(x, y);
     // Next determine the state of tool to use
+
     if (figureBelowClickPoint == null) {
-      // TODO: no figure below - set state correctly (set focus tool or null tool)
-      System.out.println("TODO: No figure below click point - PENDING IMPLEMENTATION");
-      state = new NullTool();
+      state = new SetFocusTool(editor, game);
     } else {
       if (figureBelowClickPoint.getTypeString().equals(GfxConstants.TURN_SHIELD_TYPE_STRING)) {
         state = new EndOfTurnTool(editor, game);
+      } else if (figureBelowClickPoint.getTypeString().equals(GfxConstants.UNIT_TYPE_STRING)){
+        if(e.isShiftDown()){
+          state = new UnitActionTool(editor, game);
+        } else {
+          state = new UnitMoveTool(editor, game);
+        }
+      }else if (figureBelowClickPoint.getTypeString().equals(GfxConstants.CITY_TYPE_STRING)) {
+        state = new SetFocusTool(editor, game);
+      }
+
+
+/*      switch (figureBelowClickPoint.getTypeString()) {
+        case GfxConstants.TURN_SHIELD_TYPE_STRING: {
+          state = new EndOfTurnTool(editor, game);
+        }
+        case GfxConstants.UNIT_TYPE_STRING: {
+          if (e.isShiftDown()) {
+            state = new UnitActionTool(editor, game);
+          }else {
+            state = new UnitMoveTool(editor, game);
+          }
+        }
+      }*/
+
+
+/*      if (figureBelowClickPoint.getTypeString().equals(GfxConstants.TURN_SHIELD_TYPE_STRING)) {
+
       } else {
         // TODO: handle all the cases - action tool, unit move tool, etc
         System.out.println("TODO: PENDING IMPLEMENTATION based upon hitting a figure with type: "
                 + figureBelowClickPoint.getTypeString());
         state = new NullTool();
-      }
+      }*/
     }
     // Finally, delegate to the selected state
     state.mouseDown(e, x, y);
+  }
+
+  public void mouseDrag(MouseEvent e, int x, int y) {
+    state.mouseDrag(e,x,y);
+  }
+
+  public void mouseUp(MouseEvent e, int x, int y) {
+    state.mouseUp(e,x,y);
   }
 }
