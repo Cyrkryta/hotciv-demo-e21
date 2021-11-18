@@ -67,7 +67,6 @@ public class GameImpl implements Game {
         this.worldLayoutStrategy = gameFactory.createWorldLayoutStrategy();
         this.attackingStrategy = gameFactory.createAttackingStrategy();
         this.validMoveStrategy = gameFactory.createValidMoveStrategy();
-
         this.unitMap = worldLayoutStrategy.placeUnits();
         this.cityMap = worldLayoutStrategy.placeCities();
         this.worldMap = worldLayoutStrategy.createWorld();

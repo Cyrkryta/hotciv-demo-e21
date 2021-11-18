@@ -31,7 +31,6 @@ public class CompositionTool extends NullTool {
     state = new NullTool();
     this.editor = editor;
     this.game = game;
-    state = null;
   }
 
   @Override

@@ -6,6 +6,7 @@ import hotciv.standard.CityImpl;
 import hotciv.standard.UnitImpl;
 import hotciv.variants.alphaStrategies.AlphaValidMoveStrategy;
 import hotciv.variants.gammaStrategies.GammaUnitActionStrategy;
+import minidraw.framework.RubberBandSelectionStrategy;
 
 import java.util.*;
 
@@ -47,6 +48,43 @@ public class FakeObjectGame implements Game {
 
   //Roundcount keeps track of what round the game is in
   private int roundCount = 1;
+
+  public FakeObjectGame() {
+    defineWorld();
+    // Put some units into play
+    unitMap = new HashMap<>();
+    unitMap.put(new Position(2,0), new StubUnit( GameConstants.ARCHER, Player.RED ));
+    unitMap.put(new Position(2,1), new StubUnit( GameConstants.ARCHER, Player.RED ));
+    unitMap.put(new Position(3,2), new StubUnit( GameConstants.LEGION, Player.BLUE ));
+    unitMap.put(new Position(4,2), new StubUnit( GameConstants.SETTLER, Player.RED ));
+    unitMap.put(new Position(6,3), new StubUnit( ThetaConstants.SANDWORM, Player.RED ));
+    inTurn = Player.RED;
+
+    cityMap = new HashMap<>();
+    cityMap.put((new Position(3,2)), new StubCity(Player.BLUE));
+    cityMap.put((new Position(8,8)), new StubCity(Player.RED));
+  }
+
+  /** define the world.
+   */
+  protected void defineWorld() {
+    world = new HashMap<Position,Tile>();
+    for ( int r = 0; r < GameConstants.WORLDSIZE; r++ ) {
+      for ( int c = 0; c < GameConstants.WORLDSIZE; c++ ) {
+        Position p = new Position(r,c);
+        world.put( p, new StubTile(GameConstants.PLAINS));
+      }
+    }
+    // Create a little area around the theta unit of special terrain
+    world.put(new Position(5,4), new StubTile(ThetaConstants.DESERT));
+    world.put(new Position(6,2), new StubTile(ThetaConstants.DESERT));
+    world.put(new Position(6,3), new StubTile(ThetaConstants.DESERT));
+    world.put(new Position(6,4), new StubTile(ThetaConstants.DESERT));
+    world.put(new Position(6,5), new StubTile(ThetaConstants.DESERT));
+    world.put(new Position(7,3), new StubTile(ThetaConstants.DESERT));
+    world.put(new Position(7,4), new StubTile(ThetaConstants.DESERT));
+    world.put(new Position(7,5), new StubTile(ThetaConstants.DESERT));
+  }
 
   public Unit getUnitAt(Position p) {
     return unitMap.get(p);
@@ -103,46 +141,9 @@ public class FakeObjectGame implements Game {
       gameObserver.worldChangedAt(pos);
   }
 
-  public FakeObjectGame() {
-    defineWorld();
-    // Put some units into play
-    unitMap = new HashMap<>();
-    unitMap.put(new Position(2,0), new StubUnit( GameConstants.ARCHER, Player.RED ));
-    unitMap.put(new Position(2,1), new StubUnit( GameConstants.ARCHER, Player.RED ));
-    unitMap.put(new Position(3,2), new StubUnit( GameConstants.LEGION, Player.BLUE ));
-    unitMap.put(new Position(4,2), new StubUnit( GameConstants.SETTLER, Player.RED ));
-    unitMap.put(new Position(6,3), new StubUnit( ThetaConstants.SANDWORM, Player.RED ));
-    inTurn = Player.RED;
-
-    cityMap = new HashMap<>();
-    cityMap.put((new Position(3,2)), new StubCity(Player.BLUE));
-    cityMap.put((new Position(8,8)), new StubCity(Player.RED));
-  }
-
   // A simple implementation to draw the map of DeltaCiv
   protected Map<Position,Tile> world; 
   public Tile getTileAt( Position p ) { return world.get(p); }
-
-  /** define the world.
-   */
-  protected void defineWorld() {
-    world = new HashMap<Position,Tile>();
-    for ( int r = 0; r < GameConstants.WORLDSIZE; r++ ) {
-      for ( int c = 0; c < GameConstants.WORLDSIZE; c++ ) {
-        Position p = new Position(r,c);
-        world.put( p, new StubTile(GameConstants.PLAINS));
-      }
-    }
-    // Create a little area around the theta unit of special terrain
-    world.put(new Position(5,4), new StubTile(ThetaConstants.DESERT));
-    world.put(new Position(6,2), new StubTile(ThetaConstants.DESERT));
-    world.put(new Position(6,3), new StubTile(ThetaConstants.DESERT));
-    world.put(new Position(6,4), new StubTile(ThetaConstants.DESERT));
-    world.put(new Position(6,5), new StubTile(ThetaConstants.DESERT));
-    world.put(new Position(7,3), new StubTile(ThetaConstants.DESERT));
-    world.put(new Position(7,4), new StubTile(ThetaConstants.DESERT));
-    world.put(new Position(7,5), new StubTile(ThetaConstants.DESERT));
-  }
 
   public City getCityAt( Position p ) { return cityMap.get(p); }
 

@@ -1,13 +1,14 @@
 package hotciv.standard;
 
 import hotciv.framework.City;
+import hotciv.framework.GameConstants;
 import hotciv.framework.Player;
 
 public class CityImpl implements City {
     private Player owner;
     private int treasury;
     private String production;
-    private String workForceFocus;
+    private String workForceFocus = GameConstants.foodFocus;
 
     public CityImpl(Player owner){
         this.owner = owner;

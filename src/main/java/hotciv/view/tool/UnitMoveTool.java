@@ -2,58 +2,61 @@ package hotciv.view.tool;
 
 import hotciv.framework.Game;
 import hotciv.framework.Position;
-import hotciv.stub.FakeObjectGame;
 import hotciv.view.GfxConstants;
 import hotciv.view.figure.HotCivFigure;
-import minidraw.framework.DrawingEditor;
-import minidraw.framework.Figure;
-import minidraw.framework.Tool;
+import minidraw.framework.*;
 import minidraw.standard.NullTool;
 import minidraw.standard.handlers.DragTracker;
 
-import java.awt.*;
 import java.awt.event.MouseEvent;
 
 public class UnitMoveTool extends NullTool{
+    // Tools
     protected Tool fChild;
     protected Tool cachedNullTool;
+    // Figures
+    protected HotCivFigure draggedFigure;
+    // Defining integers
+    private int fFirstX, fFirstY; // Previous mouse positions;
 
     private final DrawingEditor editor;
-    private final FakeObjectGame game;
-
-    Position fromPosition;
-    Position toPosition;
-    Point clickValue;
-    HotCivFigure figureBelowClickPoint;
-    Point FromPoint;
-    Point ToPoint;
+    private final Game game;
 
     public UnitMoveTool(DrawingEditor editor, Game game) {
         this.editor = editor;
-        this.game = (FakeObjectGame) game;
+        this.game = game;
         fChild = cachedNullTool = new NullTool();
+        draggedFigure = null;
     }
 
     public void mouseDown(MouseEvent event, int x, int y) {
-        super.mouseDown(event, x, y);
+        fFirstX = x;
+        fFirstY = y;
 
-        figureBelowClickPoint = (HotCivFigure) editor.drawing().findFigure(x, y);
+        Drawing model = editor.drawing();
+        model.lock();
+
+        draggedFigure = (HotCivFigure) model.findFigure(event.getX(), event.getY());
+
+        if (draggedFigure.getTypeString().equals(GfxConstants.UNIT_TYPE_STRING)) {
+            fChild = createDragTracker(draggedFigure);
+            System.out.println("You clicked a unit figure!");
+        } else {
+            if (!event.isShiftDown()) {
+                model.clearSelection();
+            }
+        }
+        fChild.mouseDown(event, x, y);
+        /*figureBelowClickPoint = (HotCivFigure) editor.drawing().findFigure(x, y);
 
         fromPosition = GfxConstants.getPositionFromXY(x, y);
         FromPoint = new Point(x, y);
-        clickValue = event.getPoint();
-
-        if (figureBelowClickPoint == null) {
-            System.out.println("No figure below click point");
-        } else if (figureBelowClickPoint.getTypeString().equals(GfxConstants.UNIT_TYPE_STRING) &&
-        game.getUnitAt(fromPosition).getOwner() == game.getPlayerInTurn()) {
-            System.out.println("You got the unit, nice job!");
-        }
+        clickValue = event.getPoint();*/
     }
 
     public void mouseDrag(MouseEvent event, int x, int y) {
-            super.mouseDrag(event, x, y);
-            if (figureBelowClickPoint == null) {
+        fChild.mouseDrag(event, x, y);
+            /*if (figureBelowClickPoint == null) {
                 System.out.println("No figure below click point");
                 return;
             } else if (figureBelowClickPoint.getTypeString().equals(GfxConstants.UNIT_TYPE_STRING) &&
@@ -67,12 +70,30 @@ public class UnitMoveTool extends NullTool{
 
                 figureBelowClickPoint.moveBy(dx,dy);
             }
-            clickValue = event.getPoint();
+            clickValue = event.getPoint();*/
     }
 
     public void mouseUp(MouseEvent event, int x, int y) {
-        super.mouseUp(event, x, y);
-        toPosition = GfxConstants.getPositionFromXY(x,y);
+        editor.drawing().unlock();
+        Position fromPosition = GfxConstants.getPositionFromXY(fFirstX, fFirstY);
+        Position toPosition = GfxConstants.getPositionFromXY(x, y);
+        if (fromPosition.getColumn() == toPosition.getColumn() && fromPosition.getRow() == toPosition.getRow()) {
+            fChild = new SetFocusTool(editor, game);
+            fChild.mouseDown(event, x, y);
+        } else {
+            if (game.moveUnit(fromPosition, toPosition)) {
+                System.out.println("Move successful!");
+                fChild.mouseUp(event, x, y);
+                fChild = cachedNullTool;
+                draggedFigure = null;
+            } else {
+                System.out.println("The move is illegal... Try again.");
+                draggedFigure.moveBy(fFirstX-x, fFirstY-y);
+            }
+        }
+
+
+        /*toPosition = GfxConstants.getPositionFromXY(x,y);
         ToPoint = new Point(x, y);
         if (figureBelowClickPoint == null) {
             System.out.println("Pick a figure to place it");
@@ -90,7 +111,7 @@ public class UnitMoveTool extends NullTool{
                     }
         } else {
             System.out.println("You don't own this unit");
-        }
+        }*/
     }
 
     protected Tool createDragTracker(Figure f) {
