@@ -45,6 +45,7 @@ public class FakeObjectGame implements Game {
 
   private Map<Position, StubUnit> unitMap;
   private Map<Position, City> cityMap;
+  public Position positionInFocus;
 
   //Roundcount keeps track of what round the game is in
   private int roundCount = 1;
@@ -156,7 +157,7 @@ public class FakeObjectGame implements Game {
     if(city != null) {
       city.setWorkForceFocus(balance);
     }
-    gameObserver.worldChangedAt(p);
+    gameObserver.cityWorkFocusChanges(balance);
   }
   public void changeProductionInCityAt( Position p, String unitType ) {
     System.out.println("-- FakeObjectGame / changeProductionInCityAt called. Position: " + p +
@@ -165,7 +166,7 @@ public class FakeObjectGame implements Game {
     if(city != null) {
       city.setProduction(unitType);
     }
-    gameObserver.worldChangedAt(p);
+    gameObserver.cityProductionChanged(unitType);
   }
   public void performUnitActionAt( Position p ) {
     if (getUnitAt(p).getTypeString().equals(GameConstants.SETTLER)) {
@@ -210,7 +211,8 @@ public class FakeObjectGame implements Game {
   }
 
   public void setTileFocus(Position position) {
-    System.out.println("-- FakeObjectGame / setTileFocus called.");
+    System.out.println("-- FakeObjectGame / setTileFocus called. at: "+position.getColumn()+" "+position.getRow());
+    positionInFocus = position;
     gameObserver.tileFocusChangedAt(position);
   }
 }

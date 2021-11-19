@@ -45,6 +45,9 @@ public class GameImpl implements Game {
     private int currentAge = GameConstants.Start_Age;
     // Starting point for game winner.
     private Player winner = null;
+    //Position currently in focus
+    Position positionInFocus;
+
     // Implements the aging strategy for the game
     private final AgeStrategy ageStrategy;
     // Implements the world strategy for the game
@@ -79,8 +82,15 @@ public class GameImpl implements Game {
     }
 
     public void setTileFocus(Position position) {
+        positionInFocus = position;
         for (GameObserver gameObserver: gameObservers) {
             gameObserver.tileFocusChangedAt(position);
+        }
+    }
+
+    public void worldChangeUpdateObserver(Position pos) {
+        for (GameObserver gameObserver: gameObservers) {
+            gameObserver.worldChangedAt(pos);
         }
     }
 
@@ -114,6 +124,7 @@ public class GameImpl implements Game {
     public int getAge() {
         return currentAge;
     }
+
     //endregion
 
     /************ Turn and Round methods ************/
@@ -194,7 +205,11 @@ public class GameImpl implements Game {
         CityImpl chosenCity = (CityImpl) getCityAt(p);
         if (balance.equals(GameConstants.foodFocus) || balance.equals(GameConstants.productionFocus)) {
             chosenCity.changeWorkForceFocus(balance);
+            for (GameObserver gameObserver: gameObservers) {
+                gameObserver.cityWorkFocusChanges(balance);
+            }
         }
+
     }
 
     public void changeProductionInCityAt(Position p, String unitType) {
@@ -203,6 +218,9 @@ public class GameImpl implements Game {
             if (Objects.equals(unitType, GameConstants.ARCHER) || Objects.equals(unitType, GameConstants.SETTLER) ||
                     Objects.equals(unitType, GameConstants.LEGION) || Objects.equals(unitType, GameConstants.SANDWORM)) {
                 chosenCity.changeProd(unitType);
+                for (GameObserver gameObserver: gameObservers) {
+                    gameObserver.cityProductionChanged(unitType);
+                }
             }
         }
     }
@@ -259,11 +277,5 @@ public class GameImpl implements Game {
     public void performUnitActionAt(Position p) {
         unitActionStrategy.performAction(p, this);
         //worldChangeUpdateObserver(p);
-    }
-
-    public void worldChangeUpdateObserver(Position pos) {
-        for (GameObserver gameObserver: gameObservers) {
-            gameObserver.worldChangedAt(pos);
-        }
     }
 }

@@ -8,7 +8,7 @@ public class CityImpl implements City {
     private Player owner;
     private int treasury;
     private String production;
-    private String workForceFocus = GameConstants.foodFocus;
+    private String workForceFocus;
 
     public CityImpl(Player owner){
         this.owner = owner;

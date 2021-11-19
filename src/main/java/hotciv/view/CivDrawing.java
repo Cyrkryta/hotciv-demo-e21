@@ -238,7 +238,7 @@ public class CivDrawing implements Drawing, GameObserver {
     if (cityShieldIcon == null) {
       cityShieldIcon = new HotCivFigure(GfxConstants.NOTHING,
                       new Point(GfxConstants.CITY_SHIELD_X, GfxConstants.CITY_SHIELD_Y),
-                      GfxConstants.TURN_SHIELD_TYPE_STRING);
+                      GfxConstants.CITY_SHIELD_TYPE_STRING);
       // insert in delegate figure list to ensure graphical
       // rendering.
       figureCollection.add(cityShieldIcon);
@@ -262,7 +262,6 @@ public class CivDrawing implements Drawing, GameObserver {
       figureCollection.add(cityWorkForceFocusIcon);
     }
 
-    // TODO: Further development to include rest of figures needed
     // for other status panel info, like age, etc.
 
     if (ageTextFigure == null) {
@@ -281,7 +280,6 @@ public class CivDrawing implements Drawing, GameObserver {
  
   // === Observer Methods ===
   public void worldChangedAt(Position pos) {
-    // TODO: Remove system.out debugging output, included here for learning purposes
     System.out.println( "CivDrawing: world changes at "+pos);
     Unit unit = game.getUnitAt(pos);
     if (unit == null) {
@@ -294,7 +292,6 @@ public class CivDrawing implements Drawing, GameObserver {
       positionToUnitFigureMap.put(pos, uf);
       figureCollection.add(uf);
     }
-    // TODO: Cities may change on position as well
 
     City city = game.getCityAt(pos);
     if(city != null){
@@ -307,22 +304,32 @@ public class CivDrawing implements Drawing, GameObserver {
   }
 
   public void turnEnds(Player nextPlayer, int age) {
-    // TODO: Remove system.out debugging output
     System.out.println( "CivDrawing: turnEnds for "+
                         nextPlayer+" at "+age );
     updateTurnShield(nextPlayer);
     updateAgeText(age);
   }
 
+  public void cityWorkFocusChanges (String focus) {updateCityFocusIcon(focus);}
+
+  public void cityProductionChanged (String unitType) {
+    updateCityProductionIcon(unitType);
+  }
+
   public void tileFocusChangedAt(Position position) {
-    // TODO: Implementation pending
-    System.out.println( "Fake it: tileFocusChangedAt "+position );
     if(game.getUnitAt(position) != null) {
       updateUnitShield(game.getUnitAt(position).getOwner());
       updateUnitMoveCount(game.getUnitAt(position).getMoveCount());
     }
 
     if (game.getCityAt(position) != null) {
+      City city = game.getCityAt(position);
+      if (city.getProduction() == null) {
+        game.changeProductionInCityAt(position, GameConstants.ARCHER);
+      }
+      if(city.getWorkforceFocus() == null) {
+        game.changeWorkForceFocusInCityAt(position, GameConstants.foodFocus);
+      }
       updateCityShield(game.getCityAt(position).getOwner());
       updateCityProductionIcon(game.getCityAt(position).getProduction());
       updateCityFocusIcon(game.getCityAt(position).getWorkforceFocus());
@@ -408,7 +415,6 @@ public class CivDrawing implements Drawing, GameObserver {
     synchronizeUnitFigureCollectionWithGameUnits();
     synchronizeCityFigureCollectionWithGameCities();
     synchronizeIconsWithGameState();
-    // TODO: Cities pending
   }
 
   @Override

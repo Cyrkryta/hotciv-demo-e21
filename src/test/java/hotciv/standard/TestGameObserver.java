@@ -50,7 +50,17 @@ public class TestGameObserver {
         assertThat(gameObserver.lastMethodCalled(), is("World changed at (4,3)"));
     }
 
+    @Test
+    public void gameObserverRegistersUnitProductionChange() {
+        game.changeProductionInCityAt(GameConstants.Red_City_Pos, GameConstants.ARCHER);
+        assertThat(gameObserver.lastMethodCalled(), is("City production changed to: archer"));
+    }
 
+    @Test
+    public void gameObserverRegistersFocusProductionChange() {
+        game.changeWorkForceFocusInCityAt(GameConstants.Red_City_Pos, GameConstants.productionFocus);
+        assertThat(gameObserver.lastMethodCalled(), is("City focus changed to: hammer"));
+    }
 }
 
 class GameObserverSpy implements GameObserver {
@@ -72,8 +82,14 @@ class GameObserverSpy implements GameObserver {
         lastMethodCalled = "tile focus changed at "+"("+pos.getRow()+","+pos.getColumn()+")";
     }
 
-    public void treasuryAdded(Player currentPlayer, int treasury, int age) {
-        lastMethodCalled = "Player" + currentPlayer + " has treasury " + treasury;
+    @Override
+    public void cityWorkFocusChanges(String focus) {
+        lastMethodCalled = "City focus changed to: "+focus;
+    }
+
+    @Override
+    public void cityProductionChanged(String unitType) {
+        lastMethodCalled = "City production changed to: "+unitType;
     }
 
     public String previousMethodCalled() {

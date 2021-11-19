@@ -34,7 +34,6 @@ public class UnitMoveTool extends NullTool{
         fFirstY = y;
 
         Drawing model = editor.drawing();
-        model.lock();
 
         draggedFigure = (HotCivFigure) model.findFigure(event.getX(), event.getY());
 
@@ -54,7 +53,6 @@ public class UnitMoveTool extends NullTool{
     }
 
     public void mouseUp(MouseEvent event, int x, int y) {
-        editor.drawing().unlock();
         Position fromPosition = GfxConstants.getPositionFromXY(fFirstX, fFirstY);
         Position toPosition = GfxConstants.getPositionFromXY(x, y);
         if (fromPosition.getColumn() == toPosition.getColumn() && fromPosition.getRow() == toPosition.getRow()) {
@@ -71,27 +69,6 @@ public class UnitMoveTool extends NullTool{
                 draggedFigure.moveBy(fFirstX-x, fFirstY-y);
             }
         }
-
-
-        /*toPosition = GfxConstants.getPositionFromXY(x,y);
-        ToPoint = new Point(x, y);
-        if (figureBelowClickPoint == null) {
-            System.out.println("Pick a figure to place it");
-            return;
-        }
-        if (figureBelowClickPoint.getTypeString().equals(GfxConstants.UNIT_TYPE_STRING) &&
-                game.getUnitAt(fromPosition).getOwner() == game.getPlayerInTurn()) {
-                if (game.moveUnit(fromPosition, toPosition)) {
-                    System.out.println("Move successful!");;
-                } else {
-                    System.out.println("The move is illegal. Try again");
-                    int fromToRowDifference = FromPoint.x- ToPoint.x;
-                    int fromToColumnDifference = FromPoint.y- ToPoint.y;
-                    figureBelowClickPoint.moveBy(fromToRowDifference, fromToColumnDifference);
-                    }
-        } else {
-            System.out.println("You don't own this unit");
-        }*/
     }
 
     protected Tool createDragTracker(Figure f) {

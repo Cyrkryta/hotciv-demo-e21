@@ -24,4 +24,8 @@ public interface GameObserver {
      * now inspected/has focus.
      */
     void tileFocusChangedAt(Position position);
+
+    void cityWorkFocusChanges(String focus);
+
+    void cityProductionChanged(String unitType);
 }

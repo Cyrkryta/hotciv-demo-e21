@@ -21,6 +21,12 @@ public class SetFocusTool extends NullTool {
     public void mouseDown(MouseEvent event, int x, int y) {
         super.mouseDown(event, x, y);
         clickedPosition = GfxConstants.getPositionFromXY(x, y);
-        game.setTileFocus(clickedPosition);
+        if(!figureIsOutsideMap(clickedPosition)){
+            game.setTileFocus(clickedPosition);
+        }
+    }
+
+    private boolean figureIsOutsideMap (Position position) {
+        return position.getRow() > 15 || position.getColumn() > 15;
     }
 }
