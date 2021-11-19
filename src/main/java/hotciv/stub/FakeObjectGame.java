@@ -181,7 +181,6 @@ public class FakeObjectGame implements Game {
 
   public void endOfTurn() {
     System.out.println( "-- FakeObjectGame / endOfTurn called." );
-    //inTurn = (getPlayerInTurn() == Player.RED ? Player.BLUE : Player.RED);
     if (inTurn == Player.RED) {
       inTurn = Player.BLUE;
     } else {
@@ -211,7 +210,6 @@ public class FakeObjectGame implements Game {
   }
 
   public void setTileFocus(Position position) {
-    // TODO: setTileFocus implementation pending.
     System.out.println("-- FakeObjectGame / setTileFocus called.");
     gameObserver.tileFocusChangedAt(position);
   }

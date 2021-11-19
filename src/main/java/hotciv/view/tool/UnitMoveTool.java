@@ -47,30 +47,10 @@ public class UnitMoveTool extends NullTool{
             }
         }
         fChild.mouseDown(event, x, y);
-        /*figureBelowClickPoint = (HotCivFigure) editor.drawing().findFigure(x, y);
-
-        fromPosition = GfxConstants.getPositionFromXY(x, y);
-        FromPoint = new Point(x, y);
-        clickValue = event.getPoint();*/
     }
 
     public void mouseDrag(MouseEvent event, int x, int y) {
         fChild.mouseDrag(event, x, y);
-            /*if (figureBelowClickPoint == null) {
-                System.out.println("No figure below click point");
-                return;
-            } else if (figureBelowClickPoint.getTypeString().equals(GfxConstants.UNIT_TYPE_STRING) &&
-                    game.getUnitAt(fromPosition).getOwner() == game.getPlayerInTurn()) {
-                int figureX = (int) figureBelowClickPoint.displayBox().getCenterX();
-                int figureY = (int) figureBelowClickPoint.displayBox().getCenterY();
-                int xOffset = clickValue.x-figureX;
-                int yOffset = clickValue.y-figureY;
-                int dx = event.getPoint().x - (figureX + xOffset);
-                int dy = event.getPoint().y - (figureY + yOffset);
-
-                figureBelowClickPoint.moveBy(dx,dy);
-            }
-            clickValue = event.getPoint();*/
     }
 
     public void mouseUp(MouseEvent event, int x, int y) {

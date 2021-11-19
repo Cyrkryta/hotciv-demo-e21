@@ -7,7 +7,6 @@ import hotciv.standard.GameImpl;
 import hotciv.standard.UnitImpl;
 
 public class GammaUnitActionStrategy implements UnitActionStrategy {
-
     @Override
     public void performAction(Position p, GameImpl game) {
         if (GameConstants.SETTLER.equals(game.getUnitAt(p).getTypeString())) {
