@@ -2,9 +2,7 @@ package hotciv.standard;
 
 import hotciv.Utility.Utility;
 import hotciv.framework.*;
-
 import java.util.*;
-
 
 /**
  * Skeleton implementation of HotCiv.
@@ -47,6 +45,9 @@ public class GameImpl implements Game {
     private int currentAge = GameConstants.Start_Age;
     // Starting point for game winner.
     private Player winner = null;
+    //Position currently in focus
+    Position positionInFocus;
+
     // Implements the aging strategy for the game
     private final AgeStrategy ageStrategy;
     // Implements the world strategy for the game
@@ -59,8 +60,8 @@ public class GameImpl implements Game {
     private final ValidMoveStrategy validMoveStrategy;
 
     private final AttackingStrategy attackingStrategy;
-    private int battlesWon;
-
+    //Implements game observing functionality
+    protected ArrayList<GameObserver> gameObservers = new ArrayList<>();
 
     public GameImpl(GameFactory gameFactory) {
         this.ageStrategy = gameFactory.createAgeStrategy();
@@ -69,11 +70,28 @@ public class GameImpl implements Game {
         this.worldLayoutStrategy = gameFactory.createWorldLayoutStrategy();
         this.attackingStrategy = gameFactory.createAttackingStrategy();
         this.validMoveStrategy = gameFactory.createValidMoveStrategy();
-
         this.unitMap = worldLayoutStrategy.placeUnits();
         this.cityMap = worldLayoutStrategy.placeCities();
         this.worldMap = worldLayoutStrategy.createWorld();
 
+    }
+
+    /************ Observer Methods ************/
+    public void addObserver(GameObserver observer){
+        gameObservers.add(observer);
+    }
+
+    public void setTileFocus(Position position) {
+        positionInFocus = position;
+        for (GameObserver gameObserver: gameObservers) {
+            gameObserver.tileFocusChangedAt(position);
+        }
+    }
+
+    public void worldChangeUpdateObserver(Position pos) {
+        for (GameObserver gameObserver: gameObservers) {
+            gameObserver.worldChangedAt(pos);
+        }
     }
 
     /************ Accessor Methods ************/
@@ -106,6 +124,7 @@ public class GameImpl implements Game {
     public int getAge() {
         return currentAge;
     }
+
     //endregion
 
     /************ Turn and Round methods ************/
@@ -117,6 +136,9 @@ public class GameImpl implements Game {
             playerInTurn = Player.RED;
             endOfRound();
             resetUnitsMoveCount();
+        }
+        for (GameObserver gameObserver: gameObservers) {
+            gameObserver.turnEnds(playerInTurn, getAge());
         }
     }
 
@@ -145,7 +167,7 @@ public class GameImpl implements Game {
     public boolean moveUnit(Position from, Position to) {
         if (!validMoveStrategy.moveIsPossible(from, to, this)) return false;
         if (!validMoveStrategy.isMovableTerrain(from, to, this)) return false;
-        if (!validMoveStrategy.movesToNeighbourTile(from, to)) return false;
+        //if (!validMoveStrategy.movesToNeighbourTile(from, to)) return false;
 
         boolean movingIntoEnemyCity = getCityAt(to) != null && getCityAt(to).getOwner() != getUnitAt(from).getOwner();
         if (movingIntoEnemyCity) {
@@ -155,6 +177,8 @@ public class GameImpl implements Game {
         UnitImpl unitType = (UnitImpl) unitMap.remove(from);
         unitType.reduceMoveCount();
         unitMap.put(to, unitType);
+        worldChangeUpdateObserver(from);
+        worldChangeUpdateObserver(to);
         return true;
     }
 
@@ -167,7 +191,6 @@ public class GameImpl implements Game {
         }
         getWinner();
         winningStrategy.incrementBattlesWonBy(getUnitAt(from).getOwner());
-
         return true;
     }
 
@@ -185,16 +208,23 @@ public class GameImpl implements Game {
         if (chosenCity == null) return;
         if (balance.equals(GameConstants.foodFocus) || balance.equals(GameConstants.productionFocus)) {
             chosenCity.changeWorkForceFocus(balance);
+            for (GameObserver gameObserver: gameObservers) {
+                gameObserver.cityWorkFocusChanges(balance);
+            }
         }
+
     }
 
     public void changeProductionInCityAt(Position p, String unitType) {
         if(getCityAt(p).getOwner() != getPlayerInTurn()) return;
         CityImpl chosenCity = (CityImpl) getCityAt(p);
-        if (chosenCity == null) return;
-        if (Objects.equals(unitType, GameConstants.ARCHER) || Objects.equals(unitType, GameConstants.SETTLER) ||
-                Objects.equals(unitType, GameConstants.LEGION) || Objects.equals(unitType, GameConstants.SANDWORM)) {
-            chosenCity.changeProd(unitType);
+        if (chosenCity != null) {
+            if (Objects.equals(unitType, GameConstants.ARCHER) || Objects.equals(unitType, GameConstants.SETTLER) ||
+                    Objects.equals(unitType, GameConstants.LEGION) || Objects.equals(unitType, GameConstants.SANDWORM)) {
+                chosenCity.changeProd(unitType);
+                for (GameObserver gameObserver: gameObservers) {
+                    gameObserver.cityProductionChanged(unitType);
+                }
             }
         }
 
@@ -202,7 +232,6 @@ public class GameImpl implements Game {
     // Function for city creation in GammaCiv.
     public void createCity(Position p) {
         cityMap.put(p, new CityImpl(getUnitAt(p).getOwner()));
-        unitMap.remove(p);
     }
     //endregion
 
@@ -251,9 +280,6 @@ public class GameImpl implements Game {
 
     public void performUnitActionAt(Position p) {
         unitActionStrategy.performAction(p, this);
-    }
-
-    public int getBattlesWon() {
-        return battlesWon;
+        //worldChangeUpdateObserver(p);
     }
 }

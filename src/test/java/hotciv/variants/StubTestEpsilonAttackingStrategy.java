@@ -167,6 +167,14 @@ class GameStubForAttackStrategyTesting implements Game {
     public void endOfTurn() {}
     public int getAge() { return 0; }
     public void performUnitActionAt( Position p ) {}
+
+    public void addObserver(GameObserver observer) {
+
+    }
+
+    public void setTileFocus(Position position) {
+
+    }
 }
 
 //region

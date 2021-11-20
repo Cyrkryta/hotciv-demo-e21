@@ -25,7 +25,5 @@ public class EpsilonCivWinningStrategy implements WinningStrategy {
     }
 
     @Override
-    public void incrementRoundsPlayed() {
-
-    }
+    public void incrementRoundsPlayed() {}
 }
