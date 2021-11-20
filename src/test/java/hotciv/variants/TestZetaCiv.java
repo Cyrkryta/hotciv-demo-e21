@@ -62,6 +62,7 @@ public class TestZetaCiv {
     // Test that checks that player wins after three victories after 20 rounds.
     @Test
     public void shouldWinAfterThreeAttackingVictoriesAfterRound20() {
+        game.endOfTurn();
         //Creating 2 new legions from blue city
         game.changeProductionInCityAt(GameConstants.Blue_City_Pos, GameConstants.LEGION);
         endOfRound(22);
@@ -71,6 +72,7 @@ public class TestZetaCiv {
         assertThat(game.getUnitAt(new Position(3,2)).getTypeString(), is(GameConstants.LEGION));
         assertThat(game.getUnitAt(new Position(4,2)).getTypeString(), is(GameConstants.LEGION));
 
+        game.endOfTurn();
         //Use Archer to attack all blues legions
         Position start = GameConstants.RedArcher_Start_Position;
         game.moveUnit(start, new Position(3,1));

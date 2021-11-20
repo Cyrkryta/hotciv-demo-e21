@@ -126,6 +126,12 @@ public class TestAlphaCiv {
         redCity.changeWorkForceFocus(GameConstants.foodFocus);
         assertThat(redCity.getWorkforceFocus(), is(GameConstants.foodFocus));
     }
+
+    @Test
+    public void playerCannotChangeProductionInOpponentCity() {
+        game.changeProductionInCityAt(GameConstants.Blue_City_Pos, GameConstants.ARCHER);
+        assertThat(game.getCityAt(GameConstants.Blue_City_Pos).getProduction(), is(nullValue()));
+    }
     //endregion
 
     /************ TESTS FOR TIME ************/
@@ -382,6 +388,13 @@ public class TestAlphaCiv {
         Position to = GameConstants.Red_City_Pos;
         assertThat(game.moveUnit(from, to), is(false));
     }
+
+    //Testing that moveunit doesn't move to same tile
+    @Test
+    public void shouldNotMoveIfToEqualsFrom() {
+        Position from = GameConstants.RedArcher_Start_Position;
+        assertThat(game.moveUnit(from, from), is (false));
+    }
     //endregion
 
     /************ TESTS FOR PRODUCING UNITS ************/
@@ -396,9 +409,12 @@ public class TestAlphaCiv {
 
     @Test
     public void shouldBeAbleToChooseProductionInBlueCity() {
-        City redCity = game.getCityAt(GameConstants.Blue_City_Pos);
+        //Switch to blue player
+        game.endOfTurn();
+
+        City blueCity = game.getCityAt(GameConstants.Blue_City_Pos);
         game.changeProductionInCityAt(GameConstants.Blue_City_Pos, GameConstants.ARCHER);
-        assertThat(redCity.getProduction(), is(GameConstants.ARCHER));
+        assertThat(blueCity.getProduction(), is(GameConstants.ARCHER));
     }
 
     // Testing that units are being spawned after enough production.
@@ -414,6 +430,9 @@ public class TestAlphaCiv {
 
     @Test
     public void shouldSpawnUnitAtEnoughProductionBlue() {
+        //Switch to blue player
+        game.endOfTurn();
+
         City blueCity = game.getCityAt(GameConstants.Blue_City_Pos);
         game.changeProductionInCityAt(GameConstants.Blue_City_Pos, GameConstants.ARCHER);
 
@@ -521,6 +540,8 @@ public class TestAlphaCiv {
     // Testing that unit can't be placed on city tile if unit is already present.
     @Test
     public void shouldNotBeAbleToPlaceUniTInCityIfUnitIsPresent() {
+        //Switch turn to blue player
+        game.endOfTurn();
         game.changeProductionInCityAt(GameConstants.Blue_City_Pos, GameConstants.ARCHER);
         endTurns(4);
         assertThat(game.getUnitAt(GameConstants.Blue_City_Pos).getTypeString(), is(GameConstants.ARCHER));
