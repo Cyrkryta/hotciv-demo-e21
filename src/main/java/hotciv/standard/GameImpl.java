@@ -216,23 +216,24 @@ public class GameImpl implements Game {
     }
 
     public void changeProductionInCityAt(Position p, String unitType) {
-        if(getCityAt(p).getOwner() != getPlayerInTurn()) return;
+        if (getCityAt(p).getOwner() != getPlayerInTurn()) return;
         CityImpl chosenCity = (CityImpl) getCityAt(p);
         if (chosenCity != null) {
             if (Objects.equals(unitType, GameConstants.ARCHER) || Objects.equals(unitType, GameConstants.SETTLER) ||
                     Objects.equals(unitType, GameConstants.LEGION) || Objects.equals(unitType, GameConstants.SANDWORM)) {
                 chosenCity.changeProd(unitType);
-                for (GameObserver gameObserver: gameObservers) {
+                for (GameObserver gameObserver : gameObservers) {
                     gameObserver.cityProductionChanged(unitType);
                 }
             }
         }
+    }
 
 
     // Function for city creation in GammaCiv.
-    public void createCity(Position p) {
-        cityMap.put(p, new CityImpl(getUnitAt(p).getOwner()));
-    }
+        public void createCity(Position p) {
+            cityMap.put(p, new CityImpl(getUnitAt(p).getOwner()));
+        }
     //endregion
 
     /************ Unit Production Methods ************/
@@ -280,6 +281,6 @@ public class GameImpl implements Game {
 
     public void performUnitActionAt(Position p) {
         unitActionStrategy.performAction(p, this);
-        //worldChangeUpdateObserver(p);
     }
 }
+
