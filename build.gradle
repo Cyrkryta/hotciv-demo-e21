@@ -51,6 +51,7 @@ dependencies {
     // Depend on the MiniDraw library
     implementation group: 'com.baerbak.maven',
             name: 'minidraw', version: '2.1-SNAPSHOT'
+    implementation 'junit:junit:4.13.1'
 
     // Depend on JUnit 5. Require both API and Engine
     testImplementation group: 'org.junit.jupiter',
