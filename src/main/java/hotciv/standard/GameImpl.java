@@ -231,9 +231,9 @@ public class GameImpl implements Game {
 
 
     // Function for city creation in GammaCiv.
-    public void createCity(Position p) {
-        cityMap.put(p, new CityImpl(getUnitAt(p).getOwner()));
-    }
+        public void createCity(Position p) {
+            cityMap.put(p, new CityImpl(getUnitAt(p).getOwner()));
+        }
     //endregion
 
     /************ Unit Production Methods ************/
@@ -281,6 +281,6 @@ public class GameImpl implements Game {
 
     public void performUnitActionAt(Position p) {
         unitActionStrategy.performAction(p, this);
-        //worldChangeUpdateObserver(p);
     }
 }
+

@@ -105,11 +105,11 @@ public class GameLogDecorator implements Game {
 
     @Override
     public void addObserver(GameObserver observer) {
-
+        decoratee.addObserver(observer);
     }
 
     @Override
     public void setTileFocus(Position position) {
-
+        decoratee.setTileFocus(position);
     }
 }

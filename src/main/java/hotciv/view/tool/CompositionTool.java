@@ -41,22 +41,29 @@ public class CompositionTool extends NullTool {
     figureBelowClickPoint = (HotCivFigure) editor.drawing().findFigure(x, y);
     Position clickedPosition = GfxConstants.getPositionFromXY(x, y);
     // Next determine the state of tool to use
+    //If there is no unit below pointer use focus tool
     if (figureBelowClickPoint == null) {
       state = new SetFocusTool(editor, game);
     } else {
+      //If clicking end turn shield, end turn
       if (figureBelowClickPoint.getTypeString().equals(GfxConstants.TURN_SHIELD_TYPE_STRING)) {
         state = new EndOfTurnTool(editor, game);
       } else if (figureBelowClickPoint.getTypeString().equals(GfxConstants.UNIT_TYPE_STRING)){
-        if(e.isShiftDown()){
+        //If clicking a unit inside the map while shift is down, use action tool
+        if(e.isShiftDown() && !figureIsOutsideMap(clickedPosition)){
           state = new UnitActionTool(editor, game);
+          //If clicking unit figure for production us change production tool
         } else if (figureIsOutsideMap(clickedPosition)){
           state = new ChangeProductionTool(editor, game, cityFocusPosition);
+          //Otherwise, use move unit tool
         } else {
           state = new UnitMoveTool(editor, game);
         }
+        //When clicking on city use focus tool, and store currently selected city
       } else if (figureBelowClickPoint.getTypeString().equals(GfxConstants.CITY_TYPE_STRING)) {
           state = new SetFocusTool(editor, game);
           cityFocusPosition = clickedPosition;
+          //If clicking workforce icon us change workforce tool
       } else if (figureBelowClickPoint.getTypeString().equals(GfxConstants.FOCUS_TYPE_STRING)) {
           state = new ChangeWorkForceFocusTool(editor, game, cityFocusPosition);
       }
