@@ -1,6 +1,6 @@
 package hotciv.framework;
 
-public class MarshallingConstants {
+public class OperationNames {
     // Defining seperator
     public static final String SEPERATOR = "_";
 

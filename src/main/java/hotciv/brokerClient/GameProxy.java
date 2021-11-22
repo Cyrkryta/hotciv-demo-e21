@@ -36,7 +36,7 @@ public class GameProxy implements Game, ClientProxy {
 
     @Override
     public Player getWinner() {
-        Player uid = requestor.sendRequestAndAwaitReply(GAME_OBJECTID, MarshallingConstants.GAME_GETWINNER_METHOD,
+        Player uid = requestor.sendRequestAndAwaitReply(GAME_OBJECTID, OperationNames.GAME_GETWINNER_METHOD,
                 Player.class);
         return uid;
     }
