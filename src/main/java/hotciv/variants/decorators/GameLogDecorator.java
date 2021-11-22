@@ -102,4 +102,14 @@ public class GameLogDecorator implements Game {
 
         decoratee.performUnitActionAt(p);
     }
+
+    @Override
+    public void addObserver(GameObserver observer) {
+
+    }
+
+    @Override
+    public void setTileFocus(Position position) {
+
+    }
 }
