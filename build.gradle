@@ -74,6 +74,14 @@ task demo(type: JavaExec) {
     main = 'demo.DemoFractal'
 }
 
+task hotcivServer(type: JavaExec) {
+    group 'SWEA Distribution'
+    description 'Run HotCiv server (Socket)'
+
+    classpath sourceSets.test.runtimeClasspath
+    main = "hotciv.broker.main.HotCivServer"
+}
+
 // Tell to use JUnit as testing platform
 test {
     useJUnitPlatform()
