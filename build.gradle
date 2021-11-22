@@ -44,6 +44,10 @@ repositories {
 }
     
 dependencies {
+    // The FRDS.Broker lib
+    implementation group: 'com.baerbak.maven',
+            name: 'broker', version: '3.0.1'
+
     // Depend on the MiniDraw library
     implementation group: 'com.baerbak.maven',
             name: 'minidraw', version: '2.1-SNAPSHOT'
@@ -68,6 +72,14 @@ task demo(type: JavaExec) {
 
     classpath sourceSets.test.runtimeClasspath
     main = 'demo.DemoFractal'
+}
+
+task hotcivServer(type: JavaExec) {
+    group 'SWEA Distribution'
+    description 'Run HotCiv server (Socket)'
+
+    classpath sourceSets.test.runtimeClasspath
+    main = "hotciv.broker.main.HotCivServer"
 }
 
 // Tell to use JUnit as testing platform
