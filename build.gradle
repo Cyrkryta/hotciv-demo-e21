@@ -75,12 +75,22 @@ task demo(type: JavaExec) {
     main = 'demo.DemoFractal'
 }
 
+// == Distributed HotCiv - executing targets.
 task hotcivServer(type: JavaExec) {
     group 'SWEA Distribution'
     description 'Run HotCiv server (Socket)'
 
     classpath sourceSets.test.runtimeClasspath
     main = "hotciv.broker.main.HotCivServer"
+}
+
+task hotcivStoryTest(type: JavaExec) {
+    group 'SWEA Distribution'
+    description 'Run a HotCiv story as MANUAL TEST client (socket)'
+
+    classpath sourceSets.test.runtimeClasspath
+    main = "hotciv.broker.main.HotcivStoryTest"
+    args host
 }
 
 // Tell to use JUnit as testing platform
