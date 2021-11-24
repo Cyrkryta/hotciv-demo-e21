@@ -50,6 +50,15 @@ public class HotCivGameInvoker implements Invoker {
         } else if (requestObject.getOperationName().equals(OperationNames.GAME_CHANGEPRODUCTION_METHOD)) {
             game.changeProductionInCityAt(fakeCityPosition, GameConstants.SETTLER);
             reply = new ReplyObject(HttpServletResponse.SC_OK, null);
+        } else if (requestObject.getOperationName().equals(OperationNames.GAME_CHANGEWORKFORCE_METHOD)) {
+            game.changeWorkForceFocusInCityAt(fakeCityPosition, GameConstants.ARCHER);
+            reply = new ReplyObject(HttpServletResponse.SC_OK, null);
+        } else if (requestObject.getOperationName().equals(OperationNames.GAME_PERFORMUNITACTION_METHOD)) {
+            game.performUnitActionAt(fakeCityPosition);
+            reply = new ReplyObject(HttpServletResponse.SC_OK, null);
+        } else if (requestObject.getOperationName().equals(OperationNames.GAME_SETTILEFOCUS_METHOD)) {
+            game.performUnitActionAt(fakeCityPosition);
+            reply = new ReplyObject(HttpServletResponse.SC_OK, null);
         }
         return gson.toJson(reply);
     }

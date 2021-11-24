@@ -63,6 +63,8 @@ public class GameProxy implements Game, ClientProxy {
 
     @Override
     public void changeWorkForceFocusInCityAt(Position p, String balance) {
+        requestor.sendRequestAndAwaitReply(GAME_OBJECTID, OperationNames.GAME_CHANGEWORKFORCE_METHOD,
+                void.class, p, balance);
     }
 
     @Override
@@ -73,7 +75,8 @@ public class GameProxy implements Game, ClientProxy {
 
     @Override
     public void performUnitActionAt(Position p) {
-
+        requestor.sendRequestAndAwaitReply(GAME_OBJECTID, OperationNames.GAME_PERFORMUNITACTION_METHOD,
+                void.class, p);
     }
 
     @Override
@@ -83,6 +86,7 @@ public class GameProxy implements Game, ClientProxy {
 
     @Override
     public void setTileFocus(Position position) {
-
+        requestor.sendRequestAndAwaitReply(GAME_OBJECTID, OperationNames.GAME_SETTILEFOCUS_METHOD,
+                void.class, position);
     }
 }

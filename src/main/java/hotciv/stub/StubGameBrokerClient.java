@@ -64,17 +64,18 @@ public class StubGameBrokerClient implements Game, Servant {
 
     @Override
     public void performUnitActionAt(Position p) {
-
+        System.out.println("-- performUnitActionAt was called performing unit action at: " + getPositionString(p));
     }
 
     @Override
     public void addObserver(GameObserver observer) {
-
+        System.out.println("-- addObserver method has been called");
     }
 
     @Override
     public void setTileFocus(Position position) {
-
+        System.out.println("-- setTileFocus method has been called setting the focus at: " +
+                getPositionString(position));
     }
 
     private String getPositionString(Position p) {

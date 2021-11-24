@@ -68,7 +68,7 @@ public class TestBrokerClient {
 
     @Test
     public void shouldExecuteChangeWorkForceFocusInCityAt() {
-        //game.changeWorkForceFocusInCityAt(fakeCityPosition, GameConstants.foodFocus);
+        game.changeWorkForceFocusInCityAt(fakeCityPosition, GameConstants.foodFocus);
     }
 
     @Test
@@ -76,6 +76,19 @@ public class TestBrokerClient {
         game.changeProductionInCityAt(fakeCityPosition, GameConstants.SETTLER);
     }
 
+    @Test
+    public void shouldExecutePerformUnitActionAt() {
+        game.performUnitActionAt(fakeCityPosition);
+    }
+
+    @Test
+    public void shouldExecuteAddObserver() {
+    }
+
+    @Test
+    public void shouldExecuteSetTileFocus() {
+        game.setTileFocus(fakeCityPosition);
+    }
 
     private class NullObserver implements GameObserver {
         @Override

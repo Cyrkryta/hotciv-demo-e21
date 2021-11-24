@@ -16,7 +16,10 @@ public class OperationNames {
     public static final String GAME_MOVEUNIT_METHOD = GAME + SEPERATOR + "moveUnit-method";
     public static final String GAME_GETINTURN_METHOD = GAME + SEPERATOR + "playerInTurn-method";
     public static final String GAME_ENDOFTURN_METHOD = GAME + SEPERATOR + "endOfTurn-method";
+    public static final String GAME_CHANGEWORKFORCE_METHOD = GAME + SEPERATOR + "changeWorkForce-method";
     public static final String GAME_CHANGEPRODUCTION_METHOD = GAME + SEPERATOR + "changeProduction-method";
+    public static final String GAME_PERFORMUNITACTION_METHOD = UNIT + SEPERATOR + "performUnitActionAt-method";
+    public static final String GAME_SETTILEFOCUS_METHOD = UNIT + SEPERATOR + "setTileFocus-method";
 
     //City method names
     public static final String CITY_GETOWNER_METHOD = CITY + SEPERATOR + "getOwner-Method";
