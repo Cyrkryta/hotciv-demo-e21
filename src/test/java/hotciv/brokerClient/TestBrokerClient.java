@@ -7,8 +7,9 @@ import frds.broker.marshall.json.StandardJSONRequestor;
 import hotciv.framework.*;
 
 import hotciv.stub.StubGameBrokerClient;
-import org.junit.Before;
 import org.junit.jupiter.api.*;
+
+import java.nio.channels.Pipe;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -42,7 +43,13 @@ public class TestBrokerClient {
     @Test
     public void shouldHaveAge() {
         assertThat(game.getAge(), is(53));
+    }
 
+    @Test
+    public void shouldHaveMoveUnit() {
+        Position from = new Position(3,3);
+        Position to = new Position(3,4);
+        assertThat(game.moveUnit(from, to), is(false));
     }
 
     private class NullObserver implements GameObserver {

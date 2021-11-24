@@ -50,7 +50,8 @@ public class GameProxy implements Game, ClientProxy {
 
     @Override
     public boolean moveUnit(Position from, Position to) {
-        return false;
+        return requestor.sendRequestAndAwaitReply(GAME_OBJECTID, OperationNames.GAME_MOVEUNIT_METHOD,
+                boolean.class, from, to);
     }
 
     @Override

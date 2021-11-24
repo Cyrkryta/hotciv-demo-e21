@@ -13,4 +13,5 @@ public class OperationNames {
     // Game method names
     public static final String GAME_GETWINNER_METHOD = GAME + SEPERATOR + "getWinner-method";
     public static final String GAME_GETAGE_METHOD = GAME + SEPERATOR + "getAge-method";
+    public static final String GAME_MOVEUNIT_METHOD = GAME + SEPERATOR + "moveUnit-method";;
 }
