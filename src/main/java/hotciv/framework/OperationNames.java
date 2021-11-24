@@ -16,4 +16,8 @@ public class OperationNames {
     public static final String GAME_MOVEUNIT_METHOD = GAME + SEPERATOR + "moveUnit-method";
     public static final String GAME_GETINTURN_METHOD = GAME + SEPERATOR + "playerInTurn-method";
     public static final String GAME_ENDOFTURN_METHOD = GAME + SEPERATOR + "endOfTurn-method";
+
+    //City
+    public static final String CITY_GETOWNER_METHOD = CITY + SEPERATOR + "getOwner-Method";
+    public static final String CITY_GETSIZE_METHOD = CITY + SEPERATOR + "getSize-Method";
 }

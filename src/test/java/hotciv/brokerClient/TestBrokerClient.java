@@ -20,6 +20,7 @@ public class TestBrokerClient {
     Position from = new Position(3,3);
     Position to = new Position(3,4);
 
+
     @BeforeEach
     public void setup() {
         Game servant = new StubGameBrokerClient();
