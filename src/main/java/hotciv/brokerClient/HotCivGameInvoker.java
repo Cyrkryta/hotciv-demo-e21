@@ -45,6 +45,9 @@ public class HotCivGameInvoker implements Invoker {
         } else if (requestObject.getOperationName().equals(OperationNames.GAME_GETINTURN_METHOD)) {
             Player player = game.getPlayerInTurn();
             reply = new ReplyObject(HttpServletResponse.SC_OK, gson.toJson(player));
+        } else if (requestObject.getOperationName().equals(OperationNames.GAME_ENDOFTURN_METHOD)) {
+            game.endOfTurn();
+            reply = new ReplyObject(HttpServletResponse.SC_OK, null);
         }
         return gson.toJson(reply);
     }

@@ -58,7 +58,8 @@ public class GameProxy implements Game, ClientProxy {
 
     @Override
     public void endOfTurn() {
-
+        requestor.sendRequestAndAwaitReply(GAME_OBJECTID, OperationNames.GAME_ENDOFTURN_METHOD,
+                void.class);
     }
 
     @Override

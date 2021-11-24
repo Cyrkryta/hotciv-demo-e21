@@ -6,6 +6,7 @@ import hotciv.framework.*;
 public class StubGameBrokerClient implements Game, Servant {
 
     Position positionOfGreenCity = new Position(3, 8);
+    Player playerInTurn = Player.RED;
 
     @Override
     public Tile getTileAt(Position p) {
@@ -27,7 +28,7 @@ public class StubGameBrokerClient implements Game, Servant {
 
     @Override
     public Player getPlayerInTurn() {
-        return Player.RED;
+        return playerInTurn;
     }
 
     @Override
@@ -47,7 +48,11 @@ public class StubGameBrokerClient implements Game, Servant {
 
     @Override
     public void endOfTurn() {
-
+        if (playerInTurn == Player.RED) {
+            playerInTurn = Player.BLUE;
+        } else {
+            playerInTurn = Player.RED;
+        }
     }
 
     @Override
