@@ -16,16 +16,16 @@ public class stubCityBrokerClient implements City {
 
     @Override
     public int getTreasury() {
-        return 0;
+        return 420;
     }
 
     @Override
     public String getProduction() {
-        return null;
+        return "FISK";
     }
 
     @Override
     public String getWorkforceFocus() {
-        return null;
+        return "RØDE_PØLSER";
     }
 }

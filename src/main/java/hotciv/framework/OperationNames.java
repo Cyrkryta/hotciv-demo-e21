@@ -17,9 +17,15 @@ public class OperationNames {
     public static final String GAME_GETINTURN_METHOD = GAME + SEPERATOR + "playerInTurn-method";
     public static final String GAME_ENDOFTURN_METHOD = GAME + SEPERATOR + "endOfTurn-method";
 
-    //City
+    //City method names
     public static final String CITY_GETOWNER_METHOD = CITY + SEPERATOR + "getOwner-Method";
     public static final String CITY_GETSIZE_METHOD = CITY + SEPERATOR + "getSize-Method";
+    public static final String CITY_GETTREASURY_METHOD = CITY + SEPERATOR + "getTreasury-Method";
+    public static final String CITY_GETPRODUCTION_METHOD = CITY + SEPERATOR + "getProduction-Method";
+    public static final String CITY_GETWORKFORCEFOCUS_METHOD = CITY + SEPERATOR + "getWorkForceFocus-Method";
+
+    //Tile method names
+    public static final String TILE_GETTYPESTRING_METHOD = TILE + SEPERATOR + "getTypeString-Method";
 
     // Unit method names
     public static final String UNIT_GETTYPESTRING_METHOD = UNIT + SEPERATOR + "getTypeString-method";

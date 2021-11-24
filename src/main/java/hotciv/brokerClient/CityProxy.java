@@ -31,16 +31,22 @@ public class CityProxy implements City, ClientProxy {
 
     @Override
     public int getTreasury() {
-        return 0;
+        int uid = requestor.sendRequestAndAwaitReply(GAME_OBJECTID, OperationNames.CITY_GETTREASURY_METHOD,
+                int.class);
+        return uid;
     }
 
     @Override
     public String getProduction() {
-        return null;
+        String uid = requestor.sendRequestAndAwaitReply(GAME_OBJECTID, OperationNames.CITY_GETPRODUCTION_METHOD,
+                String.class);
+        return uid;
     }
 
     @Override
     public String getWorkforceFocus() {
-        return null;
+        String uid = requestor.sendRequestAndAwaitReply(GAME_OBJECTID, OperationNames.CITY_GETWORKFORCEFOCUS_METHOD,
+                String.class);
+        return uid;
     }
 }

@@ -32,6 +32,15 @@ public class HotCivCityInvoker implements Invoker {
         } else if (requestObject.getOperationName().equals(OperationNames.CITY_GETSIZE_METHOD)) {
             int size = city.getSize();
             reply = new ReplyObject(HttpServletResponse.SC_OK, gson.toJson(size));
+        } else if (requestObject.getOperationName().equals(OperationNames.CITY_GETTREASURY_METHOD)) {
+            int treasury = city.getTreasury();
+            reply = new ReplyObject(HttpServletResponse.SC_OK, gson.toJson(treasury));
+        } else if (requestObject.getOperationName().equals(OperationNames.CITY_GETPRODUCTION_METHOD)) {
+            String production = city.getProduction();
+            reply = new ReplyObject(HttpServletResponse.SC_OK, gson.toJson(production));
+        } else if (requestObject.getOperationName().equals(OperationNames.CITY_GETWORKFORCEFOCUS_METHOD)) {
+            String production = city.getWorkforceFocus();
+            reply = new ReplyObject(HttpServletResponse.SC_OK, gson.toJson(production));
         }
 
         return gson.toJson(reply);
