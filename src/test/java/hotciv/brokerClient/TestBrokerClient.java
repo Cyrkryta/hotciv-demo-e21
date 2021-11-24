@@ -52,6 +52,12 @@ public class TestBrokerClient {
         assertThat(game.moveUnit(from, to), is(false));
     }
 
+    @Test
+    public void shouldHavePlayerInTurn() {
+        assertThat(game.getPlayerInTurn(), is(Player.RED));
+    }
+
+
     private class NullObserver implements GameObserver {
         @Override
         public void worldChangedAt(Position pos) {}

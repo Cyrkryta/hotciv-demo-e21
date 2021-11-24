@@ -31,7 +31,9 @@ public class GameProxy implements Game, ClientProxy {
 
     @Override
     public Player getPlayerInTurn() {
-        return null;
+        Player uid = requestor.sendRequestAndAwaitReply(GAME_OBJECTID, OperationNames.GAME_GETINTURN_METHOD,
+                Player.class);
+        return uid;
     }
 
     @Override
