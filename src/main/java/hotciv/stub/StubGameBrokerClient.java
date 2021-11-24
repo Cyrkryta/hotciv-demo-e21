@@ -54,13 +54,12 @@ public class StubGameBrokerClient implements Game, Servant {
 
     @Override
     public void changeWorkForceFocusInCityAt(Position p, String balance) {
-
+        System.out.println("-- changeWorkForceFocusInCityAt was called changing production at: "+getPositionString(p)+" to "+balance);
     }
 
     @Override
     public void changeProductionInCityAt(Position p, String unitType) {
-        StubCity newCity = (StubCity) getCityAt(p);
-        newCity.setProduction(unitType);
+        System.out.println("-- changeProductionInCityAt was called changing production at: "+getPositionString(p)+" to "+unitType);
     }
 
     @Override
@@ -76,5 +75,9 @@ public class StubGameBrokerClient implements Game, Servant {
     @Override
     public void setTileFocus(Position position) {
 
+    }
+
+    private String getPositionString(Position p) {
+        return "("+p.getColumn()+","+p.getRow()+")";
     }
 }

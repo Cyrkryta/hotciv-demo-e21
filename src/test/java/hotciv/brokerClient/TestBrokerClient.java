@@ -68,7 +68,7 @@ public class TestBrokerClient {
 
     @Test
     public void shouldExecuteChangeWorkForceFocusInCityAt() {
-        game.changeWorkForceFocusInCityAt(fakeCityPosition, GameConstants.foodFocus);
+        //game.changeWorkForceFocusInCityAt(fakeCityPosition, GameConstants.foodFocus);
     }
 
     @Test

@@ -67,7 +67,6 @@ public class GameProxy implements Game, ClientProxy {
 
     @Override
     public void changeProductionInCityAt(Position p, String unitType) {
-        System.out.println("-- changeProductionInCityAt was called");
         requestor.sendRequestAndAwaitReply(GAME_OBJECTID, OperationNames.GAME_CHANGEPRODUCTION_METHOD,
                 void.class, p, unitType);
     }
