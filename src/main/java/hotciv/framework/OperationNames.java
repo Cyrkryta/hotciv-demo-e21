@@ -20,4 +20,11 @@ public class OperationNames {
     //City
     public static final String CITY_GETOWNER_METHOD = CITY + SEPERATOR + "getOwner-Method";
     public static final String CITY_GETSIZE_METHOD = CITY + SEPERATOR + "getSize-Method";
+
+    // Unit method names
+    public static final String UNIT_GETTYPESTRING_METHOD = UNIT + SEPERATOR + "getTypeString-method";
+    public static final String UNIT_GETOWNER_METHOD = UNIT + SEPERATOR + "getOwner-method";
+    public static final String UNIT_GETMOVECOUNT_METHOD = UNIT + SEPERATOR + "getMoveCount-method";
+    public static final String UNIT_GETDEFENSIVESTRENGTH_METHOD = UNIT + SEPERATOR + "getDefensivestrength-method";
+    public static final String UNIT_GETATTACKINGSTRENGTH_METHOD = UNIT + SEPERATOR + "getAttackingStrength-method";
 }

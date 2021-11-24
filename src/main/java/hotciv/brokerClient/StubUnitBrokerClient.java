@@ -1,32 +1,38 @@
 package hotciv.brokerClient;
 
 import frds.broker.Servant;
+import hotciv.framework.GameConstants;
 import hotciv.framework.Player;
 import hotciv.framework.Unit;
 
 public class StubUnitBrokerClient implements Unit, Servant {
     @Override
     public String getTypeString() {
-        return null;
+        String unitType = GameConstants.SETTLER;
+        return unitType;
     }
 
     @Override
     public Player getOwner() {
-        return null;
+        Player owner = Player.GREEN;
+        return owner;
     }
 
     @Override
     public int getMoveCount() {
-        return 0;
+        int moveCount = 43;
+        return moveCount;
     }
 
     @Override
     public int getDefensiveStrength() {
-        return 0;
+        int defensiveStrength = 112;
+        return defensiveStrength;
     }
 
     @Override
     public int getAttackingStrength() {
-        return 0;
+        int attackingStrength = 79;
+        return attackingStrength;
     }
 }
