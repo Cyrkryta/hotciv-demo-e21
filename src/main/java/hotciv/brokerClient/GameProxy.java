@@ -43,7 +43,9 @@ public class GameProxy implements Game, ClientProxy {
 
     @Override
     public int getAge() {
-        return 0;
+        int uid = requestor.sendRequestAndAwaitReply(GAME_OBJECTID, OperationNames.GAME_GETAGE_METHOD,
+                int.class);
+        return uid;
     }
 
     @Override

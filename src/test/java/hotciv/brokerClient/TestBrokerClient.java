@@ -17,7 +17,7 @@ public class TestBrokerClient {
 
     Game game;
 
-    @Before
+    @BeforeEach
     public void setup() {
         Game servant = new StubGameBrokerClient();
         GameObserver nullObserver = new NullObserver();
@@ -36,6 +36,13 @@ public class TestBrokerClient {
     @Test
     public void shouldHaveWinner() {
         assertThat(game.getWinner(), is(Player.YELLOW));
+
+    }
+
+    @Test
+    public void shouldHaveAge() {
+        assertThat(game.getAge(), is(53));
+
     }
 
     private class NullObserver implements GameObserver {

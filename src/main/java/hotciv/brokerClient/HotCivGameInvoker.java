@@ -25,12 +25,15 @@ public class HotCivGameInvoker implements Invoker {
     @Override
     public String handleRequest(String request) {
         RequestObject requestObject = gson.fromJson(request, RequestObject.class);
-        JsonArray array = JsonParser.parseString(requestObject.getPayload()).getAsJsonArray();
+        //JsonArray array = JsonParser.parseString(requestObject.getPayload()).getAsJsonArray();
         ReplyObject reply = null;
 
         if (requestObject.getOperationName().equals(OperationNames.GAME_GETWINNER_METHOD)) {
             Player player = game.getWinner();
             reply = new ReplyObject(HttpServletResponse.SC_OK, gson.toJson(player));
+        } else if (requestObject.getOperationName().equals(OperationNames.GAME_GETAGE_METHOD)) {
+            int age = game.getAge();
+            reply = new ReplyObject(HttpServletResponse.SC_OK, gson.toJson(age));
         }
 
         return gson.toJson(reply);
