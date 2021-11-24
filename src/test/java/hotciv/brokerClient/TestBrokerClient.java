@@ -19,7 +19,7 @@ public class TestBrokerClient {
     Game game;
     Position from = new Position(3,3);
     Position to = new Position(3,4);
-
+    Position fakeCityPosition = new Position(3,5);
 
     @BeforeEach
     public void setup() {
@@ -61,12 +61,19 @@ public class TestBrokerClient {
     @Test
     public void shouldExecuteEndOfTurnStory() {
         System.out.println("=== Testing simple methods ===");
-        System.out.println(" -> Game age              : " + game.getAge());
-        System.out.println(" -> Game winner           : " + game.getWinner());
         System.out.println(" -> Game PlayerInTurn     : " + game.getPlayerInTurn());
-        System.out.println(" -> Game move (3,3)-(3,4) : " + game.moveUnit(from, to));
         game.endOfTurn();
         System.out.println(" -> Now PlayerInTurn after endOfTurn: " + game.getPlayerInTurn());
+    }
+
+    @Test
+    public void shouldExecuteChangeWorkForceFocusInCityAt() {
+        game.changeWorkForceFocusInCityAt(fakeCityPosition, GameConstants.foodFocus);
+    }
+
+    @Test
+    public void shouldExecuteChangeProductionInCityAt() {
+        game.changeProductionInCityAt(fakeCityPosition, GameConstants.SETTLER);
     }
 
 

@@ -4,8 +4,8 @@ import frds.broker.Servant;
 import hotciv.framework.*;
 
 public class StubGameBrokerClient implements Game, Servant {
-
-    Position positionOfGreenCity = new Position(3, 8);
+    StubCity stubCity = new StubCity(Player.GREEN);
+    //Position positionOfGreenCity = new Position(3, 8);
     Player playerInTurn = Player.RED;
 
     @Override
@@ -20,10 +20,7 @@ public class StubGameBrokerClient implements Game, Servant {
 
     @Override
     public City getCityAt(Position p) {
-        if (p == positionOfGreenCity) {
-            return new StubCity(Player.GREEN);
-        }
-        return null;
+        return stubCity;
     }
 
     @Override
@@ -62,7 +59,8 @@ public class StubGameBrokerClient implements Game, Servant {
 
     @Override
     public void changeProductionInCityAt(Position p, String unitType) {
-
+        StubCity newCity = (StubCity) getCityAt(p);
+        newCity.setProduction(unitType);
     }
 
     @Override

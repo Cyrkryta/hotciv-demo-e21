@@ -3,6 +3,7 @@ package hotciv.brokerClient;
 import frds.broker.ClientProxy;
 import frds.broker.Requestor;
 import hotciv.framework.*;
+import hotciv.standard.CityImpl;
 
 public class GameProxy implements Game, ClientProxy {
 
@@ -25,9 +26,7 @@ public class GameProxy implements Game, ClientProxy {
     }
 
     @Override
-    public City getCityAt(Position p) {
-        return null;
-    }
+    public City getCityAt(Position p) {return null;}
 
     @Override
     public Player getPlayerInTurn() {
@@ -64,12 +63,13 @@ public class GameProxy implements Game, ClientProxy {
 
     @Override
     public void changeWorkForceFocusInCityAt(Position p, String balance) {
-
     }
 
     @Override
     public void changeProductionInCityAt(Position p, String unitType) {
-
+        System.out.println("-- changeProductionInCityAt was called");
+        requestor.sendRequestAndAwaitReply(GAME_OBJECTID, OperationNames.GAME_CHANGEPRODUCTION_METHOD,
+                void.class, p, unitType);
     }
 
     @Override

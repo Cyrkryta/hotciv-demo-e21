@@ -6,10 +6,7 @@ import com.google.gson.JsonParser;
 import frds.broker.Invoker;
 import frds.broker.ReplyObject;
 import frds.broker.RequestObject;
-import hotciv.framework.Game;
-import hotciv.framework.OperationNames;
-import hotciv.framework.Player;
-import hotciv.framework.Position;
+import hotciv.framework.*;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,12 +16,14 @@ public class HotCivGameInvoker implements Invoker {
     private final Gson gson;
     private final Position from;
     private final Position to;
+    private final Position fakeCityPosition;
 
     public HotCivGameInvoker(Game servant) {
         game = servant;
         gson = new Gson();
         from = new Position(3,3);
         to = new Position(3,4);
+        fakeCityPosition = new Position(3,5);
     }
 
     @Override
@@ -47,6 +46,9 @@ public class HotCivGameInvoker implements Invoker {
             reply = new ReplyObject(HttpServletResponse.SC_OK, gson.toJson(player));
         } else if (requestObject.getOperationName().equals(OperationNames.GAME_ENDOFTURN_METHOD)) {
             game.endOfTurn();
+            reply = new ReplyObject(HttpServletResponse.SC_OK, null);
+        } else if (requestObject.getOperationName().equals(OperationNames.GAME_CHANGEPRODUCTION_METHOD)) {
+            game.changeProductionInCityAt(fakeCityPosition, GameConstants.SETTLER);
             reply = new ReplyObject(HttpServletResponse.SC_OK, null);
         }
         return gson.toJson(reply);
