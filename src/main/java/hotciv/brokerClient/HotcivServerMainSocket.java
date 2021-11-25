@@ -12,8 +12,9 @@ public class HotcivServerMainSocket {
         new HotcivServerMainSocket();
     }
 
-    public HotcivServerMainSocket() throws Exception {
+    public HotcivServerMainSocket() {
         int port = 37321;
+
         Game game = new StubGameBrokerClient();
         Invoker invoker = new HotCivGameInvoker(game);
 

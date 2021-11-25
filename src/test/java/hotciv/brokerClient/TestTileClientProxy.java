@@ -32,5 +32,4 @@ public class TestTileClientProxy {
     public void shouldHaveTypeString() {
         assertThat(tile.getTypeString(),is("GHETTO"));
     }
-
 }

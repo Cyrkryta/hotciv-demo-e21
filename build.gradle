@@ -52,6 +52,8 @@ dependencies {
     implementation group: 'com.baerbak.maven',
             name: 'minidraw', version: '2.1-SNAPSHOT'
     implementation 'junit:junit:4.13.1'
+    implementation 'org.junit.jupiter:junit-jupiter:5.7.0'
+    implementation 'org.junit.jupiter:junit-jupiter:5.7.0'
 
     // Depend on JUnit 5. Require both API and Engine
     testImplementation group: 'org.junit.jupiter',
@@ -80,16 +82,16 @@ task hotcivServer(type: JavaExec) {
     group 'SWEA Distribution'
     description 'Run HotCiv server (Socket)'
 
-    classpath sourceSets.test.runtimeClasspath
-    main = "hotciv.broker.main.HotCivServer"
+    classpath = sourceSets.test.runtimeClasspath
+    main = "hotciv.brokerClient.HotcivServerMainSocket"
+    args host
 }
 
 task hotcivStoryTest(type: JavaExec) {
     group 'SWEA Distribution'
     description 'Run a HotCiv story as MANUAL TEST client (socket)'
-
-    classpath sourceSets.test.runtimeClasspath
-    main = "hotciv.broker.main.HotcivStoryTest"
+    classpath = sourceSets.test.runtimeClasspath
+    main = "hotciv.brokerClient.HotcivManualClientTest"
     args host
 }
 
