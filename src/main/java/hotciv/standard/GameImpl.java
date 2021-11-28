@@ -212,7 +212,6 @@ public class GameImpl implements Game {
                 gameObserver.cityWorkFocusChanges(balance);
             }
         }
-
     }
 
     public void changeProductionInCityAt(Position p, String unitType) {
@@ -228,7 +227,6 @@ public class GameImpl implements Game {
             }
         }
     }
-
 
     // Function for city creation in GammaCiv.
         public void createCity(Position p) {
