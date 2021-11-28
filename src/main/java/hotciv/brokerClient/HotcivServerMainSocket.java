@@ -9,10 +9,11 @@ public class HotcivServerMainSocket {
     private static Thread daemon;
 
     public static void main(String[] args) throws Exception {
-        new HotcivServerMainSocket();
+        new HotcivServerMainSocket(args[0]);
     }
 
-    public HotcivServerMainSocket() {
+    public HotcivServerMainSocket(String host) {
+        System.out.println("=== HotCiv server (Socket) (host: " + host + ") ===");
         int port = 37321;
 
         Game game = new StubGameBrokerClient();

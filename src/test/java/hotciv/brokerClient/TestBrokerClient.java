@@ -40,7 +40,6 @@ public class TestBrokerClient {
     @Test
     public void shouldHaveWinner() {
         assertThat(game.getWinner(), is(Player.YELLOW));
-
     }
 
     @Test
