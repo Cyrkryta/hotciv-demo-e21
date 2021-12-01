@@ -18,7 +18,7 @@ public class TestCityClientProxy {
 
     @BeforeEach
     public void setup() {
-        City servant = new stubCityBrokerClient();
+        City servant = new TestCityBrokerClient();
 
         Invoker invoker = new HotCivCityInvoker(servant);
 
@@ -26,7 +26,7 @@ public class TestCityClientProxy {
 
         Requestor requestor = new StandardJSONRequestor(crh);
 
-        city = new CityProxy(requestor);
+        city = new CityProxy("", requestor);
     }
 
     @Test

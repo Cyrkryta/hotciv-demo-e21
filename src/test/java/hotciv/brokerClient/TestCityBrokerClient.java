@@ -3,7 +3,7 @@ package hotciv.brokerClient;
 import hotciv.framework.City;
 import hotciv.framework.Player;
 
-public class stubCityBrokerClient implements City {
+public class TestCityBrokerClient implements City {
     @Override
     public Player getOwner() {
         return Player.YELLOW;

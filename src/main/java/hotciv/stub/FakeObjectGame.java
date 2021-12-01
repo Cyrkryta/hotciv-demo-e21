@@ -45,6 +45,7 @@ public class FakeObjectGame implements Game {
 
   private Map<Position, StubUnit> unitMap;
   private Map<Position, City> cityMap;
+  protected Map<Position,Tile> world;
   public Position positionInFocus;
 
   //Roundcount keeps track of what round the game is in
@@ -143,7 +144,7 @@ public class FakeObjectGame implements Game {
   }
 
   // A simple implementation to draw the map of DeltaCiv
-  protected Map<Position,Tile> world; 
+
   public Tile getTileAt( Position p ) { return world.get(p); }
 
   public City getCityAt( Position p ) { return cityMap.get(p); }

@@ -4,13 +4,19 @@ import hotciv.framework.City;
 import hotciv.framework.GameConstants;
 import hotciv.framework.Player;
 
+import java.util.UUID;
+
 public class CityImpl implements City {
+    //Unique city id
+    private String id;
     private Player owner;
     private int treasury;
     private String production;
     private String workForceFocus;
 
     public CityImpl(Player owner){
+        id = UUID.randomUUID().toString();
+
         this.owner = owner;
     }
     @Override
@@ -52,5 +58,9 @@ public class CityImpl implements City {
 
     public void changeWorkForceFocus(String balance) {
         this.workForceFocus = balance;
+    }
+
+    public String getId() {
+        return id;
     }
 }

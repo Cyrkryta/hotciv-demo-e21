@@ -17,7 +17,7 @@ public class TestTileClientProxy {
 
     @BeforeEach
     public void setup() {
-        Tile servant = new stubTileBrokerClient();
+        Tile servant = new TestTileBrokerClient();
 
         Invoker invoker = new HotCivTileInvoker(servant);
 

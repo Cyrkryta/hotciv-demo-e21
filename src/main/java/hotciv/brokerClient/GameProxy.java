@@ -4,11 +4,11 @@ import frds.broker.ClientProxy;
 import frds.broker.Requestor;
 import hotciv.framework.*;
 import hotciv.standard.CityImpl;
+import hotciv.stub.StubServants.StubCityServant;
 
 public class GameProxy implements Game, ClientProxy {
 
     public static final String GAME_OBJECTID = "singleton";
-
     private final Requestor requestor;
 
     public GameProxy(Requestor requestor) {
@@ -22,11 +22,19 @@ public class GameProxy implements Game, ClientProxy {
 
     @Override
     public Unit getUnitAt(Position p) {
-        return null;
+        String id = requestor.sendRequestAndAwaitReply(GAME_OBJECTID, OperationNames.GAME_GETUNITAT_METHOD,
+                String.class, p);
+        Unit proxy = new UnitProxy(id, requestor);
+        return proxy;
     }
 
     @Override
-    public City getCityAt(Position p) {return null;}
+    public City getCityAt(Position p) {
+        String id = requestor.sendRequestAndAwaitReply(GAME_OBJECTID, OperationNames.GAME_GETCITYAT_METHOD,
+                String.class, p);
+        City proxy = new CityProxy(id, requestor);
+        return proxy;
+    }
 
     @Override
     public Player getPlayerInTurn() {
@@ -85,6 +93,7 @@ public class GameProxy implements Game, ClientProxy {
 
     @Override
     public void setTileFocus(Position position) {
+        //TODO, Make local
         requestor.sendRequestAndAwaitReply(GAME_OBJECTID, OperationNames.GAME_SETTILEFOCUS_METHOD,
                 void.class, position);
     }

@@ -4,7 +4,7 @@ import hotciv.framework.City;
 import hotciv.framework.Player;
 import hotciv.framework.Tile;
 
-public class stubTileBrokerClient implements Tile {
+public class TestTileBrokerClient implements Tile {
 
 
     @Override

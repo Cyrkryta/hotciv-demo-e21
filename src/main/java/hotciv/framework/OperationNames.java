@@ -20,6 +20,8 @@ public class OperationNames {
     public static final String GAME_CHANGEPRODUCTION_METHOD = GAME + SEPERATOR + "changeProduction-method";
     public static final String GAME_PERFORMUNITACTION_METHOD = UNIT + SEPERATOR + "performUnitActionAt-method";
     public static final String GAME_SETTILEFOCUS_METHOD = UNIT + SEPERATOR + "setTileFocus-method";
+    public static final String GAME_GETCITYAT_METHOD = "getCityAt-method";
+    public static final String GAME_GETUNITAT_METHOD = "getUnitAt-method";
 
     //City method names
     public static final String CITY_GETOWNER_METHOD = CITY + SEPERATOR + "getOwner-Method";
@@ -37,4 +39,6 @@ public class OperationNames {
     public static final String UNIT_GETMOVECOUNT_METHOD = UNIT + SEPERATOR + "getMoveCount-method";
     public static final String UNIT_GETDEFENSIVESTRENGTH_METHOD = UNIT + SEPERATOR + "getDefensivestrength-method";
     public static final String UNIT_GETATTACKINGSTRENGTH_METHOD = UNIT + SEPERATOR + "getAttackingStrength-method";
+
+
 }

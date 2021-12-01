@@ -17,6 +17,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class TestBrokerClient {
 
     Game game;
+    NameService storage = new InMemoryNameService();
+
     Position from = new Position(3,3);
     Position to = new Position(3,4);
     Position fakeCityPosition = new Position(3,5);
@@ -80,13 +82,24 @@ public class TestBrokerClient {
         game.performUnitActionAt(fakeCityPosition);
     }
 
-    @Test
-    public void shouldExecuteAddObserver() {
-    }
 
     @Test
     public void shouldExecuteSetTileFocus() {
         game.setTileFocus(fakeCityPosition);
+    }
+
+    @Test
+    public void shouldReturnCity() {
+        assertThat(game.getCityAt(new Position(3,2)), is(notNullValue()));
+        CityProxy city = (CityProxy) game.getCityAt(new Position(3,2));
+        System.out.println("ID is: "+city.getId());
+    }
+
+    @Test
+    public void shouldReturnUnit() {
+        assertThat(game.getUnitAt(new Position(2,0)), is(notNullValue()));
+        UnitProxy unit = (UnitProxy) game.getUnitAt(new Position(2,0));
+        System.out.println("ID is: "+unit.getId());
     }
 
     private class NullObserver implements GameObserver {

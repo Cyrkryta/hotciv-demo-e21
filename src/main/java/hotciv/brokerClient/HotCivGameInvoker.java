@@ -7,6 +7,8 @@ import frds.broker.Invoker;
 import frds.broker.ReplyObject;
 import frds.broker.RequestObject;
 import hotciv.framework.*;
+import hotciv.stub.StubServants.StubCityServant;
+import hotciv.stub.StubServants.StubUnitServant;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -29,7 +31,7 @@ public class HotCivGameInvoker implements Invoker {
     @Override
     public String handleRequest(String request) {
         RequestObject requestObject = gson.fromJson(request, RequestObject.class);
-        //JsonArray array = JsonParser.parseString(requestObject.getPayload()).getAsJsonArray();
+        JsonArray array = JsonParser.parseString(requestObject.getPayload()).getAsJsonArray();
         ReplyObject reply = null;
 
         if (requestObject.getOperationName().equals(OperationNames.GAME_GETWINNER_METHOD)) {
@@ -59,6 +61,18 @@ public class HotCivGameInvoker implements Invoker {
         } else if (requestObject.getOperationName().equals(OperationNames.GAME_SETTILEFOCUS_METHOD)) {
             game.performUnitActionAt(fakeCityPosition);
             reply = new ReplyObject(HttpServletResponse.SC_OK, null);
+        } else if (requestObject.getOperationName().equals(OperationNames.GAME_GETCITYAT_METHOD)) {
+            Position position = gson.fromJson(array.get(0), Position.class);
+            StubCityServant city = (StubCityServant) game.getCityAt(position);
+            String id = city.getId();
+            reply = new ReplyObject(HttpServletResponse.SC_CREATED, gson.toJson(id));
+            //TODO add to nameService
+        } else if (requestObject.getOperationName().equals(OperationNames.GAME_GETUNITAT_METHOD)) {
+            Position position = gson.fromJson(array.get(0), Position.class);
+            StubUnitServant unit = (StubUnitServant) game.getUnitAt(position);
+            String id = unit.getId();
+            reply = new ReplyObject(HttpServletResponse.SC_CREATED, gson.toJson(id));
+            //TODO add to nameService
         }
         return gson.toJson(reply);
     }

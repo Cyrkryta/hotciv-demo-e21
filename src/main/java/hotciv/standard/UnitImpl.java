@@ -4,7 +4,12 @@ import hotciv.framework.GameConstants;
 import hotciv.framework.Player;
 import hotciv.framework.Unit;
 
+import java.util.UUID;
+
 public class UnitImpl implements Unit {
+    //Unique unit ID
+    private String id;
+
     private String unitName;
     private Player playerOwner;
     private int maxMoveCount = 1;
@@ -13,6 +18,8 @@ public class UnitImpl implements Unit {
 
 
     public UnitImpl(String unitName, Player playerOwner) {
+        id = UUID.randomUUID().toString();
+
         this.unitName = unitName;
         this.playerOwner = playerOwner;
         this.isFortified = false;
@@ -74,5 +81,9 @@ public class UnitImpl implements Unit {
         }else{
             reduceMoveCount();
             this.isFortified = true;}
+    }
+
+    public String getId() {
+        return id;
     }
 }
