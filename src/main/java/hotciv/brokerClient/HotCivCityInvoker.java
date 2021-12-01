@@ -4,27 +4,30 @@ import com.google.gson.Gson;
 import frds.broker.Invoker;
 import frds.broker.ReplyObject;
 import frds.broker.RequestObject;
-import hotciv.framework.City;
-import hotciv.framework.Game;
-import hotciv.framework.OperationNames;
-import hotciv.framework.Player;
+import hotciv.framework.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 public class HotCivCityInvoker implements Invoker {
-    private final City city;
     private final Gson gson;
+    private final NameService nameService;
 
-    public HotCivCityInvoker(City servant) {
-        city = servant;
-        gson = new Gson();
+    public HotCivCityInvoker(NameService nameService, Gson gson) {
+        this.gson = gson;
+        this.nameService = nameService;
     }
 
     @Override
     public String handleRequest(String request) {
         RequestObject requestObject = gson.fromJson(request, RequestObject.class);
+        String objectId = requestObject.getObjectId();
+        String operationName = requestObject.getOperationName();
         //JsonArray array = JsonParser.parseString(requestObject.getPayload()).getAsJsonArray();
+        City city = getCityOrThrowUnknownException(objectId);
+
         ReplyObject reply = null;
+
 
         if (requestObject.getOperationName().equals(OperationNames.CITY_GETOWNER_METHOD)) {
             Player player = city.getOwner();
@@ -44,5 +47,13 @@ public class HotCivCityInvoker implements Invoker {
         }
 
         return gson.toJson(reply);
+    }
+
+    private City getCityOrThrowUnknownException(String objectId) {
+        City city = nameService.getCity(objectId);
+        if (city == null) {
+            System.out.println("City with object id: " + objectId + " does not exist.");
+        }
+        return city;
     }
 }

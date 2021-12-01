@@ -17,13 +17,17 @@ public class HotCivGameInvoker implements Invoker {
 
     private final Game game;
     private final Gson gson;
+    private final NameService storage;
+
     private final Position from;
     private final Position to;
     private final Position fakeCityPosition;
 
-    public HotCivGameInvoker(Game servant) {
+    public HotCivGameInvoker(Game servant, NameService nameService, Gson gson) {
         game = servant;
-        gson = new Gson();
+        this.gson = gson;
+        storage = nameService;
+
         from = new Position(3,3);
         to = new Position(3,4);
         fakeCityPosition = new Position(3,5);

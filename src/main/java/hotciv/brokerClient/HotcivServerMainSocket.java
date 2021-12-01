@@ -17,7 +17,7 @@ public class HotcivServerMainSocket {
         int port = 37321;
 
         Game game = new StubGameBrokerClient();
-        Invoker invoker = new HotCivGameInvoker(game);
+        Invoker invoker = new HotCivRootInvoker(game);
 
         // Configure a socket based server request handler.
         SocketServerRequestHandler ssrh = new SocketServerRequestHandler();

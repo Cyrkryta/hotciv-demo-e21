@@ -20,7 +20,7 @@ public class TestCityClientProxy {
     public void setup() {
         City servant = new TestCityBrokerClient();
 
-        Invoker invoker = new HotCivCityInvoker(servant);
+        Invoker invoker = new HotCivCityInvoker();
 
         ClientRequestHandler crh = new LocalMethodClientRequestHandler(invoker);
 
