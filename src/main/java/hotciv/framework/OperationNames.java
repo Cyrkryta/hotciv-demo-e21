@@ -18,8 +18,8 @@ public class OperationNames {
     public static final String GAME_ENDOFTURN_METHOD = GAME_PREFIX + SEPERATOR + "endOfTurn-method";
     public static final String GAME_CHANGEWORKFORCE_METHOD = GAME_PREFIX + SEPERATOR + "changeWorkForce-method";
     public static final String GAME_CHANGEPRODUCTION_METHOD = GAME_PREFIX + SEPERATOR + "changeProduction-method";
-    public static final String GAME_PERFORMUNITACTION_METHOD = UNIT_PREFIX + SEPERATOR + "performUnitActionAt-method";
-    public static final String GAME_SETTILEFOCUS_METHOD = UNIT_PREFIX + SEPERATOR + "setTileFocus-method";
+    public static final String GAME_PERFORMUNITACTION_METHOD = GAME_PREFIX + SEPERATOR + "performUnitActionAt-method";
+    public static final String GAME_SETTILEFOCUS_METHOD = GAME_PREFIX + SEPERATOR + "setTileFocus-method";
     public static final String GAME_GETCITYAT_METHOD = GAME_PREFIX + SEPERATOR + "getCityAt-method";
     public static final String GAME_GETUNITAT_METHOD = GAME_PREFIX + SEPERATOR + "getUnitAt-method";
     public static final String GAME_GETTILEAT_METHOD = GAME_PREFIX + SEPERATOR + "getTileAt-method";

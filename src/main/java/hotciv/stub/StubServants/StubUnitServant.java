@@ -18,9 +18,9 @@ public class StubUnitServant implements Unit {
     }
     public String getTypeString() { return type; }
     public Player getOwner() { return owner; }
-    public int getMoveCount() { return moveCount; }
-    public int getDefensiveStrength() { return 0; }
-    public int getAttackingStrength() { return 0; }
+    public int getMoveCount() { return 43; }
+    public int getDefensiveStrength() { return 112; }
+    public int getAttackingStrength() { return 79; }
     public void reduceMoveCount() {
         moveCount --;
     }

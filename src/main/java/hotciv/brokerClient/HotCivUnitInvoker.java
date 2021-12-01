@@ -4,27 +4,26 @@ import com.google.gson.Gson;
 import frds.broker.Invoker;
 import frds.broker.ReplyObject;
 import frds.broker.RequestObject;
-import hotciv.framework.Game;
-import hotciv.framework.OperationNames;
-import hotciv.framework.Player;
-import hotciv.framework.Unit;
+import hotciv.framework.*;
 
 import javax.servlet.http.HttpServletResponse;
 
 public class HotCivUnitInvoker implements Invoker {
-
-    private final Unit unit;
     private final Gson gson;
+    NameService nameService;
 
-    public HotCivUnitInvoker(Unit servant) {
-        unit = servant;
-        gson = new Gson();
+    public HotCivUnitInvoker(NameService nameService, Gson gson) {
+        this.gson = new Gson();
+        this.nameService = nameService;
     }
 
     @Override
     public String handleRequest(String request) {
         RequestObject requestObject = gson.fromJson(request, RequestObject.class);
+        String objectId = requestObject.getOperationName();
         ReplyObject reply = null;
+
+        Unit unit = getUnitOrThrowUnknownException(objectId);
 
         if (requestObject.getOperationName().equals(OperationNames.UNIT_GETTYPESTRING_METHOD)) {
             String unitType = unit.getTypeString();
@@ -44,5 +43,13 @@ public class HotCivUnitInvoker implements Invoker {
         }
 
         return gson.toJson(reply);
+    }
+
+    private Unit getUnitOrThrowUnknownException(String objectId) {
+        Unit unit = nameService.getUnit(objectId);
+        if (unit == null) {
+            System.out.println("Unit with object id: " + objectId + " does not exist.");
+        }
+        return unit;
     }
 }

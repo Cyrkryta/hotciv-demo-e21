@@ -5,6 +5,7 @@ import frds.broker.Invoker;
 import frds.broker.Requestor;
 import frds.broker.marshall.json.StandardJSONRequestor;
 import hotciv.framework.Tile;
+import hotciv.stub.StubGameBrokerClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,9 +18,7 @@ public class TestTileClientProxy {
 
     @BeforeEach
     public void setup() {
-        Tile servant = new TestTileBrokerClient();
-
-        Invoker invoker = new HotCivTileInvoker(servant);
+        Invoker invoker = new HotCivRootInvoker(new StubGameBrokerClient());
 
         ClientRequestHandler crh = new LocalMethodClientRequestHandler(invoker);
 

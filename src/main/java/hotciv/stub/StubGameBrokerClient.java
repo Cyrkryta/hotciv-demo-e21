@@ -28,7 +28,7 @@ public class StubGameBrokerClient implements Game, Servant {
         defineWorld();
         // Put some units into play
         unitMap = new HashMap<>();
-        unitMap.put(new Position(2,0), new StubUnitServant( GameConstants.ARCHER, Player.RED ));
+        unitMap.put(new Position(2,0), new StubUnitServant( GameConstants.SETTLER, Player.GREEN ));
         unitMap.put(new Position(2,1), new StubUnitServant( GameConstants.ARCHER, Player.RED ));
         unitMap.put(new Position(3,2), new StubUnitServant( GameConstants.LEGION, Player.BLUE ));
         unitMap.put(new Position(4,2), new StubUnitServant( GameConstants.SETTLER, Player.RED ));

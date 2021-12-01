@@ -5,6 +5,8 @@ import frds.broker.Invoker;
 import frds.broker.Requestor;
 import frds.broker.marshall.json.StandardJSONRequestor;
 import hotciv.framework.*;
+import hotciv.stub.StubGameBrokerClient;
+import hotciv.stub.StubServants.StubUnitServant;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,18 +15,19 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class TestUnitBrokerClient {
     Unit unit;
+    Game game = new StubGameBrokerClient();
 
     @BeforeEach
     public void setup() {
         Unit servant = new StubUnitBrokerClient();
 
-        Invoker invoker = new HotCivUnitInvoker(servant);
+        Invoker invoker = new HotCivRootInvoker(new StubGameBrokerClient());
 
         ClientRequestHandler crh = new LocalMethodClientRequestHandler(invoker);
 
         Requestor requestor = new StandardJSONRequestor(crh);
 
-        unit = new UnitProxy("", requestor);
+        unit = game.getUnitAt(new Position(2,0));
     }
 
     @Test

@@ -6,6 +6,7 @@ import frds.broker.Requestor;
 import frds.broker.marshall.json.StandardJSONRequestor;
 import hotciv.framework.City;
 import hotciv.framework.Player;
+import hotciv.stub.StubGameBrokerClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +21,7 @@ public class TestCityClientProxy {
     public void setup() {
         City servant = new TestCityBrokerClient();
 
-        Invoker invoker = new HotCivCityInvoker();
+        Invoker invoker = new HotCivRootInvoker(new StubGameBrokerClient());
 
         ClientRequestHandler crh = new LocalMethodClientRequestHandler(invoker);
 
