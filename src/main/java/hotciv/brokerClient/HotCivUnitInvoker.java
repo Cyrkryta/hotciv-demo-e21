@@ -20,7 +20,7 @@ public class HotCivUnitInvoker implements Invoker {
     @Override
     public String handleRequest(String request) {
         RequestObject requestObject = gson.fromJson(request, RequestObject.class);
-        String objectId = requestObject.getOperationName();
+        String objectId = requestObject.getObjectId();
         ReplyObject reply = null;
 
         Unit unit = getUnitOrThrowUnknownException(objectId);

@@ -17,7 +17,7 @@ public class HotCivGameInvoker implements Invoker {
 
     private final Game game;
     private final Gson gson;
-    private final NameService storage;
+    private final NameService nameService;
 
     private final Position from;
     private final Position to;
@@ -26,7 +26,7 @@ public class HotCivGameInvoker implements Invoker {
     public HotCivGameInvoker(Game servant, NameService nameService, Gson gson) {
         game = servant;
         this.gson = gson;
-        storage = nameService;
+        this.nameService = nameService;
 
         from = new Position(3,3);
         to = new Position(3,4);
@@ -70,20 +70,20 @@ public class HotCivGameInvoker implements Invoker {
             Position position = gson.fromJson(array.get(0), Position.class);
             StubCityServant city = (StubCityServant) game.getCityAt(position);
             String id = city.getId();
+            nameService.putCity(id, city);
             reply = new ReplyObject(HttpServletResponse.SC_CREATED, gson.toJson(id));
-            //TODO add to nameService
         } else if (requestObject.getOperationName().equals(OperationNames.GAME_GETUNITAT_METHOD)) {
             Position position = gson.fromJson(array.get(0), Position.class);
             StubUnitServant unit = (StubUnitServant) game.getUnitAt(position);
             String id = unit.getId();
+            nameService.putUnit(id, unit);
             reply = new ReplyObject(HttpServletResponse.SC_CREATED, gson.toJson(id));
-            //TODO add to nameService
         } else if (requestObject.getOperationName().equals(OperationNames.GAME_GETTILEAT_METHOD)) {
             Position position = gson.fromJson(array.get(0), Position.class);
             StubTileServant tile = (StubTileServant) game.getTileAt(position);
             String id = tile.getId();
+            nameService.putTile(id, tile);
             reply = new ReplyObject(HttpServletResponse.SC_CREATED, gson.toJson(id));
-            //TODO add to nameService
         }
         return gson.toJson(reply);
     }

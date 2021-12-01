@@ -5,6 +5,7 @@ import hotciv.framework.Unit;
 
 import java.util.UUID;
 
+//Test stub of unit for testing Iteration 10 implementation
 public class StubUnitServant implements Unit {
     private String type;
     private Player owner;

@@ -34,7 +34,7 @@ public class StubGameBrokerClient implements Game, Servant {
         unitMap.put(new Position(4,2), new StubUnitServant( GameConstants.SETTLER, Player.RED ));
 
         cityMap = new HashMap<>();
-        cityMap.put((new Position(3,2)), new StubCityServant(Player.BLUE));
+        cityMap.put((new Position(3,2)), new StubCityServant(Player.YELLOW));
         cityMap.put((new Position(8,8)), new StubCityServant(Player.RED));
     }
 
@@ -51,6 +51,7 @@ public class StubGameBrokerClient implements Game, Servant {
         world.put(new Position(1,2), new StubTileServant(GameConstants.FOREST));
         world.put(new Position(1,3), new StubTileServant(GameConstants.MOUNTAINS));
         world.put(new Position(1,4), new StubTileServant(GameConstants.OCEANS));
+        world.put(new Position(15,15), new StubTileServant("GHETTO"));
     }
 
     @Override

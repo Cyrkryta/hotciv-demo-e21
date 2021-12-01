@@ -5,6 +5,7 @@ import hotciv.framework.NameService;
 import hotciv.framework.Tile;
 import hotciv.framework.Unit;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class InMemoryNameService implements NameService {
@@ -12,10 +13,14 @@ public class InMemoryNameService implements NameService {
     private Map<String, Unit> unitMap;
     private Map<String, Tile> tileMap;
 
-    @Override
-    public void putCity(String objectId, City city) {
-        cityMap.put(objectId, city);
+    public InMemoryNameService() {
+        cityMap = new HashMap<>();
+        unitMap = new HashMap<>();
+        tileMap = new HashMap<>();
     }
+
+    @Override
+    public void putCity(String objectId, City city) {cityMap.put(objectId, city);}
 
     @Override
     public City getCity(String objectId) {

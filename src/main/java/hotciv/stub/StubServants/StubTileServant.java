@@ -4,6 +4,7 @@ import hotciv.framework.Tile;
 
 import java.util.UUID;
 
+//Test stub of tile for testing Iteration 10 implementation
 public class StubTileServant implements Tile {
     private String id;
 

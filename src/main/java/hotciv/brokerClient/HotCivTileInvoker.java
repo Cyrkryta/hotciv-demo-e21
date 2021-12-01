@@ -13,21 +13,24 @@ public class HotCivTileInvoker implements Invoker {
     NameService nameService;
 
     public HotCivTileInvoker(NameService nameService, Gson gson) {
-        this.gson = new Gson();
+        this.gson = gson;
         this.nameService = nameService;
     }
 
     @Override
     public String handleRequest(String request) {
         RequestObject requestObject = gson.fromJson(request, RequestObject.class);
-        String objectId = requestObject.getOperationName();
+        String objectId = requestObject.getObjectId();
         //JsonArray array = JsonParser.parseString(requestObject.getPayload()).getAsJsonArray();
-        ReplyObject reply = null;
         Tile tile = getTileOrThrowUnknownException(objectId);
+
+        ReplyObject reply = null;
 
         if (requestObject.getOperationName().equals(OperationNames.TILE_GETTYPESTRING_METHOD)) {
             String typeString = tile.getTypeString();
             reply = new ReplyObject(HttpServletResponse.SC_OK, gson.toJson(typeString));
+        }else {
+            System.out.println("Nothing here");
         }
         return gson.toJson(reply);
     }

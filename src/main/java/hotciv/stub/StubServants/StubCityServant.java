@@ -6,6 +6,8 @@ import hotciv.framework.Player;
 
 import java.util.UUID;
 
+
+//Test stub of city for testing Iteration 10 implementation
 public class StubCityServant implements City {
     private String id;
 
@@ -24,20 +26,20 @@ public class StubCityServant implements City {
 
     @Override
     public int getSize() {
-        return 1;
+        return 69;
     }
 
     @Override
-    public int getTreasury() {return treasury;}
+    public int getTreasury() {return 420;}
 
     @Override
     public String getProduction() {
-        return cityProduction;
+        return "FISK";
     }
 
     @Override
     public String getWorkforceFocus() {
-        return workForceFocus;
+        return "RØDE_PØLSER";
     }
 
     public void setProduction(String production) {

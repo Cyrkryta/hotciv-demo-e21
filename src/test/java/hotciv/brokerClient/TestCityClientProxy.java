@@ -5,7 +5,9 @@ import frds.broker.Invoker;
 import frds.broker.Requestor;
 import frds.broker.marshall.json.StandardJSONRequestor;
 import hotciv.framework.City;
+import hotciv.framework.Game;
 import hotciv.framework.Player;
+import hotciv.framework.Position;
 import hotciv.stub.StubGameBrokerClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,18 +18,20 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class TestCityClientProxy {
 
     City city;
+    Game game;
 
     @BeforeEach
     public void setup() {
-        City servant = new TestCityBrokerClient();
-
         Invoker invoker = new HotCivRootInvoker(new StubGameBrokerClient());
 
         ClientRequestHandler crh = new LocalMethodClientRequestHandler(invoker);
 
         Requestor requestor = new StandardJSONRequestor(crh);
 
-        city = new CityProxy("", requestor);
+        game = new GameProxy(requestor);
+
+        //Get test city from game Proxy
+        city = game.getCityAt(new Position(3,2));
     }
 
     @Test
@@ -54,6 +58,5 @@ public class TestCityClientProxy {
     public void shouldHaveFocus() {
         assertThat(city.getWorkforceFocus(), is("RØDE_PØLSER"));
     }
-
 
 }

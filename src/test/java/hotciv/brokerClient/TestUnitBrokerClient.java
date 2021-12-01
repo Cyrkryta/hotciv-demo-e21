@@ -15,18 +15,19 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class TestUnitBrokerClient {
     Unit unit;
-    Game game = new StubGameBrokerClient();
+    Game game;
 
     @BeforeEach
     public void setup() {
-        Unit servant = new StubUnitBrokerClient();
-
         Invoker invoker = new HotCivRootInvoker(new StubGameBrokerClient());
 
         ClientRequestHandler crh = new LocalMethodClientRequestHandler(invoker);
 
         Requestor requestor = new StandardJSONRequestor(crh);
 
+        game = new GameProxy(requestor);
+
+        //Get Test unit from game proxy
         unit = game.getUnitAt(new Position(2,0));
     }
 

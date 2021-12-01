@@ -26,7 +26,7 @@ public class HotCivRootInvoker implements Invoker {
         Invoker unitInvoker = new HotCivUnitInvoker(nameService, gson);
         invokerMap.put(OperationNames.UNIT_PREFIX, unitInvoker);
         Invoker tileInvoker = new HotCivTileInvoker(nameService, gson);
-        invokerMap.put(OperationNames.TILE_PREFIX, gameInvoker);
+        invokerMap.put(OperationNames.TILE_PREFIX, tileInvoker);
 
     }
     @Override
