@@ -92,14 +92,21 @@ public class TestBrokerClient {
     public void shouldReturnCity() {
         assertThat(game.getCityAt(new Position(3,2)), is(notNullValue()));
         CityProxy city = (CityProxy) game.getCityAt(new Position(3,2));
-        System.out.println("ID is: "+city.getId());
+        System.out.println("ID is: " + city.getId());
     }
 
     @Test
     public void shouldReturnUnit() {
         assertThat(game.getUnitAt(new Position(2,0)), is(notNullValue()));
         UnitProxy unit = (UnitProxy) game.getUnitAt(new Position(2,0));
-        System.out.println("ID is: "+unit.getId());
+        System.out.println("ID is: " + unit.getId());
+    }
+
+    @Test
+    public void shouldReturnTile() {
+        assertThat(game.getTileAt(new Position(4,6)), is(notNullValue()));
+        TileProxy tile = (TileProxy) game.getTileAt(new Position(4,6));
+        System.out.println("ID is: " + tile.getId());
     }
 
     private class NullObserver implements GameObserver {

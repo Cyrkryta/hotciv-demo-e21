@@ -17,7 +17,10 @@ public class GameProxy implements Game, ClientProxy {
 
     @Override
     public Tile getTileAt(Position p) {
-        return null;
+        String id = requestor.sendRequestAndAwaitReply(GAME_OBJECTID, OperationNames.GAME_GETTILEAT_METHOD,
+                String.class, p);
+        Tile proxy = new TileProxy(id, requestor);
+        return proxy;
     }
 
     @Override

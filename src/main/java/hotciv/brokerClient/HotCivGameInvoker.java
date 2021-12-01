@@ -8,6 +8,7 @@ import frds.broker.ReplyObject;
 import frds.broker.RequestObject;
 import hotciv.framework.*;
 import hotciv.stub.StubServants.StubCityServant;
+import hotciv.stub.StubServants.StubTileServant;
 import hotciv.stub.StubServants.StubUnitServant;
 
 import javax.servlet.http.HttpServletResponse;
@@ -71,6 +72,12 @@ public class HotCivGameInvoker implements Invoker {
             Position position = gson.fromJson(array.get(0), Position.class);
             StubUnitServant unit = (StubUnitServant) game.getUnitAt(position);
             String id = unit.getId();
+            reply = new ReplyObject(HttpServletResponse.SC_CREATED, gson.toJson(id));
+            //TODO add to nameService
+        } else if (requestObject.getOperationName().equals(OperationNames.GAME_GETTILEAT_METHOD)) {
+            Position position = gson.fromJson(array.get(0), Position.class);
+            StubTileServant tile = (StubTileServant) game.getTileAt(position);
+            String id = tile.getId();
             reply = new ReplyObject(HttpServletResponse.SC_CREATED, gson.toJson(id));
             //TODO add to nameService
         }
