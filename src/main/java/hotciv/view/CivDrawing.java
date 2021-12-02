@@ -209,6 +209,7 @@ public class CivDrawing implements Drawing, GameObserver {
   protected ImageFigure cityShieldIcon;
   protected ImageFigure cityProductionIcon;
   protected ImageFigure cityWorkForceFocusIcon;
+  protected ImageFigure refreshButton;
 
   protected TextFigure ageTextFigure;
   protected TextFigure moveCountTextFigure;
@@ -274,6 +275,16 @@ public class CivDrawing implements Drawing, GameObserver {
       moveCountTextFigure = new TextFigure("",
               new Point(GfxConstants.UNIT_COUNT_X, GfxConstants.UNIT_COUNT_Y) );
       figureCollection.add(moveCountTextFigure);
+    }
+
+    // Creating the refresh button.
+    if (refreshButton == null) {
+      refreshButton = new HotCivFigure(GfxConstants.REFRESH_BUTTON,
+              new Point(GfxConstants.REFRESH_BUTTON_X, GfxConstants.REFRESH_BUTTON_Y),
+              GfxConstants.REFRESH_BUTTON_TYPE_STRING);
+      // insert in delegate figure list to ensure graphical
+      // rendering.
+      figureCollection.add(refreshButton);
     }
 
   }

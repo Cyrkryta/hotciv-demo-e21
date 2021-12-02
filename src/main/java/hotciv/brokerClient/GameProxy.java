@@ -6,10 +6,13 @@ import hotciv.framework.*;
 import hotciv.standard.CityImpl;
 import hotciv.stub.StubServants.StubCityServant;
 
+import java.util.ArrayList;
+
 public class GameProxy implements Game, ClientProxy {
 
     public static final String GAME_OBJECTID = "singleton";
     private final Requestor requestor;
+    protected ArrayList<GameObserver> gameObservers = new ArrayList<>();
 
     public GameProxy(Requestor requestor) {
         this.requestor = requestor;
@@ -62,26 +65,42 @@ public class GameProxy implements Game, ClientProxy {
 
     @Override
     public boolean moveUnit(Position from, Position to) {
-        return requestor.sendRequestAndAwaitReply(GAME_OBJECTID, OperationNames.GAME_MOVEUNIT_METHOD,
+        Boolean valid = requestor.sendRequestAndAwaitReply(GAME_OBJECTID, OperationNames.GAME_MOVEUNIT_METHOD,
                 boolean.class, from, to);
+        if (valid) {
+            for (GameObserver gameObserver: gameObservers) {
+                gameObserver.worldChangedAt(from);
+                gameObserver.worldChangedAt(to);
+            }
+        }
+        return valid;
     }
 
     @Override
     public void endOfTurn() {
         requestor.sendRequestAndAwaitReply(GAME_OBJECTID, OperationNames.GAME_ENDOFTURN_METHOD,
                 void.class);
+        for (GameObserver gameObserver : gameObservers) {
+            gameObserver.turnEnds(getPlayerInTurn(), getAge());
+        }
     }
 
     @Override
     public void changeWorkForceFocusInCityAt(Position p, String balance) {
         requestor.sendRequestAndAwaitReply(GAME_OBJECTID, OperationNames.GAME_CHANGEWORKFORCE_METHOD,
                 void.class, p, balance);
+        for (GameObserver gameObserver : gameObservers) {
+            gameObserver.cityWorkFocusChanges(balance);
+        }
     }
 
     @Override
     public void changeProductionInCityAt(Position p, String unitType) {
         requestor.sendRequestAndAwaitReply(GAME_OBJECTID, OperationNames.GAME_CHANGEPRODUCTION_METHOD,
                 void.class, p, unitType);
+        for (GameObserver gameObserver : gameObservers) {
+            gameObserver.cityProductionChanged(unitType);
+        }
     }
 
     @Override
@@ -92,12 +111,13 @@ public class GameProxy implements Game, ClientProxy {
 
     @Override
     public void addObserver(GameObserver observer) {
+        gameObservers.add(observer);
     }
 
     @Override
     public void setTileFocus(Position position) {
-        //TODO, Make local
-        requestor.sendRequestAndAwaitReply(GAME_OBJECTID, OperationNames.GAME_SETTILEFOCUS_METHOD,
-                void.class, position);
+        for(GameObserver gameObserver: gameObservers) {
+            gameObserver.tileFocusChangedAt(position);
+        }
     }
 }

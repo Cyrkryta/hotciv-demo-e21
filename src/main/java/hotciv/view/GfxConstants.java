@@ -82,6 +82,7 @@ public class GfxConstants {
   public static final String TURN_SHIELD_TYPE_STRING = "TURNSHIELD_TYPE";
   public static final String UNIT_SHIELD_TYPE_STRING = "UNITSHIELD_TYPE";
   public static final String CITY_SHIELD_TYPE_STRING = "UNITSHIELD_TYPE";
+  public static final String REFRESH_BUTTON_TYPE_STRING = "REFRESH_BUTTON";
 
   /** return the x pixel position on the graphical display
    * for a tile's column position

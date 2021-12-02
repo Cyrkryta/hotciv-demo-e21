@@ -66,6 +66,8 @@ public class CompositionTool extends NullTool {
           //If clicking workforce icon us change workforce tool
       } else if (figureBelowClickPoint.getTypeString().equals(GfxConstants.FOCUS_TYPE_STRING)) {
           state = new ChangeWorkForceFocusTool(editor, game, cityFocusPosition);
+      } else if (figureBelowClickPoint.getTypeString().equals(GfxConstants.REFRESH_BUTTON_TYPE_STRING)) {
+        editor.drawing().requestUpdate();
       }
     }
 
