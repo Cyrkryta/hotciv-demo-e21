@@ -95,6 +95,14 @@ task hotcivStoryTest(type: JavaExec) {
     args host
 }
 
+task HotCivClient(type: JavaExec) {
+    group 'SWEA Distribution'
+    description 'Run a HotCiv client'
+    classpath = sourceSets.test.runtimeClasspath
+    main = "hotciv.brokerClient.HotCivClient"
+    args host
+}
+
 // Tell to use JUnit as testing platform
 test {
     useJUnitPlatform()

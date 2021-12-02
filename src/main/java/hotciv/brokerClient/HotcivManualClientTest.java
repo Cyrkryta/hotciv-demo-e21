@@ -6,6 +6,7 @@ import frds.broker.ipc.socket.SocketClientRequestHandler;
 import frds.broker.marshall.json.StandardJSONRequestor;
 import hotciv.framework.Game;
 import hotciv.framework.Position;
+import hotciv.view.CivDrawing;
 
 import java.io.IOException;
 

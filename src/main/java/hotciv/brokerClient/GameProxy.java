@@ -22,24 +22,36 @@ public class GameProxy implements Game, ClientProxy {
     public Tile getTileAt(Position p) {
         String id = requestor.sendRequestAndAwaitReply(GAME_OBJECTID, OperationNames.GAME_GETTILEAT_METHOD,
                 String.class, p);
-        Tile proxy = new TileProxy(id, requestor);
-        return proxy;
+        if (id == null) {
+            return null;
+        } else {
+            Tile proxy = new TileProxy(id, requestor);
+            return proxy;
+        }
     }
 
     @Override
     public Unit getUnitAt(Position p) {
         String id = requestor.sendRequestAndAwaitReply(GAME_OBJECTID, OperationNames.GAME_GETUNITAT_METHOD,
                 String.class, p);
-        Unit proxy = new UnitProxy(id, requestor);
-        return proxy;
+        if (id == null) {
+            return null;
+        } else {
+            Unit proxy = new UnitProxy(id, requestor);
+            return proxy;
+        }
     }
 
     @Override
     public City getCityAt(Position p) {
         String id = requestor.sendRequestAndAwaitReply(GAME_OBJECTID, OperationNames.GAME_GETCITYAT_METHOD,
                 String.class, p);
-        City proxy = new CityProxy(id, requestor);
-        return proxy;
+        if(id == null){
+            return null;
+        } else {
+            City proxy = new CityProxy(id, requestor);
+            return proxy;
+        }
     }
 
     @Override

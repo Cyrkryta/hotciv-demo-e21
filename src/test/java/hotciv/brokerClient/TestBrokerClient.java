@@ -18,12 +18,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class TestBrokerClient {
     Game game;
 
-    //TEMPORARY
-    NameService storage = new InMemoryNameService();
-    Gson gson = new Gson();
-
-
-
     Position from = new Position(3,3);
     Position to = new Position(3,4);
     Position fakeCityPosition = new Position(3,5);

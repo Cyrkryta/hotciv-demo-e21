@@ -21,18 +21,11 @@ public class HotCivGameInvoker implements Invoker {
     private final Gson gson;
     private final NameService nameService;
 
-    private final Position from;
-    private final Position to;
-    private final Position fakeCityPosition;
 
     public HotCivGameInvoker(Game servant, NameService nameService, Gson gson) {
         game = servant;
         this.gson = gson;
         this.nameService = nameService;
-
-        from = new Position(3,3);
-        to = new Position(3,4);
-        fakeCityPosition = new Position(3,5);
     }
 
     @Override
@@ -48,6 +41,8 @@ public class HotCivGameInvoker implements Invoker {
             int age = game.getAge();
             reply = new ReplyObject(HttpServletResponse.SC_OK, gson.toJson(age));
         } else if (requestObject.getOperationName().equals(OperationNames.GAME_MOVEUNIT_METHOD)) {
+            Position from = gson.fromJson(array.get(0), Position.class);
+            Position to = gson.fromJson(array.get(1), Position.class);
             boolean isPossible = game.moveUnit(from, to);
             reply = new ReplyObject(HttpServletResponse.SC_OK, gson.toJson(isPossible));
         } else if (requestObject.getOperationName().equals(OperationNames.GAME_GETINTURN_METHOD)) {
@@ -57,35 +52,56 @@ public class HotCivGameInvoker implements Invoker {
             game.endOfTurn();
             reply = new ReplyObject(HttpServletResponse.SC_OK, null);
         } else if (requestObject.getOperationName().equals(OperationNames.GAME_CHANGEPRODUCTION_METHOD)) {
-            game.changeProductionInCityAt(fakeCityPosition, GameConstants.SETTLER);
+            Position position = gson.fromJson(array.get(0), Position.class);
+            String unitType = gson.fromJson(array.get(1), String.class);
+            game.changeProductionInCityAt(position, unitType);
             reply = new ReplyObject(HttpServletResponse.SC_OK, null);
         } else if (requestObject.getOperationName().equals(OperationNames.GAME_CHANGEWORKFORCE_METHOD)) {
-            game.changeWorkForceFocusInCityAt(fakeCityPosition, GameConstants.ARCHER);
+            Position position = gson.fromJson(array.get(0), Position.class);
+            String focus = gson.fromJson(array.get(1), String.class);
+            game.changeWorkForceFocusInCityAt(position, focus);
             reply = new ReplyObject(HttpServletResponse.SC_OK, null);
         } else if (requestObject.getOperationName().equals(OperationNames.GAME_PERFORMUNITACTION_METHOD)) {
-            game.performUnitActionAt(fakeCityPosition);
+            Position position = gson.fromJson(array.get(0), Position.class);
+            game.performUnitActionAt(position);
             reply = new ReplyObject(HttpServletResponse.SC_OK, null);
         } else if (requestObject.getOperationName().equals(OperationNames.GAME_SETTILEFOCUS_METHOD)) {
-            game.performUnitActionAt(fakeCityPosition);
+            Position position = gson.fromJson(array.get(0), Position.class);
+            game.setTileFocus(position);
             reply = new ReplyObject(HttpServletResponse.SC_OK, null);
+
         } else if (requestObject.getOperationName().equals(OperationNames.GAME_GETCITYAT_METHOD)) {
             Position position = gson.fromJson(array.get(0), Position.class);
             City city = game.getCityAt(position);
-            String id = city.getId();
-            nameService.putCity(id, city);
-            reply = new ReplyObject(HttpServletResponse.SC_CREATED, gson.toJson(id));
+            if (city == null){
+                reply = new ReplyObject(HttpServletResponse.SC_NO_CONTENT, gson.toJson(null));
+            } else {
+                String id = city.getId();
+                nameService.putCity(id, city);
+                reply = new ReplyObject(HttpServletResponse.SC_CREATED, gson.toJson(id));
+            }
+
         } else if (requestObject.getOperationName().equals(OperationNames.GAME_GETUNITAT_METHOD)) {
             Position position = gson.fromJson(array.get(0), Position.class);
             Unit unit = game.getUnitAt(position);
-            String id = unit.getId();
-            nameService.putUnit(id, unit);
-            reply = new ReplyObject(HttpServletResponse.SC_CREATED, gson.toJson(id));
+            if (unit == null) {
+                reply = new ReplyObject(HttpServletResponse.SC_NO_CONTENT, gson.toJson(null));
+            } else {
+                String id = unit.getId();
+                nameService.putUnit(id, unit);
+                reply = new ReplyObject(HttpServletResponse.SC_CREATED, gson.toJson(id));
+            }
+
         } else if (requestObject.getOperationName().equals(OperationNames.GAME_GETTILEAT_METHOD)) {
             Position position = gson.fromJson(array.get(0), Position.class);
             Tile tile = game.getTileAt(position);
-            String id = tile.getId();
-            nameService.putTile(id, tile);
-            reply = new ReplyObject(HttpServletResponse.SC_CREATED, gson.toJson(id));
+            if (tile == null) {
+                reply = new ReplyObject(HttpServletResponse.SC_NO_CONTENT, gson.toJson(null));
+            } else {
+                String id = tile.getId();
+                nameService.putTile(id, tile);
+                reply = new ReplyObject(HttpServletResponse.SC_CREATED, gson.toJson(id));
+            }
         }
         return gson.toJson(reply);
     }
