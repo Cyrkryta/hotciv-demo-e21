@@ -7,6 +7,8 @@ import frds.broker.Invoker;
 import frds.broker.ReplyObject;
 import frds.broker.RequestObject;
 import hotciv.framework.*;
+import hotciv.standard.TileImpl;
+import hotciv.standard.UnitImpl;
 import hotciv.stub.StubServants.StubCityServant;
 import hotciv.stub.StubServants.StubTileServant;
 import hotciv.stub.StubServants.StubUnitServant;
@@ -68,19 +70,19 @@ public class HotCivGameInvoker implements Invoker {
             reply = new ReplyObject(HttpServletResponse.SC_OK, null);
         } else if (requestObject.getOperationName().equals(OperationNames.GAME_GETCITYAT_METHOD)) {
             Position position = gson.fromJson(array.get(0), Position.class);
-            StubCityServant city = (StubCityServant) game.getCityAt(position);
+            City city = game.getCityAt(position);
             String id = city.getId();
             nameService.putCity(id, city);
             reply = new ReplyObject(HttpServletResponse.SC_CREATED, gson.toJson(id));
         } else if (requestObject.getOperationName().equals(OperationNames.GAME_GETUNITAT_METHOD)) {
             Position position = gson.fromJson(array.get(0), Position.class);
-            StubUnitServant unit = (StubUnitServant) game.getUnitAt(position);
+            Unit unit = game.getUnitAt(position);
             String id = unit.getId();
             nameService.putUnit(id, unit);
             reply = new ReplyObject(HttpServletResponse.SC_CREATED, gson.toJson(id));
         } else if (requestObject.getOperationName().equals(OperationNames.GAME_GETTILEAT_METHOD)) {
             Position position = gson.fromJson(array.get(0), Position.class);
-            StubTileServant tile = (StubTileServant) game.getTileAt(position);
+            Tile tile = game.getTileAt(position);
             String id = tile.getId();
             nameService.putTile(id, tile);
             reply = new ReplyObject(HttpServletResponse.SC_CREATED, gson.toJson(id));

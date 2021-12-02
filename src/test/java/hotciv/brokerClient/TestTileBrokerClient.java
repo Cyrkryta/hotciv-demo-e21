@@ -11,4 +11,9 @@ public class TestTileBrokerClient implements Tile {
     public String getTypeString() {
         return "GHETTO";
     }
+
+    @Override
+    public String getId() {
+        return null;
+    }
 }

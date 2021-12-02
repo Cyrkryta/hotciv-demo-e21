@@ -231,6 +231,12 @@ class StubUnit implements  Unit {
   public int getMoveCount() { return moveCount; }
   public int getDefensiveStrength() { return 0; }
   public int getAttackingStrength() { return 0; }
+
+  @Override
+  public String getId() {
+    return null;
+  }
+
   public void reduceMoveCount() {
     moveCount --;
   }
@@ -266,6 +272,11 @@ class StubCity implements City {
   @Override
   public String getWorkforceFocus() {
     return workForceFocus;
+  }
+
+  @Override
+  public String getId() {
+    return null;
   }
 
   public void setProduction(String production) {

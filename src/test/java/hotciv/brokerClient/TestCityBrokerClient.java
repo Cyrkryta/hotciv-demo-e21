@@ -28,4 +28,9 @@ public class TestCityBrokerClient implements City {
     public String getWorkforceFocus() {
         return "RØDE_PØLSER";
     }
+
+    @Override
+    public String getId() {
+        return null;
+    }
 }

@@ -13,4 +13,9 @@ public class TileImpl implements Tile {
     public String getTypeString() {
         return tileName;
     }
+
+    @Override
+    public String getId() {
+        return null;
+    }
 }
