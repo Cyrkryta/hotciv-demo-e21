@@ -11,7 +11,7 @@ import minidraw.standard.MiniDrawApplication;
 public class ShowSemiCiv {
     public static void main(String[] args) {
         //Game game = new GameImpl(new SemiCivFactory());
-        Game game = new GameImpl(new AlphaCivFactory());
+        Game game = new GameImpl(new SemiCivFactory());
 
         DrawingEditor editor =
                 new MiniDrawApplication( "SemiCiv Demonstration",

@@ -46,4 +46,10 @@ public class InMemoryNameService implements NameService {
     public Tile getTile(String objectId) {
         return tileMap.get(objectId);
     }
+
+    public void printTileMap() {
+        for (Tile tile: tileMap.values()) {
+            System.out.println(tile.getTypeString());
+        }
+    }
 }

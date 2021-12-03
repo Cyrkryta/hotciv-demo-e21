@@ -10,11 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 
 public class HotCivTileInvoker implements Invoker {
     private final Gson gson;
-    NameService nameService;
-
+    InMemoryNameService nameService;
+    int i = 0;
     public HotCivTileInvoker(NameService nameService, Gson gson) {
         this.gson = gson;
-        this.nameService = nameService;
+        this.nameService = (InMemoryNameService) nameService;
     }
 
     @Override
@@ -32,15 +32,22 @@ public class HotCivTileInvoker implements Invoker {
         }else {
             System.out.println("Nothing here");
         }
+
         return gson.toJson(reply);
     }
 
     private Tile getTileOrThrowUnknownException(String objectId) {
+        if(i == 1000) {
+            nameService.printTileMap();
 
+        }
         Tile tile = nameService.getTile(objectId);
         if (tile == null) {
             System.out.println("Tile with object id: " + objectId + " does not exist.");
         }
+        i++;
+        System.out.println(""+i);
+
         return tile;
     }
 }

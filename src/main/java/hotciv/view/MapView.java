@@ -105,6 +105,7 @@ public class MapView extends StdViewWithBackground {
         if (clip.intersects(tileRect)) {
           // Draw proper terrain
           Tile t = game.getTileAt(tilePosition);
+          System.out.println("CALL FROM MAPVIEW TO GAMEPROXY AT "+tilePosition);
           String image_name = t.getTypeString();
           // special handling of terrains with a
           // 'coastline'...
@@ -113,7 +114,7 @@ public class MapView extends StdViewWithBackground {
             image_name = image_name +
                     MapAlgorithms.getCoastlineCoding(game, tilePosition, t.getTypeString());
           }
-          System.out.println("image is: "+image_name);
+          //System.out.println("image is: "+image_name);
           img = im.getImage(image_name);
           g.drawImage(img, xpos, ypos, null);
         }
@@ -135,14 +136,17 @@ public class MapView extends StdViewWithBackground {
     }
     @Override
     public Tile getTileAt(Position p) {
-      Tile tile = tileCache[p.getRow()][p.getColumn()];
+
+      //TODO; WHAT IS GOING ON HERE!?
+/*      Tile tile = tileCache[p.getRow()][p.getColumn()];
       // if cache is not warm, fetch tile and update cache
       if (tile == null) {
         tileCache[p.getRow()][p.getColumn()] = proxee.getTileAt(p);
         tile = tileCache[p.getRow()][p.getColumn()];
-        System.out.println("TILE FOUND, TILE TYPES IS: "+tile.getTypeString());
-      }
-      return tile;
+        //System.out.println("TILE FOUND AT:" + p + " TILE TYPES IS: "+tile.getTypeString());
+      }*/
+      //System.out.println("PROXY RETURNING TILE FOUND AT:" + p + " TILE TYPES IS: "+tile.getTypeString());
+      return proxee.getTileAt(p);
     }
 
     @Override

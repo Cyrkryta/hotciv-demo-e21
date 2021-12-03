@@ -26,12 +26,13 @@ public class HotCivClient {
         Game game = new GameProxy(requestor);
 
         DrawingEditor editor =
-                new MiniDrawApplication( "HotCivClient",
+                new MiniDrawApplication( "SemiCiv Demonstration",
                         new HotCivFactory4(game) );
         editor.open();
         editor.showStatus("Execute different command to examine the functional SemiCiv game.");
 
         editor.setTool(new CompositionTool(editor, game));
+
     }
 
 }
