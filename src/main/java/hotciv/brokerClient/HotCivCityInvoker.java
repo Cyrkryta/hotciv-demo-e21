@@ -42,8 +42,8 @@ public class HotCivCityInvoker implements Invoker {
             String production = city.getProduction();
             reply = new ReplyObject(HttpServletResponse.SC_OK, gson.toJson(production));
         } else if (requestObject.getOperationName().equals(OperationNames.CITY_GETWORKFORCEFOCUS_METHOD)) {
-            String production = city.getWorkforceFocus();
-            reply = new ReplyObject(HttpServletResponse.SC_OK, gson.toJson(production));
+            String focus = city.getWorkforceFocus();
+            reply = new ReplyObject(HttpServletResponse.SC_OK, gson.toJson(focus));
         }
 
         return gson.toJson(reply);

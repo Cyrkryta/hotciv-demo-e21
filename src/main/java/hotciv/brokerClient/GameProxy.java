@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class GameProxy implements Game, ClientProxy {
 
-    public static final String GAME_OBJECTID = "singleton";
+    public static final String GAME_OBJECTID = "OnlyGame";
     private final Requestor requestor;
     protected ArrayList<GameObserver> gameObservers = new ArrayList<>();
 

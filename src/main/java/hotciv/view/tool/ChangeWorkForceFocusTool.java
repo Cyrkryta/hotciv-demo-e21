@@ -27,12 +27,14 @@ public class ChangeWorkForceFocusTool extends NullTool {
         HotCivFigure figureBelowClickPoint = (HotCivFigure) editor.drawing().findFigure(x, y);
         if (figureBelowClickPoint == null) {
             System.out.println("No figure below click point");
-        } else if (figureBelowClickPoint.getTypeString().equals(GfxConstants.FOCUS_TYPE_STRING)) {
+        } else if ((figureBelowClickPoint.getTypeString().equals(GfxConstants.FOCUS_TYPE_STRING)) && game.getCityAt(cityPosition).getOwner() == game.getPlayerInTurn()) {
             String newFocus = GameConstants.foodFocus;
             if (game.getCityAt(cityPosition).getWorkforceFocus().equals(newFocus)){
                 newFocus = GameConstants.productionFocus;
             }
             game.changeWorkForceFocusInCityAt(cityPosition, newFocus);
-            }
+            } else {
+            System.out.println("You do not own this city");
+        }
         }
     }

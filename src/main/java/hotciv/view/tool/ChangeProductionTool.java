@@ -29,8 +29,11 @@ public class ChangeProductionTool extends NullTool {
         if (figureBelowClickPoint == null) {
             System.out.println("No figure below click point");
         } else if (figureBelowClickPoint.getTypeString().equals(GfxConstants.UNIT_TYPE_STRING)
-                    && figureIsOutsideMap(clickedPosition)) {
+                    && figureIsOutsideMap(clickedPosition)
+                    && game.getCityAt(cityPosition).getOwner() == game.getPlayerInTurn()) {
             game.changeProductionInCityAt(cityPosition, nextUnitType(cityPosition));
+        } else {
+            System.out.println("You do not own this city");
         }
     }
 

@@ -38,7 +38,7 @@ public class OperationNames {
     public static final String UNIT_GETTYPESTRING_METHOD = UNIT_PREFIX + SEPERATOR + "getTypeString-method";
     public static final String UNIT_GETOWNER_METHOD = UNIT_PREFIX + SEPERATOR + "getOwner-method";
     public static final String UNIT_GETMOVECOUNT_METHOD = UNIT_PREFIX + SEPERATOR + "getMoveCount-method";
-    public static final String UNIT_GETDEFENSIVESTRENGTH_METHOD = UNIT_PREFIX + SEPERATOR + "getDefensivestrength-method";
+    public static final String UNIT_GETDEFENSIVESTRENGTH_METHOD = UNIT_PREFIX + SEPERATOR + "getDefensiveStrength-method";
     public static final String UNIT_GETATTACKINGSTRENGTH_METHOD = UNIT_PREFIX + SEPERATOR + "getAttackingStrength-method";
 
 

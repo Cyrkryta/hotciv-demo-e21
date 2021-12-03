@@ -27,7 +27,7 @@ public class HotCivClient {
         Game game = new GameProxy(r);
 
         DrawingEditor editor =
-                new MiniDrawApplication( "SemiCiv Demonstration",
+                new MiniDrawApplication( "HotCivClient",
                         new HotCivFactory4(game) );
         editor.open();
         editor.showStatus("Execute different command to examine the functional SemiCiv game.");
