@@ -1,6 +1,7 @@
 package hotciv.view;
 
 import hotciv.framework.*;
+import hotciv.standard.TileImpl;
 import hotciv.stub.ThetaConstants;
 import minidraw.framework.DrawingEditor;
 import minidraw.standard.ImageManager;
@@ -112,6 +113,7 @@ public class MapView extends StdViewWithBackground {
             image_name = image_name +
                     MapAlgorithms.getCoastlineCoding(game, tilePosition, t.getTypeString());
           }
+          System.out.println("image is: "+image_name);
           img = im.getImage(image_name);
           g.drawImage(img, xpos, ypos, null);
         }
@@ -138,6 +140,7 @@ public class MapView extends StdViewWithBackground {
       if (tile == null) {
         tileCache[p.getRow()][p.getColumn()] = proxee.getTileAt(p);
         tile = tileCache[p.getRow()][p.getColumn()];
+        System.out.println("TILE FOUND, TILE TYPES IS: "+tile.getTypeString());
       }
       return tile;
     }

@@ -5,6 +5,7 @@ import frds.broker.ipc.socket.SocketServerRequestHandler;
 import hotciv.framework.Game;
 import hotciv.standard.GameImpl;
 import hotciv.stub.StubGameBrokerClient;
+import hotciv.variants.factories.AlphaCivFactory;
 import hotciv.variants.factories.SemiCivFactory;
 
 public class HotcivServerMainSocket {
@@ -19,6 +20,7 @@ public class HotcivServerMainSocket {
         int port = 37321;
 
         Game game = new GameImpl(new SemiCivFactory());
+        //Game game = new GameImpl(new AlphaCivFactory());
         Invoker invoker = new HotCivRootInvoker(game);
 
         // Configure a socket based server request handler.

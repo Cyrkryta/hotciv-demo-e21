@@ -22,9 +22,8 @@ public class HotCivClient {
         crh.setServer(host, 37321);
 
         Requestor requestor = new StandardJSONRequestor(crh);
-        Requestor r = new StandardJSONRequestor(crh);
 
-        Game game = new GameProxy(r);
+        Game game = new GameProxy(requestor);
 
         DrawingEditor editor =
                 new MiniDrawApplication( "HotCivClient",

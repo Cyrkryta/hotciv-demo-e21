@@ -2,6 +2,7 @@ package hotciv.visual;
 
 import hotciv.framework.Game;
 import hotciv.standard.GameImpl;
+import hotciv.variants.factories.AlphaCivFactory;
 import hotciv.variants.factories.SemiCivFactory;
 import hotciv.view.tool.CompositionTool;
 import minidraw.framework.DrawingEditor;
@@ -9,7 +10,8 @@ import minidraw.standard.MiniDrawApplication;
 
 public class ShowSemiCiv {
     public static void main(String[] args) {
-        Game game = new GameImpl(new SemiCivFactory());
+        //Game game = new GameImpl(new SemiCivFactory());
+        Game game = new GameImpl(new AlphaCivFactory());
 
         DrawingEditor editor =
                 new MiniDrawApplication( "SemiCiv Demonstration",
