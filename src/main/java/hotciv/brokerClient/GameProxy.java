@@ -20,13 +20,13 @@ public class GameProxy implements Game, ClientProxy {
 
     @Override
     public Tile getTileAt(Position p) {
-        System.out.println("GET TILE CALLED AT "+p.toString());
+        //System.out.println("GET TILE CALLED AT "+p.toString());
         String id = requestor.sendRequestAndAwaitReply(GAME_OBJECTID, OperationNames.GAME_GETTILEAT_METHOD,
                 String.class, p);
         if (id == null) {
             return null;
         } else {
-            System.out.println("NEW PROXY MADE ID: "+id);
+            //System.out.println("NEW PROXY MADE ID: "+id);
             Tile proxy = new TileProxy(id, requestor);
             return proxy;
         }

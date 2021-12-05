@@ -1,5 +1,6 @@
 package hotciv.view.figure;
 
+import hotciv.framework.Player;
 import hotciv.framework.Unit;
 import hotciv.view.GfxConstants;
 
@@ -38,10 +39,12 @@ import java.awt.*;
 
 public class UnitFigure extends HotCivFigure {
   protected Unit associatedUnit;
+  private Player owner;
   
-  public UnitFigure(String name, Point origin, Unit unit) {
+  public UnitFigure(String name, Point origin, Unit unit, Player owner) {
     super(name, origin, GfxConstants.UNIT_TYPE_STRING);
     associatedUnit = unit;
+    this.owner = owner;
   }
 
   @Override
@@ -52,7 +55,7 @@ public class UnitFigure extends HotCivFigure {
 
     // Draw the owner circle
     Color color = 
-      GfxConstants.getColorForPlayer(associatedUnit.getOwner());
+      GfxConstants.getColorForPlayer(owner);
     g.setColor(color);
     g.fillOval(fDisplayBox.x, fDisplayBox.y, 8, 6);
     g.setColor(Color.black);

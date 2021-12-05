@@ -1,6 +1,7 @@
 package hotciv.view.figure;
 
 import hotciv.framework.City;
+import hotciv.framework.Player;
 import hotciv.view.GfxConstants;
 
 import java.awt.*;
@@ -35,15 +36,17 @@ import java.awt.*;
 public class CityFigure extends HotCivFigure {
   private City city;
   private Point position;
+  private Player owner;
 
-  public CityFigure(City c, Point p) {
+  public CityFigure(City c, Point p, Player owner) {
     super("city", p, GfxConstants.CITY_TYPE_STRING);
     position = p;
     city = c;
+    this.owner = owner;
   }
   public void draw(Graphics g) {
     // draw background color
-    g.setColor(GfxConstants.getColorForPlayer(city.getOwner()));
+    g.setColor(GfxConstants.getColorForPlayer(owner));
     g.fillRect( position.x+1, position.y+1, 
         GfxConstants.TILESIZE-2, 
         GfxConstants.TILESIZE-2 );

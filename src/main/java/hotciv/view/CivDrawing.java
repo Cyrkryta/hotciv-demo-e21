@@ -23,7 +23,7 @@ import java.util.Map;
  * to render the Unit and other information objects that are visible
  * in the Game instance.
  *
- * TODO: This is a TEMPLATE for the SWEA Exercise! This means
+ * This is a TEMPLATE for the SWEA Exercise! This means
  * that it is INCOMPLETE and that there are several options
  * for CLEANING UP THE CODE when you add features to it!
 
@@ -130,7 +130,7 @@ public class CivDrawing implements Drawing, GameObserver {
           // if a unit is present in game, then
           if (unitFigure == null) {
             // if the associated unit figure has not been created, make it
-            unitFigure = createUnitFigureFor(p, unit);
+            unitFigure = createUnitFigureFor(p, unit, unit.getOwner());
             // We add the figure both to our internal data structure
             positionToUnitFigureMap.put(p, unitFigure);
             // and of course to MiniDraw's figure collection for
@@ -158,12 +158,13 @@ public class CivDrawing implements Drawing, GameObserver {
         p = new Position(r, c);
         City city = game.getCityAt(p);
         CityFigure cityFigure = positionToCityFigureMap.get(p);
-        // Synchronize etShieldIconach tile position with figure collection
+        // Synchronize the ShieldIcon tile position with figure collection
         if (city != null) {
-          // if a unit is present in game, then
+          Player owner = city.getOwner();
+          // if a city is present in game, then
           if (cityFigure == null) {
-            // if the associated unit figure has not been created, make it
-            cityFigure = createCityFigureFor(p, city);
+            // if the associated city figure has not been created, make it
+            cityFigure = createCityFigureFor(p, city, owner);
             // We add the figure both to our internal data structure
             positionToCityFigureMap.put(p, cityFigure);
             // and of course to MiniDraw's figure collection for
@@ -183,23 +184,23 @@ public class CivDrawing implements Drawing, GameObserver {
   }
 
   /** Create a figure representing a unit at given position */
-  private UnitFigure createUnitFigureFor(Position p, Unit unit) {
+  private UnitFigure createUnitFigureFor(Position p, Unit unit, Player owner) {
     String type = unit.getTypeString();
     // convert the unit's Position to (x,y) coordinates
     Point point = new Point( GfxConstants.getXFromColumn(p.getColumn()),
                              GfxConstants.getYFromRow(p.getRow()) );
 
-    UnitFigure unitFigure = new UnitFigure(type, point, unit);
+    UnitFigure unitFigure = new UnitFigure(type, point, unit, owner);
     return unitFigure;
   }
 
   /** Create a figure representing a city at given position */
-  private CityFigure createCityFigureFor(Position p, City city) {
+  private CityFigure createCityFigureFor(Position p, City city, Player owner) {
     // convert the unit's Position to (x,y) coordinates
     Point point = new Point( GfxConstants.getXFromColumn(p.getColumn()),
             GfxConstants.getYFromRow(p.getRow()) );
 
-    CityFigure cityFigure = new CityFigure(city, point);
+    CityFigure cityFigure = new CityFigure(city, point, owner);
     return cityFigure;
   }
 
@@ -299,14 +300,14 @@ public class CivDrawing implements Drawing, GameObserver {
       figureCollection.remove(uf);
     } else {
       // Unit has appeared
-      UnitFigure uf = createUnitFigureFor(pos, unit);
+      UnitFigure uf = createUnitFigureFor(pos, unit, unit.getOwner());
       positionToUnitFigureMap.put(pos, uf);
       figureCollection.add(uf);
     }
 
     City city = game.getCityAt(pos);
     if(city != null){
-      CityFigure cf = createCityFigureFor(pos, city);
+      CityFigure cf = createCityFigureFor(pos, city, city.getOwner());
       positionToCityFigureMap.put(pos, cf);
       figureCollection.add(cf);
       updateCityFocusIcon(city.getWorkforceFocus());

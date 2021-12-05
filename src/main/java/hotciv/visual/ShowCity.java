@@ -47,7 +47,7 @@ public class ShowCity {
 
     CityFigure cf = new CityFigure( city,
                                     new Point( GfxConstants.getXFromColumn(4),
-                                               GfxConstants.getYFromRow(7) ) );
+                                               GfxConstants.getYFromRow(7) ), city.getOwner() );
     editor.drawing().add(cf);
     editor.setTool( new ChangeCityTool(city, cf) );
   }

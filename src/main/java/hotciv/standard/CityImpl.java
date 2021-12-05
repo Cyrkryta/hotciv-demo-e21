@@ -7,12 +7,14 @@ import hotciv.framework.Player;
 import java.util.UUID;
 
 public class CityImpl implements City {
-    //Unique city id
-    private String id;
+
     private Player owner;
     private int treasury;
     private String production;
     private String workForceFocus;
+
+    //Unique city id
+    private String id;
 
     public CityImpl(Player owner){
         id = UUID.randomUUID().toString();

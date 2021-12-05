@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.UUID;
 
 public class StubGameBrokerClient implements Game, Servant {
-    private String id;
 
     private Map<Position, Unit> unitMap;
     private Map<Position, City> cityMap;
@@ -22,9 +21,6 @@ public class StubGameBrokerClient implements Game, Servant {
     Player playerInTurn = Player.RED;
 
     public StubGameBrokerClient() {
-        //Creating unique Game ID
-        id = UUID.randomUUID().toString();
-
         defineWorld();
         // Put some units into play
         unitMap = new HashMap<>();
